@@ -1,0 +1,14 @@
+.dashboard-layout {
+  main {
+    margin: 125px 60px 0 180px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    min-height: calc(100vh - 125px);
+  }
+
+  .sidebar {
+    .sub-menu {
+      transform: translateX(-230px);
+    }
+  }
+}
