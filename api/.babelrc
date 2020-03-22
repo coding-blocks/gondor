@@ -1,13 +1,17 @@
 {
   "presets": ["next/babel"],
   "plugins": [
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
     "@babel/plugin-proposal-throw-expressions",
     "import-graphql",
     [
       "module-resolver",
       {
         "alias": {
+          "Config": "./api/config",
+          "Controllers": "./api/controllers",
           "Graphql": "./api/graphql",
+          "Middlewares": "./api/middlewares",
           "Models": "./api/models",
           "Services": "./api/services",
           "Utils": "./api/utils"

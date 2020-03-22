@@ -1,17 +1,75 @@
-import config from "Config";
+import axios from 'axios';
+import config from 'Config';
+import queryString from 'Utils/queryString';
 
-class Auth {
-  constructor(client) {
-    const { oneauth } = config;
+export default class Auth {
+  static redirectURI = `${config.app.url}/api/login/callback`;
 
-    this.url = client.url || oneauth.url;
-    this.clientId = client.clientId || oneauth.clientId;
+  constructor(props) {
+    this.user = props?.user;
+    this._accessToken = this.user?.access_token;
+    this.clientId = props?.clientId || config.oneauth.clientId;
+    this.clientSecret = props?.clientSecret || config.oneauth.clientSecret;
+    this.clientUrl = props?.clientUrl || config.oneauth.url;
+
+    this.request = axios.create({ baseURL: this.clientUrl });
   }
 
-  login = res =>
-    res.redirect(
-      `${this.url}/oauth/authorize?response_type=code&client_id=${this.clientId}&redirect_uri=${config.app.url}/api/login/callback/`
-    );
-}
+  get accessToken() {
+    return this._accessToken;
+  }
 
-export default Auth;
+  set accessToken(value) {
+    if (value !== this.accessToken) {
+      const headers = value ? { Authorization: `Bearer ${value}` } : {};
+      this.request = axios.create({
+        baseURL: this.clientUrl,
+        headers,
+      });
+    }
+
+    this._accessToken = value;
+  }
+
+  login = res => {
+    const query = {
+      response_type: 'code',
+      client_id: this.clientId,
+      redirect_uri: Auth.redirectURI,
+    };
+
+    return res
+      .writeHead(302, {
+        Location: `${this.clientUrl}/oauth/authorize${queryString(query)}`,
+      })
+      .end();
+  };
+
+  getAccessToken = async code => {
+    try {
+      const { data } = await this.request.post('/oauth/token', {
+        code,
+        client_id: this.clientId,
+        client_secret: this.clientSecret,
+        redirect_uri: Auth.redirectURI,
+        grant_type: 'authorization_code',
+      });
+
+      this.accessToken = data.access_token;
+
+      return data.access_token;
+    } catch (err) {
+      return null;
+    }
+  };
+
+  getProfile = async () => {
+    try {
+      const { data } = await this.request.get('/api/users/me');
+
+      return data;
+    } catch (err) {
+      return null;
+    }
+  };
+}

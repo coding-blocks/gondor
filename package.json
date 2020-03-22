@@ -21,6 +21,7 @@
     "camelcase": "^5.3.1",
     "camelcase-keys": "^6.1.2",
     "classnames": "^2.2.6",
+    "dotenv": "^8.2.0",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
     "next": "9.2.2",
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "@babel/node": "^7.8.7",
+    "@babel/plugin-proposal-decorators": "^7.8.3",
     "@babel/plugin-proposal-throw-expressions": "^7.8.3",
     "@babel/preset-env": "^7.9.0",
     "babel-plugin-import-graphql": "^2.7.0",
