@@ -27,9 +27,11 @@
     "next": "9.2.2",
     "node-sass": "^4.13.1",
     "pascalcase": "^1.0.0",
+    "pg": "^7.18.2",
     "react": "^16.13.1",
     "react-dom": "16.13.0",
     "reactstrap": "^8.4.1",
+    "sequelize": "^5.21.5",
     "snakecase-keys": "^3.1.2"
   },
   "devDependencies": {
@@ -39,6 +41,7 @@
     "@babel/preset-env": "^7.9.0",
     "babel-plugin-import-graphql": "^2.7.0",
     "babel-plugin-module-resolver": "^4.0.0",
+    "sequelize-cli": "^5.5.1",
     "webpack-graphql-loader": "^1.0.2"
   }
 }
