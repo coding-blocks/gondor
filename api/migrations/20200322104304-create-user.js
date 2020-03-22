@@ -31,13 +31,19 @@ module.exports = {
       access_token: {
         type: Sequelize.STRING,
       },
-      createdAt: {
-        allowNull: false,
+      deleted_at: {
         type: Sequelize.DATE,
       },
-      updatedAt: {
-        allowNull: false,
+      created_at: {
         type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        onUpdate: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
     });
   },

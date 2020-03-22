@@ -1,7 +1,13 @@
 class BaseController {
-  resolver = (req, res) => {
+  resolver = async (req, res) => {
     if (typeof this[req.method] === 'function') {
-      return this[req.method](req, res);
+      try {
+        await this[req.method](req, res);
+      } catch (err) {
+        console.log(err);
+        res.send({ error: { message: 'There was some error.' } });
+      }
+      return;
     }
 
     const supportedMethods = [

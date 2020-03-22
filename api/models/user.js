@@ -27,10 +27,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
       },
     },
-    {},
+    {
+      paranoid: true,
+    },
   );
   User.associate = function(models) {
     User.hasMany(models.UserRole, { as: 'roles', onDelete: 'CASCADE' });
+    User.hasMany(models.ClientToken, {
+      as: 'clientTokens',
+      onDelete: 'CASCADE',
+    });
   };
   return User;
 };

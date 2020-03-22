@@ -17,6 +17,8 @@ module.exports = {
     define: {
       underscored: true,
       underscoredAll: true,
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
     },
   },
   test: {
@@ -34,6 +36,8 @@ module.exports = {
     define: {
       underscored: true,
       underscoredAll: true,
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
     },
   },
   production: {
@@ -51,6 +55,8 @@ module.exports = {
     define: {
       underscored: true,
       underscoredAll: true,
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
     },
   },
 };

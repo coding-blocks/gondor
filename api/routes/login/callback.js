@@ -1,19 +1,43 @@
-import BaseController from 'Controllers/Base';
+import cookie from 'cookie';
 import App from 'Services/App';
 import Auth from 'Services/Auth';
-import logout from 'Middlewares/logout';
+import User from 'Services/User';
+import BaseController from 'Controllers/Base';
+import logout from 'Middlewares/decorators/logout';
 
 class LoginCallback extends BaseController {
   @logout
   async GET(req, res) {
-    const auth = new Auth();
+    try {
+      const auth = new Auth();
+      await auth.getAccessToken(req.query.code);
+      const profile = await auth.getProfile();
 
-    const token = await auth.getAccessToken(req.query.code);
-    if (!token) return App.redirectToHome(res);
+      const user = new User();
+      await user.loadByUsername(profile.username);
+      if (user.exists) {
+        await user.syncProfile(profile);
+      } else {
+        await user.create(profile);
+      }
 
-    const user = await auth.getProfile();
+      auth.user = await user.toObject();
+      const { token } = await auth.generateClientToken();
+      res.setHeader(
+        'Set-Cookie',
+        cookie.serialize('lotr', token, {
+          httpOnly: true,
+          path: '/',
+          sameSite: 'lax',
+          secure: process.env.NODE_ENV === 'production',
+        }),
+      );
 
-    res.send({ user });
+      return App.redirectToHome(res);
+    } catch (err) {
+      console.log(err);
+      return App.redirectToHome(res);
+    }
   }
 }
 

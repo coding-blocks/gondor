@@ -1,6 +1,6 @@
 import BaseController from 'Controllers/Base';
 import Auth from 'Services/Auth';
-import logout from 'Middlewares/logout';
+import logout from 'Middlewares/decorators/logout';
 
 class Login extends BaseController {
   @logout
