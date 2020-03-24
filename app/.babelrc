@@ -6,9 +6,13 @@
       "module-resolver",
       {
         "alias": {
-          "Layouts": "./app/layouts",
+          "~": "./app",
+          "Api": "./api",
+          "Apollo": "./app/apollo",
           "Components": "./app/components",
           "Config": "./app/config",
+          "Decorators": "./app/decorators",
+          "Layouts": "./app/layouts",
           "Pages": "./app/pages",
           "Services": "./app/services",
           "Store": "./app/store",
