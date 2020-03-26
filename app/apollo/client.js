@@ -16,8 +16,8 @@ const createApolloClient = (ctx = {}, initialState = {}) => {
 
 const createIsomorphLink = ctx => {
   if (typeof window === 'undefined') {
-    const { SchemaLink } = require('apollo-link-schema');
     const schema = require('Api/graphql/schema');
+    const { SchemaLink } = require('apollo-link-schema');
     return new SchemaLink({ schema, context: ctx });
   } else {
     const { HttpLink } = require('apollo-link-http');

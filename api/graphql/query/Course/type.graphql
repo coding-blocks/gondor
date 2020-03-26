@@ -1,4 +1,0 @@
-type Course {
-  name: String
-  batches: [Batch]
-}

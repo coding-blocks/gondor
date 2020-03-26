@@ -1,11 +1,11 @@
 import BaseController from 'Controllers/Base';
-import Auth from 'Services/Auth';
+import OneAuth from 'Services/OneAuth';
 import logout from 'Middlewares/decorators/logout';
 
 class Login extends BaseController {
   @logout
   GET(req, res) {
-    return new Auth().login(res);
+    return new OneAuth().login(res);
   }
 }
 

@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const UserRole = sequelize.define(
     'user_role',
     {
-      role: {
+      name: {
         type: DataTypes.ENUM('Admin', 'Mentor', 'Member'),
         allowNull: false,
       },

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import uuid from 'uuid/v4';
 import config from 'Config';
 import Models from 'Models';
 import queryString from 'Utils/queryString';
@@ -81,26 +80,5 @@ export default class Auth {
     data.access_token = this._accessToken;
 
     return data;
-  };
-
-  generateClientToken = async () => {
-    if (!this.user)
-      throw new Error('No user provided to generate client token.');
-
-    const transaction = await Models.sequelize.transaction();
-
-    await Models.ClientToken.destroy({
-      where: { user_id: this.user.id },
-      transaction,
-    });
-
-    const token = await Models.ClientToken.create(
-      { user_id: this.user.id, token: uuid() },
-      { transaction },
-    );
-
-    await transaction.commit();
-
-    return token;
   };
 }

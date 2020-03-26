@@ -1,6 +1,6 @@
 import cookie from 'cookie';
 import App from 'Services/App';
-import Auth from 'Services/Auth';
+import OneAuth from 'Services/OneAuth';
 import User from 'Services/User';
 import BaseController from 'Controllers/Base';
 import logout from 'Middlewares/decorators/logout';
@@ -9,7 +9,7 @@ class LoginCallback extends BaseController {
   @logout
   async GET(req, res) {
     try {
-      const auth = new Auth();
+      const auth = new OneAuth();
       await auth.getAccessToken(req.query.code);
       const profile = await auth.getProfile();
 
@@ -21,8 +21,7 @@ class LoginCallback extends BaseController {
         await user.create(profile);
       }
 
-      auth.user = await user.toObject();
-      const { token } = await auth.generateClientToken();
+      const token = await user.generateToken();
       res.setHeader(
         'Set-Cookie',
         cookie.serialize('lotr', token, {

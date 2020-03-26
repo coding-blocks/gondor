@@ -17,7 +17,7 @@ module.exports = {
           },
           allowNull: false,
         },
-        role: {
+        name: {
           type: Sequelize.ENUM('Admin', 'Mentor', 'Member'),
           allowNull: false,
         },
@@ -36,7 +36,7 @@ module.exports = {
       .then(() =>
         queryInterface.addIndex('user_roles', {
           unique: true,
-          fields: ['role', 'user_id'],
+          fields: ['name', 'user_id'],
         }),
       );
   },

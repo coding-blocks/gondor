@@ -1,6 +1,6 @@
 import cookie from 'cookie';
 
-export default (req, res, next) => {
+export default (req, res) => {
   res.setHeader(
     'Set-Cookie',
     cookie.serialize('lotr', '', {
@@ -11,6 +11,4 @@ export default (req, res, next) => {
       secure: process.env.NODE_ENV === 'production',
     }),
   );
-
-  return next(req, res);
 };

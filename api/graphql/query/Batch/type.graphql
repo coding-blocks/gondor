@@ -1,3 +1,0 @@
-type Batch {
-  name: String
-}

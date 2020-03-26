@@ -131,7 +131,7 @@ const convertResolverToString = resolver =>
       (str, key) => `${str}
         ${key}: ${
         typeof resolver[key] === 'string'
-          ? `require('${resolver[key]}')`
+          ? `require('${resolver[key]}').default`
           : convertResolverToString(resolver[key])
       },
       `,
