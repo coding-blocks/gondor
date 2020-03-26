@@ -25,4 +25,5 @@ yarn-debug.log*
 yarn-error.log*
 
 #generated
-api/graphql/generated
+api/graphql/generated/*
+!api/graphql/generated/.gitkeep
