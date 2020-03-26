@@ -1,3 +1,9 @@
+enum UserRoleName {
+  Admin
+  Mentor
+  Member
+}
+
 type User {
   id: ID!
   username: String!
@@ -6,5 +12,5 @@ type User {
   email: String
   mobile_number: String
   photo: String
-  roles: [String!]!
+  roles: [UserRoleName!]!
 }
