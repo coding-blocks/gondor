@@ -1,5 +1,11 @@
 import { createPolicy } from './EntityPolicy';
 
+/* NOTE(naman): example
+ * AuthorizationPolicy.can(viewer).perform('email:read').on(MyUser, 'user');
+ * or
+ * AuthorizationPolicy.can(viewer).perform('email:read').on(MyUserInstance);
+ */
+
 export default class AuthorizationPolicy {
   static can = viewer => ({
     perform: new AuthorizationPolicy(viewer).authorize,
