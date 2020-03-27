@@ -1,5 +1,5 @@
 export default class BaseModelService {
-  constructor(instance) {
+  constructor(instance = null) {
     this._instance = instance;
   }
 
@@ -9,7 +9,7 @@ export default class BaseModelService {
 
   async toObject() {
     let data = this._instance;
-    if (typeof data.toJSON === 'function') data = data.toJSON();
+    if (typeof data?.toJSON === 'function') data = data.toJSON();
     if (typeof this._export === 'function') data = await this._export(data);
 
     return data;
@@ -29,8 +29,7 @@ export const saveInstance = (target, property, descriptor) => {
 export const requireInstance = (target, property, descriptor) => {
   const next = descriptor.value;
   descriptor.value = function() {
-    if (!this._instance)
-      throw new Error('Model instance is required for this method call.');
+    if (!this._instance) throw new Error('Model instance is required for this method call.');
     return next.apply(this, arguments);
   };
   return descriptor;

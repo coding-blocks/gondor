@@ -4,13 +4,13 @@ enum UserRoleName {
   Member
 }
 
-type User {
+type User @define(entity: "user") {
   id: ID!
   username: String!
+  roles: [UserRoleName!]!
   firstname: String
   lastname: String
-  email: String
-  mobile_number: String
-  photo: String
-  roles: [UserRoleName!]!
+  email: String @authorize
+  mobile_number: String @authorize
+  photo: String @authorize
 }

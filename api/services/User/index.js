@@ -2,10 +2,7 @@ import uuid from 'uuid/v4';
 import Models from 'Models';
 import config from 'Config';
 import jwt from 'jsonwebtoken';
-import BaseModelService, {
-  saveInstance,
-  requireInstance,
-} from 'Services/BaseModelService';
+import BaseModelService, { saveInstance, requireInstance } from 'Services/BaseModelService';
 import UserRole from 'Services/UserRole';
 
 export default class User extends BaseModelService {
@@ -39,18 +36,18 @@ export default class User extends BaseModelService {
   }
 
   @saveInstance
+  verifyAndLoadFromToken() {
+    return User.verifyAndFindFromToken(...arguments);
+  }
+
+  @saveInstance
   create(profile) {
     return Models.User.create(
       {
-        ...[
-          'username',
-          'firstname',
-          'lastname',
-          'email',
-          'mobile_number',
-          'photo',
-          'access_token',
-        ].reduce((data, field) => ({ ...data, [field]: profile[field] }), {}),
+        ...['username', 'firstname', 'lastname', 'email', 'mobile_number', 'photo', 'access_token'].reduce(
+          (data, field) => ({ ...data, [field]: profile[field] }),
+          {},
+        ),
         roles: profile.roles?.map(name => ({ name })),
       },
       { include: [{ model: Models.UserRole, as: 'roles' }] },
@@ -99,31 +96,18 @@ export default class User extends BaseModelService {
 
     const token = uuid();
 
-    await Models.ClientToken.create(
-      { user_id: this._instance.id, token },
-      { transaction },
-    );
+    await Models.ClientToken.create({ user_id: this._instance.id, token }, { transaction });
 
     await transaction.commit();
 
-    return jwt.sign(
-      { user_id: this._instance.id, session_id: token },
-      config.app.secret,
-    );
+    return jwt.sign({ user_id: this._instance.id, session_id: token }, config.app.secret);
   }
 
-  async _export(instance) {
-    if (!instance) return;
+  async _export(data) {
+    if (!data) return null;
 
-    let roles = !!instance.roles
-      ? instance.roles
-      : await UserRole.findNamesForUser(instance);
+    data.roles = data.roles || (await UserRole.findNamesForUser(data));
 
-    return (
-      instance && {
-        ...instance,
-        roles,
-      }
-    );
+    return data;
   }
 }

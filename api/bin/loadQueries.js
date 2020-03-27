@@ -1,15 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import gql from 'graphql-tag';
-import camelcase from 'camelcase';
-import pascalcase from 'pascalcase';
-import {
-  loadGraphqlFile,
-  getDirContents,
-  isCamelCase,
-  isPascalCase,
-  basename,
-} from './utils';
+import { loadGraphqlFile, getDirContents, isCamelCase, isPascalCase, basename } from './utils';
 
 // NOTE(naman): impure function
 const loadQueries = (state, root) => {
@@ -27,11 +19,9 @@ const insertIntoSchema = (state, root, dirent) => {
   try {
     if (dirent.name === 'type.graphql') return;
 
-    if (dirent.isFile() && validateFieldName(dirent.name))
-      return buildRootQueryField(state, root, dirent);
+    if (dirent.isFile() && validateFieldName(dirent.name)) return buildRootQueryField(state, root, dirent);
 
-    if (dirent.isDirectory() && validateTypeName(dirent.name))
-      return buildType(state, root, dirent);
+    if (dirent.isDirectory() && validateTypeName(dirent.name)) return buildType(state, root, dirent);
   } catch (err) {
     console.log(err);
   }
@@ -61,25 +51,8 @@ const buildType = (state, root, dirent) => {
   });
 };
 
-const validateFieldName = name => {
-  const ext = path.extname(name);
-  if (ext === '.js' && isCamelCase(basename(name))) return true;
+const validateFieldName = name => path.extname(name) === '.js' && isCamelCase(basename(name));
 
-  throw new Error(
-    `${name} is not camelcase. convert it to ${camelcase(
-      basename(name),
-    )}${ext}`,
-  );
-};
-
-const validateTypeName = name => {
-  if (isPascalCase(basename(name))) return true;
-
-  throw new Error(
-    `${name} is not pascalcase. convert it to ${pascalcase(
-      basename(name),
-    )}${path.extname(name)}`,
-  );
-};
+const validateTypeName = name => isPascalCase(basename(name));
 
 export default loadQueries;

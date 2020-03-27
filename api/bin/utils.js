@@ -29,25 +29,18 @@ const convertMapToString = map =>
   `{
     ${Object.keys(map).reduce(
       (str, key) => `${str}
-        ${key}: ${
-        typeof map[key] === 'string'
-          ? `require('${map[key]}').default`
-          : convertMapToString(map[key])
-      },
+        ${key}: ${typeof map[key] === 'string' ? `require('${map[key]}').default` : convertMapToString(map[key])},
       `,
       ``,
     )}
   }`;
 
-export const transformMap = map =>
-  `export default ${convertMapToString(map).replace(/\s/g, '')}`;
+export const transformMap = map => `export default ${convertMapToString(map).replace(/\s/g, '')}`;
 
-export const transformTypeDefs = typeDefs =>
-  typeDefs.join('\n').replace(/(\r\n|\r|\n){2,}/g, '$1\n');
+export const transformTypeDefs = typeDefs => typeDefs.join('\n').replace(/(\r\n|\r|\n){2,}/g, '$1\n');
 
 export const isCamelCase = str => str === camelcase(str);
 
 export const isPascalCase = str => str === pascalcase(str);
 
-export const basename = (name, ext) =>
-  path.basename(name, ext || path.extname(name));
+export const basename = (name, ext) => path.basename(name, ext || path.extname(name));
