@@ -1,3 +1,26 @@
+enum OrderDirection {
+  ASC
+  DESC
+}
+
 type Query {
   viewer: Viewer!
+  users(
+    limit: Int
+    before: String
+    after: String
+    orderBy: String
+    orderDirection: OrderDirection = DESC
+  ): UserConnection @requireFeature(name: "teamManagement")
+}
+
+interface Node {
+  id: ID!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
 }

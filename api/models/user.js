@@ -1,4 +1,6 @@
 'use strict';
+const withPagination = require('sequelize-cursor-pagination');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'user',
@@ -38,5 +40,5 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
     });
   };
-  return User;
+  return withPagination()(User);
 };

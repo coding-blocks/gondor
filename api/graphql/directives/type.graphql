@@ -1,3 +1,5 @@
 directive @define(entity: String = "") on OBJECT
 
-directive @authorize(entity: String = "") on FIELD_DEFINITION
+directive @protected(entity: String = "") on FIELD_DEFINITION
+
+directive @requireFeature(name: String = "") on FIELD_DEFINITION

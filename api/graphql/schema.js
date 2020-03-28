@@ -13,4 +13,7 @@ export default makeExecutableSchema({
   `,
   schemaDirectives,
   uploads: false,
+  resolverValidationOptions: {
+    requireResolversForResolveType: false,
+  },
 });

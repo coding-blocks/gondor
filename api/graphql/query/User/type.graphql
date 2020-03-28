@@ -4,13 +4,22 @@ enum UserRoleName {
   Member
 }
 
-type User @define(entity: "user") {
+type User implements Node @define(entity: "user") {
   id: ID!
   username: String!
   roles: [UserRoleName!]!
   firstname: String
   lastname: String
-  email: String @authorize
-  mobile_number: String @authorize
-  photo: String @authorize
+  email: String @protected
+  mobile_number: String @protected
+  photo: String @protected
+}
+
+type UserEdge {
+  node: User
+}
+
+type UserConnection {
+  edges: [UserEdge!]!
+  pageInfo: PageInfo!
 }

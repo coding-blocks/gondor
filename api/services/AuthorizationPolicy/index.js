@@ -20,6 +20,10 @@ export default class AuthorizationPolicy extends PolicyBuilder {
     gather: new AuthorizationPolicy(viewer).gather,
   });
 
+  _features = createPolicy(policy => {
+    policy.register('teamManagement', () => this.isAdmin);
+  });
+
   _user = createPolicy(policy => {
     const isSelf = user => user.id === this.viewer?.id;
 
@@ -34,9 +38,5 @@ export default class AuthorizationPolicy extends PolicyBuilder {
       p.register('read', user => isSelf(user) || this.isAdmin || this.isMember);
       p.register('update', user => this.isAdmin);
     });
-  });
-
-  _features = createPolicy(policy => {
-    policy.register('teamManagement', () => this.isAdmin);
   });
 }
