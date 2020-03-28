@@ -1,0 +1,9 @@
+type Feature {
+  name: String!
+  enabled: Boolean!
+}
+
+type Viewer {
+  user: User
+  features: [Feature!]!
+}

@@ -1,36 +1,24 @@
+import PolicyBuilder from './PolicyBuilder';
 import { createPolicy } from './EntityPolicy';
 
-/* NOTE(naman): example
- * AuthorizationPolicy.can(viewer).perform('email:read').on(MyUser, 'user');
- * or
- * AuthorizationPolicy.can(viewer).perform('email:read').on(MyUserInstance);
- */
-
-export default class AuthorizationPolicy {
+export default class AuthorizationPolicy extends PolicyBuilder {
+  /* NOTE(naman): example
+   * AuthorizationPolicy.can(viewer).perform('email:read').on(MyEntity, 'entity_name');
+   * or
+   * AuthorizationPolicy.can(viewer).perform('email:read').on(MyEntityInstance);
+   */
   static can = viewer => ({
     perform: new AuthorizationPolicy(viewer).authorize,
   });
 
-  constructor(user) {
-    this.viewer = user;
-  }
-
-  authorize = action => ({
-    on: (entity, name) =>
-      this[`_${name || entity.constructor.name}`]?.call(this, entity, action),
+  /* NOTE(naman): example
+   * AuthorizationPolicy.for(viewer).gather(MyEntity, 'entity_name').concerns;
+   * or
+   * AuthorizationPolicy.for(viewer).gather(MyEntityInstance).properties;
+   */
+  static for = viewer => ({
+    gather: new AuthorizationPolicy(viewer).gather,
   });
-
-  get isAdmin() {
-    return this.viewer?.roles.includes('Admin');
-  }
-
-  get isMentor() {
-    return this.viewer?.roles.includes('Mentor');
-  }
-
-  get isMember() {
-    return this.viewer?.roles.includes('Member');
-  }
 
   _user = createPolicy(policy => {
     const isSelf = user => user.id === this.viewer?.id;
@@ -46,5 +34,9 @@ export default class AuthorizationPolicy {
       p.register('read', user => isSelf(user) || this.isAdmin || this.isMember);
       p.register('update', user => this.isAdmin);
     });
+  });
+
+  _features = createPolicy(policy => {
+    policy.register('teamManagement', () => this.isAdmin);
   });
 }

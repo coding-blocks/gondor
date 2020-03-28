@@ -1,7 +1,11 @@
 export const createPolicy = definition => {
   const policy = new EntityPolicy();
   definition(policy);
-  return policy.apply;
+
+  return {
+    apply: policy.apply,
+    gather: policy.gather,
+  };
 };
 
 const getProperty = (action = '') => {
@@ -11,20 +15,16 @@ const getProperty = (action = '') => {
   return parts[0];
 };
 
-const getSubAction = action =>
-  action
-    .split(':')
-    .slice(1)
-    .join(':');
+const getSubAction = action => action.replace(/^[a-z, A-Z]*:/, ':');
 
-const getPolicyName = action => {
+const getConcernName = action => {
   const parts = action.split(':');
 
   return parts[parts.length - 1];
 };
 
 export default class EntityPolicy {
-  _policies = {};
+  _concerns = {};
   _properties = {};
 
   register = (actions, policy) => {
@@ -32,7 +32,7 @@ export default class EntityPolicy {
       actions = [actions];
     }
 
-    actions.forEach(action => (this._policies[action] = policy));
+    actions.forEach(action => (this._concerns[action] = policy));
   };
 
   include = (properties, definition) => {
@@ -49,7 +49,7 @@ export default class EntityPolicy {
     const property = getProperty(action);
 
     if (!!property) {
-      const applyProperty = this._properties[property];
+      const applyProperty = this._properties[property]?.apply;
 
       if (typeof applyProperty === 'function') {
         return applyProperty(entity, getSubAction(action));
@@ -58,12 +58,38 @@ export default class EntityPolicy {
       return false;
     }
 
-    const handler = this._policies[getPolicyName(action)];
+    const handler = this._concerns[getConcernName(action)];
 
     if (typeof handler === 'function') {
       return handler(entity, action);
     }
 
     return false;
+  };
+
+  _gatherConcerns = entity => {
+    return Object.keys(this._concerns).reduce((map, name) => {
+      map[name] = this._concerns[name](entity, `:${name}`);
+
+      return map;
+    }, {});
+  };
+
+  _gatherProperties = entity => {
+    return Object.keys(this._properties).reduce((map, name) => {
+      map[name] = this._properties[name].gather(entity);
+
+      return map;
+    }, {});
+  };
+
+  gather = (entity, what) => {
+    if (what === 'concerns') return this._gatherConcerns(entity);
+    if (what === 'properties') return this._gatherProperties(entity);
+    if (what === 'all')
+      return {
+        concerns: this._gatherConcerns(entity),
+        properties: this._gatherProperties(entity),
+      };
   };
 }
