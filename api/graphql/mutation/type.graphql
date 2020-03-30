@@ -1,3 +1,3 @@
 type Mutation {
-  updateUserRole(id: ID!, role: UserRoleName): User
+  userUpdate(id: ID!, input: UserUpdateInput): User
 }

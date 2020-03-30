@@ -15,7 +15,7 @@ const getProperty = (action = '') => {
   return parts[0];
 };
 
-const getSubAction = action => action.replace(/^[a-z, A-Z]*:/, ':');
+const getSubAction = action => action.replace(/^[^:]*:/, ':');
 
 const getConcernName = action => {
   const parts = action.split(':');

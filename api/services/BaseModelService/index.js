@@ -1,3 +1,5 @@
+import Models from 'Models';
+
 export default class BaseModelService {
   constructor(instance = null) {
     this._instance = instance;
@@ -29,8 +31,17 @@ export const saveInstance = (target, property, descriptor) => {
 export const requireInstance = (target, property, descriptor) => {
   const next = descriptor.value;
   descriptor.value = function() {
-    if (!this._instance) throw new Error('Model instance is required for this method call.');
+    if (!this._instance)
+      throw new Error('Model instance is required for this method call.');
     return next.apply(this, arguments);
+  };
+  return descriptor;
+};
+
+export const withTransaction = (target, property, descriptor) => {
+  const next = descriptor.value;
+  descriptor.value = function() {
+    return Models.sequelize.transaction(t => next.call(this, t, ...arguments));
   };
   return descriptor;
 };

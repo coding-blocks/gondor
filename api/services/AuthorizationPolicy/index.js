@@ -1,5 +1,5 @@
 import PolicyBuilder from './PolicyBuilder';
-import { createPolicy } from './EntityPolicy';
+import { createPolicy as cp } from './EntityPolicy';
 
 export default class AuthorizationPolicy extends PolicyBuilder {
   /* NOTE(naman): example
@@ -20,14 +20,15 @@ export default class AuthorizationPolicy extends PolicyBuilder {
     gather: new AuthorizationPolicy(viewer).gather,
   });
 
-  _features = createPolicy(policy => {
+  _features = cp(policy => {
     policy.register('teamManagement', () => this.isAdmin);
   });
 
-  _user = createPolicy(policy => {
+  _user = cp(policy => {
     const isSelf = user => user.id === this.viewer?.id;
 
     policy.register('read', () => !!this.viewer);
+    policy.register('update', user => isSelf(user) || this.isAdmin);
 
     policy.include(['email', 'mobile_number', 'photo'], p => {
       p.register('read', user => isSelf(user) || this.isAdmin || this.isMember);

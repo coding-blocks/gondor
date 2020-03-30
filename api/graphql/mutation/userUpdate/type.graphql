@@ -1,0 +1,5 @@
+input UserUpdateInput {
+  roles: [UserRoleName!]
+  email: String
+  mobile_number: String
+}
