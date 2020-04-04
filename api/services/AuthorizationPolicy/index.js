@@ -57,6 +57,10 @@ export default class AuthorizationPolicy extends PolicyBuilder {
         p.register('update', event => isOrganiser(event) || this.Admin);
       },
     );
+
+    policy.include('requests', p => {
+      p.register('read', event => isOrganiser(event) || this.isAdmin);
+    });
   });
 
   _calendarEventInvite = cp(policy => {
