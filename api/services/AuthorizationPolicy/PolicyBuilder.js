@@ -10,49 +10,42 @@ export default class PolicyBuilder {
 
   gather = (entity, name) => {
     const self = this;
+    name = name || entity.constructor.name;
 
     return {
       get concerns() {
-        return (
-          self[`_${name || entity.constructor.name}`]?.gather(
-            entity,
-            'concerns',
-          ) || {}
-        );
+        return (async () =>
+          (await self[`_${name}`]?.gather(entity, 'concerns')) || {})();
       },
 
       get properties() {
-        return (
-          self[`_${name || entity.constructor.name}`]?.gather(
-            entity,
-            'properties',
-          ) || {}
-        );
+        return (async () =>
+          (await self[`_${name}`]?.gather(entity, 'properties')) || {})();
       },
 
       get all() {
-        return (
-          self[`_${name || entity.constructor.name}`]?.gather(
-            entity,
-            'all',
-          ) || {
+        return (async () =>
+          (await self[`_${name}`]?.gather(entity, 'all')) || {
             concerns: {},
             properties: {},
-          }
-        );
+          })();
       },
     };
   };
 
   get isAdmin() {
-    return this.viewer?.roles.includes('Admin');
-  }
-
-  get isMentor() {
-    return this.viewer?.roles.includes('Mentor');
+    return this.viewer?.role === 'Admin';
   }
 
   get isMember() {
-    return this.viewer?.roles.includes('Member');
+    return ['Admin', 'Member'].includes(this.viewer?.role);
+  }
+
+  get isUser() {
+    return ['Admin', 'Member', 'User'].includes(this.viewer?.role);
+  }
+
+  isSelf(user) {
+    return user.id == this.viewer?.id;
   }
 }

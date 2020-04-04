@@ -1,11 +1,19 @@
 import BaseResolver from './Resolver';
 
 export default class BaseConnectionResolver extends BaseResolver {
+  MAX_LIMIT = 30;
+
   resolve = async () => {
-    const { limit, before, after, orderBy, orderDirection } = this.args;
+    const {
+      limit = 0,
+      before,
+      after,
+      orderBy,
+      orderDirection = 'DESC',
+    } = this.args;
 
     const { results, cursors } = await this.entity.paginate({
-      limit,
+      limit: Math.max(limit, this.MAX_LIMIT),
       before,
       after,
       order: orderBy,
@@ -14,7 +22,10 @@ export default class BaseConnectionResolver extends BaseResolver {
     });
 
     return {
-      edges: results.map(node => ({ node })),
+      edges: results.map(node => ({
+        node,
+        cursor: Buffer.from(JSON.stringify(node.id)).toString('base64'),
+      })),
       pageInfo: {
         startCursor: cursors.before,
         endCursor: cursors.after,

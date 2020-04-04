@@ -1,17 +1,15 @@
+type Query
+
+scalar DateTime
+
 enum OrderDirection {
   ASC
   DESC
 }
 
-type Query {
-  viewer: Viewer!
-  users(
-    limit: Int
-    before: String
-    after: String
-    orderBy: String
-    orderDirection: OrderDirection = DESC
-  ): UserConnection @requireFeature(name: "teamManagement")
+input DateTimeRangeInput {
+  start_at: DateTime!
+  end_at: DateTime!
 }
 
 interface Node {

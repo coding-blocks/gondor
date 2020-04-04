@@ -1,6 +1,6 @@
 class BaseResolver {
-  constructor(obj, args, ctx, info) {
-    this.obj = obj;
+  constructor(parent, args, ctx, info) {
+    this.parent = parent;
     this.args = args;
     this.ctx = ctx;
     this.info = info;

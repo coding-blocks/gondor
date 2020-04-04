@@ -1,0 +1,31 @@
+enum CalendarEventType {
+  OfflineClass
+  OnlineClass
+  CourseRecording
+  OffSiteWorkshop
+  Meeting
+  OOO
+  Other
+}
+
+type CalendarEvent implements Node {
+  id: ID!
+  title: String!
+  description: String
+  type: CalendarEventType!
+  location: String
+  organiser: User!
+  invites: [CalendarEventInvite!]!
+  start_at: DateTime!
+  end_at: DateTime!
+}
+
+type CalendarEventEdge {
+  node: CalendarEvent!
+  cursor: String!
+}
+
+type CalendarEventConnection {
+  edges: [CalendarEventEdge!]!
+  pageInfo: PageInfo!
+}

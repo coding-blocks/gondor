@@ -1,10 +1,17 @@
 'use strict';
+
 const withPagination = require('sequelize-cursor-pagination');
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'user',
     {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
       username: {
         type: DataTypes.STRING,
         unique: true,
@@ -25,6 +32,11 @@ module.exports = (sequelize, DataTypes) => {
       photo: {
         type: DataTypes.STRING,
       },
+      role: {
+        type: DataTypes.ENUM('Admin', 'Member', 'User'),
+        allowNull: false,
+        defaultValue: 'User',
+      },
       access_token: {
         type: DataTypes.STRING,
       },
@@ -34,11 +46,22 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
   User.associate = function(models) {
-    User.hasMany(models.UserRole, { as: 'roles', onDelete: 'CASCADE' });
     User.hasMany(models.ClientToken, {
       as: 'clientTokens',
       onDelete: 'CASCADE',
     });
+    User.hasMany(models.CalendarEvent, {
+      as: 'eventsOrganising',
+      foreignKey: 'organiser_id',
+    });
+    User.belongsToMany(models.CalendarEvent, {
+      as: 'events',
+      through: models.CalendarEventInvite,
+      foreignKey: 'user_id',
+      otherKey: 'event_id',
+      onDelete: 'CASCADE',
+    });
   };
+
   return withPagination()(User);
 };

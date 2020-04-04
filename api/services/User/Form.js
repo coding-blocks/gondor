@@ -15,16 +15,13 @@ class UserForm extends BaseModelForm {
         isPhoneNumber(value) || { error: 'Not a valid phone number' },
       protected: true,
     },
-    roles: {
+    role: {
       protected: true,
     },
   };
 
-  async onUpdate() {
-    const user = new User(this._instance);
-    await user.update(this.updatedFields);
-
-    return await user.toObject();
+  onUpdate() {
+    return new User(this.instance).update(this.body);
   }
 }
 

@@ -1,5 +1,9 @@
 input UserUpdateInput {
-  roles: [UserRoleName!]
+  role: UserRoleName
   email: String
   mobile_number: String
+}
+
+extend type Mutation {
+  userUpdate(id: ID!, input: UserUpdateInput!): User!
 }

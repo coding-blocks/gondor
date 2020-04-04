@@ -1,25 +1,42 @@
 enum UserRoleName {
   Admin
-  Mentor
   Member
+  User
 }
 
 type User implements Node @define(entity: "user") {
   id: ID!
   username: String!
-  roles: [UserRoleName!]!
+  role: UserRoleName!
   firstname: String
   lastname: String
   email: String @protected
   mobile_number: String @protected
   photo: String @protected
+  events(
+    limit: Int
+    before: String
+    after: String
+    dateTimeRange: DateTimeRangeInput!
+  ): CalendarEventConnection @protected @requireFeature(name: "calendar")
 }
 
 type UserEdge {
-  node: User
+  node: User!
+  cursor: String!
 }
 
 type UserConnection {
   edges: [UserEdge!]!
   pageInfo: PageInfo!
+}
+
+extend type Query {
+  users(
+    limit: Int
+    before: String
+    after: String
+    orderBy: String
+    orderDirection: OrderDirection = DESC
+  ): UserConnection @requireFeature(name: "teamManagement")
 }

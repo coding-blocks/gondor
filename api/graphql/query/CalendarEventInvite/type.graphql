@@ -1,0 +1,14 @@
+enum CalendarEventInviteStatus {
+  Pending
+  Accepted
+  Declined
+  Requested
+  Refused
+}
+
+type CalendarEventInvite {
+  id: ID!
+  user: User!
+  event: CalendarEvent!
+  status: CalendarEventInviteStatus!
+}

@@ -1,0 +1,12 @@
+input CalendarEventCreateInput {
+  title: String!
+  type: CalendarEventType!
+  description: String
+  start_at: DateTime!
+  end_at: DateTime!
+  location: String
+}
+
+extend type Mutation {
+  calendarEventCreate(input: CalendarEventCreateInput!): CalendarEvent!
+}

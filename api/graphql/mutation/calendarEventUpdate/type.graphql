@@ -1,0 +1,12 @@
+input CalendarEventUpdateInput {
+  title: String
+  type: CalendarEventType
+  description: String
+  start_at: DateTime
+  end_at: DateTime
+  location: String
+}
+
+extend type Mutation {
+  calendarEventUpdate(id: ID!, input: CalendarEventUpdateInput!): CalendarEvent!
+}

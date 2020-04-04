@@ -1,0 +1,55 @@
+import Models from 'Models';
+import BaseModelService, {
+  saveInstance,
+  requireInstance,
+} from 'Services/BaseModelService';
+
+export default class CalendarEventAttendee extends BaseModelService {
+  @saveInstance
+  async create(body) {
+    const [attendee, created] = await Models.CalendarEventAttendee.findOrCreate(
+      {
+        where: {
+          event_id: body.event_id,
+          user_id: body.user_id,
+          deleted_at: { [Models.Sequelize.Op.not]: null },
+        },
+        defaults: body,
+        paranoid: false,
+      },
+    );
+
+    if (!created) {
+      attendee.deleted_at = null;
+      attendee.status =
+        attendee.status === 'Requested' ? 'Accepted' : 'Pending';
+      await attendee.save();
+    }
+
+    return attendee;
+  }
+
+  @saveInstance
+  async update(body) {
+    const [_updated, attendees] = await Models.CalendarEventAttendee.update(
+      body,
+      {
+        where: { id: this._instance.id },
+        returning: true,
+      },
+    );
+
+    return attendees[0];
+  }
+
+  @saveInstance
+  async delete(body) {
+    const count = await Models.CalendarEventAttendee.destroy({
+      where: { id: this.instance.id },
+    });
+
+    if (count) return null;
+
+    return this.instance;
+  }
+}

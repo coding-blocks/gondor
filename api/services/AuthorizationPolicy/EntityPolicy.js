@@ -45,51 +45,68 @@ export default class EntityPolicy {
     properties.forEach(property => (this._properties[property] = policy));
   };
 
-  apply = (entity, action) => {
+  apply = (_entity, action) => {
     const property = getProperty(action);
+    const entity =
+      typeof _entity?.toJSON === 'function' ? _entity.toJSON() : _entity;
 
     if (!!property) {
       const applyProperty = this._properties[property]?.apply;
 
       if (typeof applyProperty === 'function') {
-        return applyProperty(entity, getSubAction(action));
+        const a = Promise.resolve(applyProperty(entity, getSubAction(action)));
+        return a;
       }
 
-      return false;
+      return Promise.resolve(false);
     }
 
     const handler = this._concerns[getConcernName(action)];
 
     if (typeof handler === 'function') {
-      return handler(entity, action);
+      return Promise.resolve(handler(entity, action));
     }
 
-    return false;
+    return Promise.resolve(false);
   };
 
   _gatherConcerns = entity => {
-    return Object.keys(this._concerns).reduce((map, name) => {
-      map[name] = this._concerns[name](entity, `:${name}`);
+    return Object.keys(this._properties).reduce(async (_map, name) => {
+      const map = await _map;
 
-      return map;
-    }, {});
+      return this._concerns[name](entity, `:${name}`).then(data => {
+        map[name] = data;
+        return map;
+      });
+    }, Promise.resolve({}));
   };
 
   _gatherProperties = entity => {
-    return Object.keys(this._properties).reduce((map, name) => {
-      map[name] = this._properties[name].gather(entity);
+    return Object.keys(this._properties).reduce(async (_map, name) => {
+      const map = await _map;
 
-      return map;
-    }, {});
+      return this._properties[name].gather(entity).then(data => {
+        map[name] = data;
+        return map;
+      });
+    }, Promise.resolve({}));
   };
 
-  gather = (entity, what) => {
-    if (what === 'concerns') return this._gatherConcerns(entity);
-    if (what === 'properties') return this._gatherProperties(entity);
-    if (what === 'all')
-      return {
-        concerns: this._gatherConcerns(entity),
-        properties: this._gatherProperties(entity),
-      };
+  gather = async (_entity, what) => {
+    const entity =
+      typeof _entity?.toJSON === 'function' ? _entity.toJSON() : _entity;
+
+    if (what === 'concerns')
+      return Promise.resolve(this._gatherConcerns(entity));
+    if (what === 'properties')
+      return Promise.resolve(this._gatherProperties(entity));
+    if (what === 'all') {
+      const [concerns, properties] = await Promise.all(
+        this._gatherConcerns(entity),
+        this._gatherProperties(entity),
+      );
+
+      return { concerns, properties };
+    }
   };
 }

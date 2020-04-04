@@ -7,3 +7,7 @@ type Viewer {
   user: User
   features: [Feature!]!
 }
+
+extend type Query {
+  viewer: Viewer!
+}

@@ -76,7 +76,7 @@ export default class Auth {
   getProfile = async () => {
     const { data } = await this.request.get('/api/users/me');
 
-    data.roles = data.role === 'admin' ? ['Admin'] : [];
+    data.role = data.role === 'admin' ? 'Admin' : 'User';
     data.access_token = this._accessToken;
 
     return data;

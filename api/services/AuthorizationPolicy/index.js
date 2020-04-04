@@ -22,22 +22,72 @@ export default class AuthorizationPolicy extends PolicyBuilder {
 
   _features = cp(policy => {
     policy.register('teamManagement', () => this.isAdmin);
+    policy.register('calendar', () => this.isUser);
   });
 
   _user = cp(policy => {
-    const isSelf = user => user.id === this.viewer?.id;
-
-    policy.register('read', () => !!this.viewer);
-    policy.register('update', user => isSelf(user) || this.isAdmin);
+    policy.register('read', () => this.isUser);
+    policy.register('update', user => this.isSelf(user) || this.isAdmin);
 
     policy.include(['email', 'mobile_number', 'photo'], p => {
-      p.register('read', user => isSelf(user) || this.isAdmin || this.isMember);
-      p.register('update', user => isSelf(user) || this.isAdmin);
+      p.register('read', user => this.isSelf(user) || this.isMember);
+      p.register('update', user => this.isSelf(user) || this.isAdmin);
     });
 
-    policy.include('roles', p => {
-      p.register('read', user => isSelf(user) || this.isAdmin || this.isMember);
+    policy.include('role', p => {
+      p.register('read', user => this.isSelf(user) || this.isMember);
       p.register('update', user => this.isAdmin);
+    });
+
+    policy.include('events', p => {
+      p.register('read', user => this.isSelf(user) || this.isMember);
+    });
+  });
+
+  _calendarEvent = cp(policy => {
+    const isOrganiser = ({ organiser_id } = {}) =>
+      organiser_id == this.viewer?.id;
+
+    policy.register('create', () => this.isMember);
+    policy.register('update', event => isOrganiser(event) || this.isAdmin);
+
+    policy.include(
+      ['title', 'description', 'start_at', 'end_at', 'location', 'type'],
+      p => {
+        p.register('update', event => isOrganiser(event) || this.Admin);
+      },
+    );
+  });
+
+  _calendarEventInvite = cp(policy => {
+    const isOrganiser = ({ organiser_id } = {}) =>
+      organiser_id == this.viewer?.id;
+
+    policy.register(
+      ['create', 'delete'],
+      ({ event, status }, action) =>
+        isOrganiser(event) ||
+        this.isAdmin ||
+        (this.isUser && status === 'Requested' && action === ':create'),
+    );
+
+    policy.register(
+      'update',
+      ({ user_id, event }) =>
+        this.isSelf({ id: user_id }) || isOrganiser(event),
+    );
+    policy.include(['entity', 'user'], p => {
+      p.register('update', () => false);
+    });
+
+    policy.include('status', p => {
+      p.register('update', ({ user_id, event, status }) => {
+        const requested = ['Requested', 'Refused'].includes(status);
+
+        if (!requested) return this.isSelf({ id: user_id });
+
+        if (requested) return isOrganiser(event);
+      });
     });
   });
 }

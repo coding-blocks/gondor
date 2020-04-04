@@ -9,8 +9,12 @@ export default class BaseModelService {
     return !!this._instance;
   }
 
+  get instance() {
+    return this._instance;
+  }
+
   async toObject() {
-    let data = this._instance;
+    let data = await this._instance;
     if (typeof data?.toJSON === 'function') data = data.toJSON();
     if (typeof this._export === 'function') data = await this._export(data);
 
@@ -24,6 +28,18 @@ export const saveInstance = (target, property, descriptor) => {
     this._instance = await next.apply(this, arguments);
 
     return this._instance;
+  };
+  return descriptor;
+};
+
+export const memoize = name => (target, property, descriptor) => {
+  const next = descriptor.value;
+  descriptor.value = async function() {
+    if (this[name] === undefined) {
+      this[name] = await next.apply(this, arguments);
+    }
+
+    return this[name];
   };
   return descriptor;
 };

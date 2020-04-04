@@ -8,5 +8,5 @@ export default async (req, res) => {
   const user = new User();
   await user.verifyAndLoadFromToken(req.cookies.lotr);
 
-  req.viewer = await user.toObject();
+  req.viewer = await user.instance;
 };
