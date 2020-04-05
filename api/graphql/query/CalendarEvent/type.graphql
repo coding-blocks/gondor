@@ -29,3 +29,14 @@ type CalendarEventConnection {
   edges: [CalendarEventEdge!]!
   pageInfo: PageInfo!
 }
+
+extend type Query {
+  events(
+    limit: Int
+    before: String
+    after: String
+    dateTimeRange: DateTimeRangeInput!
+    types: [CalendarEventType!]
+    attendee_ids: [ID!]
+  ): CalendarEventConnection @protected @requireFeature(name: "calendar")
+}

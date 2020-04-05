@@ -18,7 +18,7 @@ export default class BaseConnectionResolver extends BaseResolver {
       after,
       order: orderBy,
       desc: orderDirection === 'DESC',
-      ...(this.query?.call(this) || {}),
+      ...((await this.query?.call(this)) || {}),
     });
 
     return {

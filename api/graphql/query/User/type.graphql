@@ -4,7 +4,7 @@ enum UserRoleName {
   User
 }
 
-type User implements Node @define(entity: "user") {
+type User implements Node {
   id: ID!
   username: String!
   role: UserRoleName!

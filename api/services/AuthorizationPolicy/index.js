@@ -20,9 +20,13 @@ export default class AuthorizationPolicy extends PolicyBuilder {
     gather: new AuthorizationPolicy(viewer).gather,
   });
 
+  _query = cp(policy => {
+    policy.include('events', p => p.register('read', () => this.isMember));
+  });
+
   _features = cp(policy => {
     policy.register('teamManagement', () => this.isAdmin);
-    policy.register('calendar', () => this.isUser);
+    policy.register('calendar', () => this.isMember);
   });
 
   _user = cp(policy => {
