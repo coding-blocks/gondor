@@ -1,6 +1,6 @@
 import Models from 'Models';
 import Policy from 'Services/AuthorizationPolicy';
-import BaseModelService, { saveInstance } from './';
+import BaseModelService, { saveInstance, RequiredInstanceError } from './';
 import { ForbiddenError, UserInputError } from 'apollo-server-micro';
 
 class ModelForm extends BaseModelService {
@@ -52,6 +52,13 @@ class ModelForm extends BaseModelService {
     });
   };
 
+  _handleRequiredInstanceError = () => {
+    throw new UserInputError(
+      `The ${this.text ||
+        this.name} you are trying to perform action on does not exist.`,
+    );
+  };
+
   _handleErrors = async cb => {
     try {
       return await cb();
@@ -62,6 +69,10 @@ class ModelForm extends BaseModelService {
 
       if (err instanceof Models.Sequelize.UniqueConstraintError) {
         this._handleUniqueConstraintError(err);
+      }
+
+      if (err instanceof RequiredInstanceError) {
+        this._handleRequiredInstanceError(err);
       }
 
       throw err;

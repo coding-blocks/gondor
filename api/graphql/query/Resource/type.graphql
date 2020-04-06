@@ -1,0 +1,8 @@
+union ResourceSubject = ZoomAccount
+union ResourceTopic = CalendarEvent
+
+type Resource {
+  id: ID!
+  subject: ResourceSubject!
+  topic: ResourceTopic!
+}

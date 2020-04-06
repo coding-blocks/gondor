@@ -54,11 +54,28 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: { name: 'organiser_id', allowNull: false },
     });
     CalendarEvent.belongsToMany(models.User, {
-      as: 'invites',
+      as: 'attendees',
       through: models.CalendarEventInvite,
       foreignKey: 'event_id',
       otherKey: 'user_id',
+      onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
+    });
+    CalendarEvent.hasMany(models.CalendarEventInvite, {
+      as: 'invites',
+      foreignKey: 'event_id',
+      onUpdate: ' CASCADE',
+      onDelete: 'CASCADE',
+    });
+    CalendarEvent.hasMany(models.Resource, {
+      as: 'resources',
+      foreignKey: 'topic_id',
+      constraints: false,
+      onUpdate: ' CASCADE',
+      onDelete: 'CASCADE',
+      scope: {
+        topic_type: 'CalendarEvent',
+      },
     });
   };
 

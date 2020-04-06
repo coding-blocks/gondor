@@ -17,7 +17,7 @@ class EventsResolver extends BaseConnectionResolver {
     if (this.args.attendee_ids?.length) {
       include.push({
         model: Models.User,
-        as: 'invites',
+        as: 'attendees',
         attributes: ['id'],
         through: {
           attributes: ['id'],

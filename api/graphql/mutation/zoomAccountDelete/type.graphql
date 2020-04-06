@@ -1,0 +1,3 @@
+extend type Mutation {
+  zoomAccountDelete(id: ID!): ZoomAccount!
+}

@@ -40,16 +40,29 @@ class CalendarEventForm extends BaseModelForm {
 
   @saveInstance
   async beforeUpdate() {
-    if (this.instance instanceof Models.CalendarEvent) return this.instance;
-
-    const event = await Models.CalendarEvent.findByPk(this.id);
-    if (!event) throw new UserInputError('No event found to update.');
-
-    return event;
+    return this.fetchData();
   }
 
   onUpdate() {
     return new CalendarEvent(this.instance).update(this.body);
+  }
+
+  @saveInstance
+  async beforeDelete() {
+    return this.fetchData();
+  }
+
+  onDelete() {
+    return new CalendarEvent(this.instance).delete();
+  }
+
+  async fetchData() {
+    if (this.instance instanceof Models.CalendarEvent) return this.instance;
+
+    const event = await Models.CalendarEvent.findByPk(this.id);
+    if (!event) throw new UserInputError('No event found.');
+
+    return event;
   }
 }
 

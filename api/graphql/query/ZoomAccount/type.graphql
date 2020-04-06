@@ -1,0 +1,9 @@
+type ZoomAccount {
+  id: ID!
+  email: String!
+  uses: [Resource!] @protected
+}
+
+extend type Query {
+  zoomAccounts: [ZoomAccount!] @protected
+}

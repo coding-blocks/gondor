@@ -11,7 +11,7 @@ class UserEventsResolver extends BaseConnectionResolver {
     include: [
       {
         model: Models.User,
-        as: 'invites',
+        as: 'attendees',
         attributes: ['id'],
         through: {
           attributes: ['id'],

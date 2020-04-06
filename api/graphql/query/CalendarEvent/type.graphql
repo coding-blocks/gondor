@@ -15,9 +15,10 @@ type CalendarEvent implements Node {
   type: CalendarEventType!
   location: String
   organiser: User!
-  invites: [CalendarEventInvite!]!
   start_at: DateTime!
   end_at: DateTime!
+  invites: [CalendarEventInvite!]!
+  resources: [Resource!] @protected
 }
 
 type CalendarEventEdge {

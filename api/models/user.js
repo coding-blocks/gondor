@@ -48,6 +48,7 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = function(models) {
     User.hasMany(models.ClientToken, {
       as: 'clientTokens',
+      onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     });
     User.hasMany(models.CalendarEvent, {
@@ -59,6 +60,7 @@ module.exports = (sequelize, DataTypes) => {
       through: models.CalendarEventInvite,
       foreignKey: 'user_id',
       otherKey: 'event_id',
+      onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     });
   };

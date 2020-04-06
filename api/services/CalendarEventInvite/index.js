@@ -11,6 +11,7 @@ export default class CalendarEventInvite extends BaseModelService {
   }
 
   @saveInstance
+  @requireInstance
   async update(body) {
     const [_updated, invites] = await Models.CalendarEventInvite.update(body, {
       where: { id: this._instance.id },
@@ -21,7 +22,8 @@ export default class CalendarEventInvite extends BaseModelService {
   }
 
   @saveInstance
-  async delete(body) {
+  @requireInstance
+  async delete() {
     const count = await Models.CalendarEventInvite.destroy({
       where: { id: this.instance.id },
     });

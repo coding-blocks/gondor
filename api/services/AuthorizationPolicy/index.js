@@ -22,6 +22,9 @@ export default class AuthorizationPolicy extends PolicyBuilder {
 
   _query = cp(policy => {
     policy.include('events', p => p.register('read', () => this.isMember));
+    policy.include('zoomAccounts', p =>
+      p.register('read', () => this.isMember),
+    );
   });
 
   _features = cp(policy => {
@@ -53,7 +56,10 @@ export default class AuthorizationPolicy extends PolicyBuilder {
       organiser_id == this.viewer?.id;
 
     policy.register('create', () => this.isMember);
-    policy.register('update', event => isOrganiser(event) || this.isAdmin);
+    policy.register(
+      ['update', 'delete'],
+      event => isOrganiser(event) || this.isAdmin,
+    );
 
     policy.include(
       ['title', 'description', 'start_at', 'end_at', 'location', 'type'],
@@ -64,6 +70,10 @@ export default class AuthorizationPolicy extends PolicyBuilder {
 
     policy.include('requests', p => {
       p.register('read', event => isOrganiser(event) || this.isAdmin);
+    });
+
+    policy.include('resources', p => {
+      p.register('read', event => isOrganiser(event) || this.isMember);
     });
   });
 
@@ -97,5 +107,10 @@ export default class AuthorizationPolicy extends PolicyBuilder {
         if (requested) return isOrganiser(event);
       });
     });
+  });
+
+  _zoomAccount = cp(policy => {
+    policy.register(['create', 'delete'], () => this.isAdmin);
+    policy.include('uses', p => p.register('read', () => this.isMember));
   });
 }

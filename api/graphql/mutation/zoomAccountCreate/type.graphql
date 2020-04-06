@@ -1,0 +1,7 @@
+input ZoomAccountCreateInput {
+  email: String!
+}
+
+extend type Mutation {
+  zoomAccountCreate(input: ZoomAccountCreateInput!): ZoomAccount!
+}

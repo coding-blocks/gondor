@@ -44,11 +44,18 @@ export const memoize = name => (target, property, descriptor) => {
   return descriptor;
 };
 
+export class RequiredInstanceError extends Error {
+  constructor(message = 'The model instance is required.') {
+    super(message);
+    this.name = 'RequireInstanceError';
+    this.message = message;
+  }
+}
+
 export const requireInstance = (target, property, descriptor) => {
   const next = descriptor.value;
   descriptor.value = function() {
-    if (!this._instance)
-      throw new Error('Model instance is required for this method call.');
+    if (!this._instance) throw new RequiredInstanceError();
     return next.apply(this, arguments);
   };
   return descriptor;
