@@ -5,5 +5,5 @@ type ZoomAccount {
 }
 
 extend type Query {
-  zoomAccounts: [ZoomAccount!] @protected
+  zoomAccounts(availableDuring: DateTimeRangeInput): [ZoomAccount!] @protected
 }

@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   ZoomAccount.associate = function(models) {
     ZoomAccount.hasMany(models.Resource, {
-      as: 'resources',
+      as: 'uses',
       foreignKey: 'subject_id',
       constraints: false,
       onUpdate: 'CASCADE',

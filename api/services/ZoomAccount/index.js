@@ -3,6 +3,7 @@ import BaseModelService, {
   saveInstance,
   requireInstance,
 } from 'Services/BaseModelService';
+import overlapDateTimeClause from 'Utils/overlapDateTimeClause';
 
 export default class ZoomAccount extends BaseModelService {
   @saveInstance
@@ -20,5 +21,25 @@ export default class ZoomAccount extends BaseModelService {
     if (count) return null;
 
     return this.instance;
+  }
+
+  static findAllInUse(dateTimeRange) {
+    return Models.ZoomAccount.findAll({
+      include: [
+        {
+          model: Models.Resource,
+          as: 'resources',
+          include: [
+            {
+              model: Models.CalendarEvent,
+              as: 'calendarEvents',
+              where: overlapDateTimeClause(dateTimeRange),
+              required: true,
+            },
+          ],
+          required: true,
+        },
+      ],
+    });
   }
 }
