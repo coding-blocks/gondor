@@ -1,13 +1,18 @@
 import Policy from 'Services/AuthorizationPolicy';
 
 const features = async parent => {
-  const concerns = await Policy.for(parent.user).gather(undefined, 'features')
-    .concerns;
+  const policy = new Policy(parent.user);
 
-  return Object.keys(concerns).map(name => ({
-    name,
-    enabled: !!concerns[name],
-  }));
+  return [
+    {
+      name: 'teamManagement',
+      enabled: policy.authorize(':teamManagement').on(null, 'features'),
+    },
+    {
+      name: 'calendar',
+      enabled: policy.authorize(':calendar').on(null, 'features'),
+    },
+  ];
 };
 
 export default features;

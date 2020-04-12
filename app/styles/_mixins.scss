@@ -51,12 +51,10 @@
 @mixin clearfix() {
   &::after {
     display: block;
-    content: "";
+    content: '';
     clear: both;
   }
 }
-
-
 
 //Responsive Breakpoints
 
@@ -66,9 +64,8 @@ $breakpoints: (
   sm: 768px,
   md: 992px,
   lg: 1200px,
-  xl: 1440px
+  xl: 1440px,
 );
-
 
 @mixin respond-above($breakpoint) {
   // If the breakpoint exists in the map.
@@ -87,7 +84,6 @@ $breakpoints: (
     @warn "Invalid breakpoint: #{$breakpoint}.";
   }
 }
-
 
 @mixin respond-below($breakpoint) {
   // If the breakpoint exists in the map.
@@ -108,11 +104,10 @@ $breakpoints: (
 }
 
 @function encodecolor($string) {
-	@if type-of($string) == 'color' {
-        $hex: str-slice(ie-hex-str($string), 4);
-        $string:unquote("#{$hex}");
-    }
-    $string: '%23' + $string;
-	@return $string;
+  @if type-of($string) == 'color' {
+    $hex: str-slice(ie-hex-str($string), 4);
+    $string: unquote('#{$hex}');
+  }
+  $string: '%23' + $string;
+  @return $string;
 }
-

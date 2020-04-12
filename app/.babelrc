@@ -11,7 +11,9 @@
           "Apollo": "./app/apollo",
           "Components": "./app/components",
           "Config": "./app/config",
+          "Containers": "./app/containers",
           "Decorators": "./app/decorators",
+          "Fragments": "./app/fragments",
           "Layouts": "./app/layouts",
           "Pages": "./app/pages",
           "Services": "./app/services",
@@ -20,6 +22,7 @@
           "Utils": "./app/utils"
         }
       }
-    ]
+    ],
+    ["import-graphql", { "runtime": true }]
   ]
 }

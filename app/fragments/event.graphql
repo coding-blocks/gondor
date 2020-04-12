@@ -1,0 +1,9 @@
+fragment EventFragment on CalendarEvent {
+  id
+  title
+  description
+  type
+  star_at
+  end_at
+  location
+}

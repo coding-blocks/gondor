@@ -1,0 +1,31 @@
+#import "../../../fragments/user.graphql"
+#import "../../../fragments/event.graphql"
+#import "../../../fragments/resource.graphql"
+
+query CalendarPageContentQuery(
+  $dateTimeRange: DateTimeRangeInput!
+  $attendees: [ID!]
+  $types: [CalendarEventType!]
+  $after: String
+) {
+  events(
+    dateTineRange: $dateTimeRange
+    attendees: $attendees
+    types: $types
+    after: $after
+  ) {
+    edges {
+      node {
+        ...EventFragment
+        resources {
+          ...ResourceFragment
+        }
+      }
+    }
+
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}

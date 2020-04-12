@@ -1,0 +1,19 @@
+#import "../../../fragments/user.graphql"
+
+query CalendarTeamMembersQuery(
+  $search: String
+  $after: String
+  $exclude: [ID!]
+) {
+  users(roles: [Admin, Member], search: $search, limit: 20, after: $after, exclude: $exclude) {
+    edges {
+      node {
+        ...UserFragment
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}

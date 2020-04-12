@@ -17,6 +17,7 @@ type User implements Node {
     limit: Int
     before: String
     after: String
+    exclude: [ID!]
     dateTimeRange: DateTimeRangeInput!
   ): CalendarEventConnection @protected @requireFeature(name: "calendar")
 }
@@ -33,6 +34,9 @@ type UserConnection {
 
 extend type Query {
   users(
+    roles: [UserRoleName!]
+    search: String
+    exclude: [ID!]
     limit: Int
     before: String
     after: String

@@ -1,3 +1,4 @@
+import Models from 'Models';
 import BaseResolver from './Resolver';
 
 export default class BaseConnectionResolver extends BaseResolver {
@@ -9,8 +10,17 @@ export default class BaseConnectionResolver extends BaseResolver {
       before,
       after,
       orderBy,
+      exclude,
       orderDirection = 'DESC',
     } = this.args;
+    const Op = Models.Sequelize.Op;
+    const where = {};
+
+    if (exclude?.length) where.id = { [Op.notIn]: exclude };
+
+    const query = (await this.query?.call(this)) || {};
+
+    query.where = query.where ? { [Op.and]: [query.where, where] } : where;
 
     const { results, cursors } = await this.entity.paginate({
       limit: Math.max(limit, this.MAX_LIMIT),
@@ -18,7 +28,7 @@ export default class BaseConnectionResolver extends BaseResolver {
       after,
       order: orderBy,
       desc: orderDirection === 'DESC',
-      ...((await this.query?.call(this)) || {}),
+      ...query,
     });
 
     return {

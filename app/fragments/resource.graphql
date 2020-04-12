@@ -1,0 +1,11 @@
+fragment ResourceFragment on Resource {
+  id
+  subject {
+    __typename
+
+    ... on ZoomAccount {
+      id
+      email
+    }
+  }
+}

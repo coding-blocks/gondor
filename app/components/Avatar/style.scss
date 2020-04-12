@@ -1,0 +1,30 @@
+@import '../../styles/variables';
+
+.user-avatar {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  background: $theme-color-1;
+  color: $button-text-color;
+
+  &.small {
+    width: 25px;
+    min-width: 25px;
+    height: 25px;
+    font-size: 14px;
+    line-height: 25px;
+  }
+
+  &.shadow {
+    box-shadow: 0 3px 30px rgba(0, 0, 0, 0.1);
+  }
+}
+
+img.user-avatar {
+  background: $background-color;
+}

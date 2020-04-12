@@ -1,13 +1,16 @@
-import React from "react";
+import React from 'react';
+import Navbar from 'Components/Navbar';
+import Sidebar from 'Components/Sidebar';
 
-import Navbar from "Components/Navbar";
+import './style.scss';
 
-import "./style.scss";
+const Dashboard = ({ children, data }) => {
+  if (!data) return null;
 
-const Dashboard = ({ children }) => {
   return (
     <div className="dashboard-layout">
-      <Navbar />
+      <Navbar viewer={data.viewer} />
+      <Sidebar viewer={data.viewer} />
       <main>{children}</main>
     </div>
   );

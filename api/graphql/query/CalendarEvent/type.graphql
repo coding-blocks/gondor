@@ -36,8 +36,9 @@ extend type Query {
     limit: Int
     before: String
     after: String
+    exclude: [ID!]
     dateTimeRange: DateTimeRangeInput!
     types: [CalendarEventType!]
-    attendee_ids: [ID!]
+    attendees: [ID!]
   ): CalendarEventConnection @protected @requireFeature(name: "calendar")
 }

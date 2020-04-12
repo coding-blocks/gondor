@@ -14,7 +14,7 @@ class EventsResolver extends BaseConnectionResolver {
       where.type = { [Op.in]: this.args.types };
     }
 
-    if (this.args.attendee_ids?.length) {
+    if (this.args.attendees?.length) {
       include.push({
         model: Models.User,
         as: 'attendees',
@@ -23,7 +23,7 @@ class EventsResolver extends BaseConnectionResolver {
           attributes: ['id'],
           where: {
             user_id: {
-              [Op.in]: this.args.attendee_ids,
+              [Op.in]: this.args.attendees,
             },
             status: {
               [Op.in]: ['Pending', 'Accepted', 'Requested'],

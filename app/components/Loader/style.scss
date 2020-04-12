@@ -1,0 +1,12 @@
+.loading {
+  &.relative {
+    position: relative;
+  }
+
+  &.small {
+    width: 15px;
+    height: 15px;
+    left: calc(50% - 7.5px);
+    top: calc(50% - 7.5px);
+  }
+}
