@@ -1,5 +1,5 @@
 import Models from 'Models';
-import Policy from 'Services/AuthorizationPolicy';
+import AuthPolicy from 'Services/AuthorizationPolicy';
 
 const invites = async (parent, _args, ctx) => {
   const query = {
@@ -7,9 +7,9 @@ const invites = async (parent, _args, ctx) => {
   };
 
   if (
-    !(await Policy.can(ctx.viewer)
-      .perform('requests:read')
-      .on(parent, 'calendarEvent'))
+    !(await AuthPolicy.can(ctx.viewer)
+      .perform('calendarEvent:requests:read')
+      .on(parent))
   ) {
     const Op = Models.Sequelize.Op;
 

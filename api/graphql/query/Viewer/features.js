@@ -1,16 +1,16 @@
-import Policy from 'Services/AuthorizationPolicy';
+import AuthPolicy from 'Services/AuthorizationPolicy';
 
 const features = async parent => {
-  const policy = new Policy(parent.user);
+  const policy = AuthPolicy.can(parent.user);
 
   return [
     {
       name: 'teamManagement',
-      enabled: policy.authorize(':teamManagement').on(null, 'features'),
+      enabled: policy.perform('features:teamManagement').on(null),
     },
     {
       name: 'calendar',
-      enabled: policy.authorize(':calendar').on(null, 'features'),
+      enabled: policy.perform('features:calendar').on(null),
     },
   ];
 };

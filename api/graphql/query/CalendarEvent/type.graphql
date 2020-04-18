@@ -45,7 +45,7 @@ extend type Query {
     dateTimeRange: DateTimeRangeInput!
     types: [CalendarEventType!]
     attendees: [ID!]
-  ): CalendarEventConnection @protected @requireFeature(name: "calendar")
+  ): CalendarEventConnection @requireFeature(name: "calendar")
 
   eventTypeColors: [CalendarEventTypeColorMap!]!
 }

@@ -5,6 +5,8 @@ import BaseConnectionResolver from 'Graphql/base/ConnectionResolver';
 class EventsResolver extends BaseConnectionResolver {
   entity = Models.CalendarEvent;
 
+  MAX_LIMIT = null;
+
   query = () => {
     const Op = Models.Sequelize.Op;
     const where = {};

@@ -2361,6 +2361,11 @@ atob@^2.1.2:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
+auth-policy@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/auth-policy/-/auth-policy-1.0.1.tgz#ae2a4f9beccf60ca7279eb51b0999b51179fa948"
+  integrity sha512-B1GfUkvlY93Ud9mt0bcuJ3Vgm9r0Ot16KA0CLXlknXRGr/Tb9GSi2l+MJHsFic3volQJlXXm3OyPFRh4Z8FRBA==
+
 autodll-webpack-plugin@0.4.2:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/autodll-webpack-plugin/-/autodll-webpack-plugin-0.4.2.tgz#36e98fbaf30c235d1d5d076330464ac80901415c"

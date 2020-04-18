@@ -23,6 +23,7 @@
     "apollo-link-schema": "^1.2.4",
     "apollo-server": "^2.11.0",
     "apollo-server-micro": "^2.11.0",
+    "auth-policy": "^1.0.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "camelcase": "^5.3.1",

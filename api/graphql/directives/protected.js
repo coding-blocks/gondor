@@ -1,7 +1,7 @@
 import camelcase from 'camelcase';
 import { SchemaDirectiveVisitor } from 'apollo-server-micro';
 import { defaultFieldResolver } from 'graphql';
-import Policy from 'Services/AuthorizationPolicy';
+import AuthPolicy from 'Services/AuthorizationPolicy';
 
 export default class ProtetedDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field) {
@@ -15,9 +15,9 @@ export default class ProtetedDirective extends SchemaDirectiveVisitor {
         camelcase(info.parentType.name);
 
       if (
-        await Policy.can(ctx.viewer)
-          .perform(`${field.name}:read`)
-          .on(parent, entityName)
+        await AuthPolicy.can(ctx.viewer)
+          .perform(`${entityName}:${field.name}:read`)
+          .on(parent)
       )
         return resolve.call(this, parent, _args, ctx, info);
 

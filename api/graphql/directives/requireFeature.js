@@ -1,6 +1,6 @@
 import { SchemaDirectiveVisitor } from 'apollo-server-micro';
 import { defaultFieldResolver } from 'graphql';
-import Policy from 'Services/AuthorizationPolicy';
+import AuthPolicy from 'Services/AuthorizationPolicy';
 
 export default class RequireFeature extends SchemaDirectiveVisitor {
   visitFieldDefinition(field) {
@@ -9,9 +9,9 @@ export default class RequireFeature extends SchemaDirectiveVisitor {
 
     field.resolve = async function(parent, _args, ctx, _info) {
       if (
-        await Policy.can(ctx.viewer)
-          .perform(`:${_this.args.name}`)
-          .on(undefined, 'features')
+        await AuthPolicy.can(ctx.viewer)
+          .perform(`features:${_this.args.name}`)
+          .on(null)
       )
         return resolve.call(this, parent, _args, ctx, _info);
 

@@ -5,6 +5,8 @@ import BaseConnectionResolver from 'Graphql/base/ConnectionResolver';
 class UserEventsResolver extends BaseConnectionResolver {
   entity = Models.CalendarEvent;
 
+  MAX_LIMIT = null;
+
   query = () => ({
     order: 'start_at',
     where: overlapDateTimeClause(this.args.dateTimeRange),

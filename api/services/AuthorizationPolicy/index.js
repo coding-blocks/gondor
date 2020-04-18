@@ -1,116 +1,128 @@
-import PolicyBuilder from './PolicyBuilder';
-import { createPolicy as cp } from './EntityPolicy';
+import Policy from 'auth-policy';
+import { isUser, isMember, isAdmin, isSelf, isOrganiser } from './utils';
 
-export default class AuthorizationPolicy extends PolicyBuilder {
-  /* NOTE(naman): example
-   * AuthorizationPolicy.can(viewer).perform('email:read').on(MyEntity, 'entity_name');
-   * or
-   * AuthorizationPolicy.can(viewer).perform('email:read').on(MyEntityInstance);
-   */
-  static can = viewer => ({
-    perform: new AuthorizationPolicy(viewer).authorize,
-  });
+const policy = new Policy();
 
-  /* NOTE(naman): example
-   * AuthorizationPolicy.for(viewer).gather(MyEntity, 'entity_name').concerns;
-   * or
-   * AuthorizationPolicy.for(viewer).gather(MyEntityInstance).properties;
-   */
-  static for = viewer => ({
-    gather: new AuthorizationPolicy(viewer).gather,
-  });
+policy.include('query', p => {
+  p.include('events', cp =>
+    cp.register('read', ({ viewer }) => isMember(viewer)),
+  );
 
-  _query = cp(policy => {
-    policy.include('events', p => p.register('read', () => this.isMember));
-    policy.include('zoomAccounts', p =>
-      p.register('read', () => this.isMember),
+  p.include('zoomAccounts', cp =>
+    cp.register('read', ({ viewer }) => isMember(viewer)),
+  );
+});
+
+policy.include('features', p => {
+  p.register('teamManagement', ({ viewer }) => isAdmin(viewer));
+  p.register('calendar', ({ viewer }) => isMember(viewer));
+});
+
+policy.include('user', p => {
+  p.register('read', ({ viewer }) => isUser(viewer));
+  p.register(
+    'update',
+    ({ viewer, entity: user }) => isSelf(user, viewer) || isAdmin(viewer),
+  );
+
+  p.include(['email', 'mobile_number', 'photo'], cp => {
+    cp.register(
+      'read',
+      ({ viewer, entity: user }) => isSelf(user, viewer) || isMember(viewer),
     );
-  });
-
-  _features = cp(policy => {
-    policy.register('teamManagement', () => this.isAdmin);
-    policy.register('calendar', () => this.isMember);
-  });
-
-  _user = cp(policy => {
-    policy.register('read', () => this.isUser);
-    policy.register('update', user => this.isSelf(user) || this.isAdmin);
-
-    policy.include(['email', 'mobile_number', 'photo'], p => {
-      p.register('read', user => this.isSelf(user) || this.isMember);
-      p.register('update', user => this.isSelf(user) || this.isAdmin);
-    });
-
-    policy.include('role', p => {
-      p.register('read', user => this.isSelf(user) || this.isMember);
-      p.register('update', user => this.isAdmin);
-    });
-
-    policy.include('events', p => {
-      p.register('read', user => this.isSelf(user) || this.isMember);
-    });
-  });
-
-  _calendarEvent = cp(policy => {
-    const isOrganiser = ({ organiser_id } = {}) =>
-      organiser_id == this.viewer?.id;
-
-    policy.register('create', () => this.isMember);
-    policy.register(
-      ['update', 'delete'],
-      event => isOrganiser(event) || this.isAdmin,
-    );
-
-    policy.include(
-      ['title', 'description', 'start_at', 'end_at', 'location', 'type'],
-      p => {
-        p.register('update', event => isOrganiser(event) || this.Admin);
-      },
-    );
-
-    policy.include('requests', p => {
-      p.register('read', event => isOrganiser(event) || this.isAdmin);
-    });
-
-    policy.include('resources', p => {
-      p.register('read', event => isOrganiser(event) || this.isMember);
-    });
-  });
-
-  _calendarEventInvite = cp(policy => {
-    const isOrganiser = ({ organiser_id } = {}) =>
-      organiser_id == this.viewer?.id;
-
-    policy.register(
-      ['create', 'delete'],
-      ({ event, status }, action) =>
-        isOrganiser(event) ||
-        this.isAdmin ||
-        (this.isUser && status === 'Requested' && action === ':create'),
-    );
-
-    policy.register(
+    cp.register(
       'update',
-      ({ user_id, event }) =>
-        this.isSelf({ id: user_id }) || isOrganiser(event),
+      ({ viewer, entity: user }) => isSelf(user, viewer) || isAdmin(viewer),
     );
-    policy.include(['entity', 'user'], p => {
-      p.register('update', () => false);
-    });
-
-    policy.include('status', p => {
-      p.register('update', ({ user_id, event, status }) => {
-        const requested = ['Requested', 'Refused'].includes(status);
-
-        if (!requested) return this.isSelf({ id: user_id });
-
-        if (requested) return isOrganiser(event);
-      });
-    });
   });
 
-  _zoomAccount = cp(policy => {
-    policy.register(['create', 'delete'], () => this.isAdmin);
-    policy.include('uses', p => p.register('read', () => this.isMember));
+  p.include('role', cp => {
+    cp.register(
+      'read',
+      ({ viewer, entity: user }) => isSelf(user, viewer) || isMember(viewer),
+    );
+    cp.register('update', ({ viewer }) => isAdmin(viewer));
   });
-}
+
+  p.include('events', cp => {
+    cp.register(
+      'read',
+      ({ viewer, entity: user }) => isSelf(user, viewer) || isMember(viewer),
+    );
+  });
+});
+
+policy.include('calendarEvent', p => {
+  p.register('create', ({ viewer }) => isMember(viewer));
+  p.register(
+    ['update', 'delete'],
+    ({ viewer, entity: event }) =>
+      isOrganiser(event, viewer) || isAdmin(viewer),
+  );
+
+  p.include(
+    ['title', 'description', 'start_at', 'end_at', 'location', 'type'],
+    cp => {
+      cp.register(
+        'update',
+        ({ viewer, entity: event }) =>
+          isOrganiser(event, viewer) || isAdmin(viewer),
+      );
+    },
+  );
+
+  p.include('requests', cp => {
+    cp.register(
+      'read',
+      ({ viewer, entity: event }) =>
+        isOrganiser(event, viewer) || isAdmin(viewer),
+    );
+  });
+
+  p.include('resources', cp => {
+    cp.register(
+      'read',
+      ({ viewer, entity: event }) =>
+        isOrganiser(event, viewer) || isMember(viewer),
+    );
+  });
+});
+
+policy.include('calendarEventIvite', p => {
+  p.register(
+    ['create', 'delete'],
+    ({ viewer, entity: { event, status }, action }) =>
+      isOrganiser(event, viewer) ||
+      isAdmin(viewer) ||
+      (isUser(viewer) && status === 'Requested' && action === ':create'),
+  );
+  p.register(
+    'update',
+    ({ viewer, entity: { user_id, event } }) =>
+      isSelf({ id: user_id }, viewer) || isOrganiser(event, viewer),
+  );
+
+  p.include(['entity', 'user'], cp => {
+    cp.register('update', () => false);
+  });
+
+  p.include('status', cp => {
+    cp.register('update', ({ viewer, entity: { user_id, event, status } }) => {
+      const requested = ['Requested', 'Refused'].includes(status);
+
+      if (!requested) return isSelf({ id: user_id }, viewer);
+
+      if (requested) return isOrganiser(event, viewer);
+    });
+  });
+});
+
+policy.include('zoomAccount', p => {
+  p.register(['create', 'delete'], ({ viewer }) => isAdmin(viewer));
+
+  p.include('uses', cp =>
+    cp.register('read', ({ viewer }) => isMember(viewer)),
+  );
+});
+
+export default policy;

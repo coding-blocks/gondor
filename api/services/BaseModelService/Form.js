@@ -1,5 +1,5 @@
 import Models from 'Models';
-import Policy from 'Services/AuthorizationPolicy';
+import AuthPolicy from 'Services/AuthorizationPolicy';
 import BaseModelService, { saveInstance, RequiredInstanceError } from './';
 import { ForbiddenError, UserInputError } from 'apollo-server-micro';
 
@@ -81,9 +81,14 @@ class ModelForm extends BaseModelService {
 
   async preCreate() {
     const name = this.name;
-    const policy = new Policy(this.viewer);
+    const policy = AuthPolicy.can(this.viewer);
 
-    if (!(await policy.authorize(':create').on(this._instance, name))) {
+    if (
+      !(await policy
+        .perform(`${name}:create`)
+        .having(this.input)
+        .on(this.instance))
+    ) {
       throw new ForbiddenError(
         `User is not authorized to perform this action.`,
       );
@@ -122,9 +127,14 @@ class ModelForm extends BaseModelService {
 
   async preUpdate() {
     const name = this.name;
-    const policy = new Policy(this.viewer);
+    const policy = AuthPolicy.can(this.viewer);
 
-    if (!(await policy.authorize(':update').on(this._instance, name))) {
+    if (
+      !(await policy
+        .perform(`${name}:update`)
+        .having(this.input)
+        .on(this.instance))
+    ) {
       throw new ForbiddenError(
         `User is not authorized to perform this action.`,
       );
@@ -152,8 +162,9 @@ class ModelForm extends BaseModelService {
         if (
           attribute?.protected &&
           !(await policy
-            .authorize(`${attribute.name || inputField}:update`)
-            .on(this._instance, name))
+            .perform(`${name}:${attribute.name || inputField}:update`)
+            .having(this.input[inputField])
+            .on(this.instance))
         ) {
           authorizationErrors.push(inputField);
           return;
@@ -193,9 +204,9 @@ class ModelForm extends BaseModelService {
 
   async preDelete() {
     if (
-      !(await Policy.can(this.viewer)
-        .perform(':delete')
-        .on(this.instance, this.name))
+      !(await AuthPolicy.can(this.viewer)
+        .perform(`${name}:delete`)
+        .on(this.instance))
     )
       throw new ForbiddenError(
         `User is not authorized to perform this action.`,

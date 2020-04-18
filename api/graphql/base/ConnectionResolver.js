@@ -6,7 +6,7 @@ export default class BaseConnectionResolver extends BaseResolver {
 
   resolve = async () => {
     const {
-      limit = 0,
+      limit,
       before,
       after,
       orderBy,
@@ -23,7 +23,7 @@ export default class BaseConnectionResolver extends BaseResolver {
     query.where = query.where ? { [Op.and]: [query.where, where] } : where;
 
     const { results, cursors } = await this.entity.paginate({
-      limit: Math.max(limit, this.MAX_LIMIT),
+      limit: this.MAX_LIMIT ? Math.min(limit || 1, this.MAX_LIMIT) : limit,
       before,
       after,
       order: orderBy,
