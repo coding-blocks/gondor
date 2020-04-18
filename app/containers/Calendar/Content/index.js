@@ -7,8 +7,11 @@ import PageHeader from 'Components/PageHeader';
 import { useQuery } from '@apollo/react-hooks';
 import Calendar from 'Components/Calendar';
 import extractMap from 'Utils/extractMap';
+import Filters, { defaultTypeFilter } from './Filters';
 
 const Content = React.memo(({ viewer, user, colors }) => {
+  const colorsMap = extractMap(colors, { label: 'name', value: 'color' });
+  const [selectedType, setSelectedType] = useState(defaultTypeFilter);
   const [dateTimeRange, setDateTimeRange] = useState({
     start_at: moment()
       .startOf('month')
@@ -18,11 +21,10 @@ const Content = React.memo(({ viewer, user, colors }) => {
       .endOf('week'),
   });
 
-  const colorsMap = extractMap(colors, { label: 'name', value: 'color' });
-
   const variables = {
     attendees: user ? [user.id] : [],
     dateTimeRange,
+    types: selectedType.value ? [selectedType.value] : [],
   };
 
   const { loading, error, data, fetchMore, reload } = useQuery(QUERY, {
@@ -31,7 +33,16 @@ const Content = React.memo(({ viewer, user, colors }) => {
 
   return (
     <>
-      <PageHeader heading="Calendar" />
+      <PageHeader
+        heading="Calendar"
+        filters={() => (
+          <Filters
+            types={colors}
+            filters={{ type: selectedType }}
+            onTypeChange={setSelectedType}
+          />
+        )}
+      />
       <Calendar
         selectable
         events={data?.events.edges.map(({ node }) => node) || []}
