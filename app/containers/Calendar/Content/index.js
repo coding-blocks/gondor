@@ -8,6 +8,7 @@ import { useQuery } from '@apollo/react-hooks';
 import Calendar from 'Components/Calendar';
 import extractMap from 'Utils/extractMap';
 import Filters, { defaultTypeFilter } from './Filters';
+import { Button } from 'reactstrap';
 
 const Content = React.memo(({ viewer, user, colors }) => {
   const colorsMap = extractMap(colors, { label: 'name', value: 'color' });
@@ -42,6 +43,7 @@ const Content = React.memo(({ viewer, user, colors }) => {
             onTypeChange={setSelectedType}
           />
         )}
+        actions={() => <Button color="primary">Add Event</Button>}
       />
       <Calendar
         selectable

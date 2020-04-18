@@ -11,7 +11,7 @@ const Calendar = React.memo(props => (
     <CardBody>
       <BigCalendar
         localizer={localizer(moment)}
-        style={{ minHeight: '500px', height: 'calc(100vh - 360px)' }}
+        style={{ minHeight: '500px', height: 'calc(100vh - 375px)' }}
         views={['month', 'day']}
         components={{
           toolbar: Toolbar,

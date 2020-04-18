@@ -9,25 +9,28 @@ const PageHeader = ({
   heading,
   headingHidden,
   headingClassName,
-  actionItems,
+  actions,
   style,
 }) => (
   <>
     <div className="page-header" style={style}>
       <h1
         className={classNames(
+          'pb-0',
           { 'not-visible': headingHidden },
           headingClassName,
         )}>
         {heading}
       </h1>
-      {actionItems && <div className="action-items">{actionItems()}</div>}
+      {actions && <div className="action-items">{actions()}</div>}
     </div>
     {filters && (
       <div className="mb-2">
         <Collapse id="displayOptions" className="d-md-block">
           <div className="d-block d-md-inline-block">
-            <div className="float-md-left">{filters()}</div>
+            <div className="float-md-left d-flex header-filters-wrap">
+              {filters()}
+            </div>
           </div>
         </Collapse>
       </div>
