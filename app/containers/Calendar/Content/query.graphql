@@ -9,7 +9,7 @@ query CalendarPageContentQuery(
   $after: String
 ) {
   events(
-    dateTineRange: $dateTimeRange
+    dateTimeRange: $dateTimeRange
     attendees: $attendees
     types: $types
     after: $after

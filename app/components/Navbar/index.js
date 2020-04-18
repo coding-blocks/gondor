@@ -7,13 +7,14 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-
 import Auth from 'Services/Auth';
 import Avatar from 'Components/Avatar';
+import useViewer from 'Hooks/useViewer';
 
 import './style.scss';
 
-const Navbar = ({ viewer }) => {
+const Navbar = () => {
+  const viewer = useViewer();
   const [showUserMenu, setUserMenu] = useState(false);
 
   return (

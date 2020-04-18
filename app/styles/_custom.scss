@@ -9,3 +9,9 @@
 .app-row {
   padding-right: calc(25% + 60px);
 }
+
+@media (max-width: 1199px) {
+  .app-row {
+    padding-right: 0;
+  }
+}

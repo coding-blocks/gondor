@@ -7,7 +7,7 @@ import AppContent from 'Components/AppContent';
 import Content from './Content';
 import TeamMembers from './TeamMembers';
 
-const Calendar = ({ viewer }) => {
+const Calendar = ({ viewer, eventTypeColors }) => {
   const [user, setUser] = useState(viewer.user);
 
   return (
@@ -16,7 +16,7 @@ const Calendar = ({ viewer }) => {
         <title>Calendar | CodingBlocks</title>
       </Head>
       <AppContent>
-        <Content user={user} viewer={viewer} />
+        <Content user={user} viewer={viewer} colors={eventTypeColors} />
       </AppContent>
       <AppMenu>
         <TeamMembers viewer={viewer} setUser={setUser} selected={user} />

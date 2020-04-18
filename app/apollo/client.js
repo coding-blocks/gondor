@@ -39,21 +39,3 @@ export const initApolloClient = (ctx, initialState) => {
 
   return globalApolloClient;
 };
-/*
-  if (typeof window === 'undefined') {
-    const schema = require('Api/graphql/schema').default;
-    const { SchemaLink } = require('apollo-link-schema');
-    return new SchemaLink({
-      schema,
-      context: async () => {
-        ctx.req.cookies = require('cookie').parse(ctx.req.headers.cookie);
-        console.log('cookies', ctx.req.cookies);
-        await require('Api/middlewares/authenticate').default(ctx.req, ctx.res);
-
-        console.log(ctx.req.viewer);
-
-        return { viewer: ctx.req.viewer };
-      },
-    });
-  } else {
-  */

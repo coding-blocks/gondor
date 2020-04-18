@@ -6,7 +6,7 @@
     "start": "next start",
     "prestart": "yarn build",
     "dev": "next dev",
-    "predev": "yarn build",
+    "predev": "rm -rf .next && yarn build",
     "build": "next build",
     "prebuild": "yarn generate:schema",
     "generate:schema": "babel-node ./api/bin/generate.schema.js"

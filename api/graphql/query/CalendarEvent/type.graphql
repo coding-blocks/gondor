@@ -8,6 +8,11 @@ enum CalendarEventType {
   Other
 }
 
+type CalendarEventTypeColorMap {
+  name: String!
+  color: String!
+}
+
 type CalendarEvent implements Node {
   id: ID!
   title: String!
@@ -41,4 +46,6 @@ extend type Query {
     types: [CalendarEventType!]
     attendees: [ID!]
   ): CalendarEventConnection @protected @requireFeature(name: "calendar")
+
+  eventTypeColors: [CalendarEventTypeColorMap!]!
 }

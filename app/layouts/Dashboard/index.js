@@ -9,8 +9,8 @@ const Dashboard = ({ children, data }) => {
 
   return (
     <div className="dashboard-layout">
-      <Navbar viewer={data.viewer} />
-      <Sidebar viewer={data.viewer} />
+      <Navbar />
+      <Sidebar />
       <main>{children}</main>
     </div>
   );
