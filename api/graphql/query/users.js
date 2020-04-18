@@ -13,12 +13,12 @@ class UsersResolver extends BaseConnectionResolver {
 
     if (search?.length)
       where[Op.or] = [
-        { username: { [Op.like]: `${search}%` } },
-        { email: { [Op.like]: `${search}%` } },
-        { firstname: { [Op.like]: `${search.split(' ')[0]}%` } },
+        { username: { [Op.iLike]: `${search}%` } },
+        { email: { [Op.iLike]: `${search}%` } },
+        { firstname: { [Op.iLike]: `${search.split(' ')[0]}%` } },
         {
           lastname: {
-            [Op.like]: `${search.split(' ')[1] || search.split(' ')[0]}%`,
+            [Op.iLike]: `${search.split(' ')[1] || search.split(' ')[0]}%`,
           },
         },
       ];
