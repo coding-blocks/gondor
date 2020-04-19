@@ -6,8 +6,29 @@ import BaseModelService, {
 
 export default class CalendarEventInvite extends BaseModelService {
   @saveInstance
-  create(body) {
-    return Models.CalendarEventInvite.create(body);
+  async create(body) {
+    const [invite, created] = await Models.CalendarEventInvite.findOrCreate({
+      where: {
+        event_id: body.event_id,
+        user_id: body.user_id,
+      },
+      defaults: {
+        event_id: body.event_id,
+        user_id: body.user_id,
+        status: body.status || 'Pending',
+      },
+    });
+
+    if (
+      !created &&
+      ['Refused', 'Requested', 'Declined'].includes(invite.status)
+    ) {
+      invite.status = 'Accepted';
+
+      await invite.save();
+    }
+
+    return invite;
   }
 
   @saveInstance
