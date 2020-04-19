@@ -1,8 +1,9 @@
 import { useState, memo } from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import Select from 'Components/Select';
+import Form from 'Components/Form';
 import QUERY from './query.graphql';
 import UserSearchLabel from 'Components/UserSearchLabel';
+import { extractNodes } from 'Utils/graphql';
 
 const UserSelect = memo(
   ({
@@ -23,7 +24,7 @@ const UserSelect = memo(
     });
 
     return (
-      <Select
+      <Form.Select
         isSearchable
         name={name}
         isMulti={isMulti}
@@ -32,7 +33,7 @@ const UserSelect = memo(
         onInputChange={setSearch}
         getOptionLabel={user => <UserSearchLabel user={user} />}
         getOptionValue={user => user.id}
-        options={data?.users?.edges.map(({ node }) => node) || []}
+        options={extractNodes(data, 'users')}
         placeholder={placeholder}
       />
     );

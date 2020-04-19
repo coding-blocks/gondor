@@ -2,19 +2,7 @@ import moment from 'moment';
 import useViewer from 'Hooks/useViewer';
 import { useState, useEffect, useMemo } from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import DatePicker from 'react-datepicker';
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-} from 'reactstrap';
-import 'react-datepicker/dist/react-datepicker.css';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import {
   getEventTypeOption,
   getEventTypeLabel,
@@ -22,6 +10,8 @@ import {
 import Select from 'Components/Select';
 import UserSelect from 'Components/UserSelect';
 import CREATE_EVENT from './createEvent.graphql';
+import Form from 'Components/Form';
+import { formatErrors } from 'Utils/graphql';
 
 const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
   const [title, setTitle] = useState('');
@@ -53,7 +43,7 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
 
   const viewer = useViewer();
 
-  const [addEvent] = useMutation(CREATE_EVENT, {
+  const [addEvent, { error: rawError }] = useMutation(CREATE_EVENT, {
     variables: {
       input: {
         start_at: startAt,
@@ -70,6 +60,8 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
       return onClose();
     },
   });
+
+  const errors = formatErrors(rawError);
 
   const handleStartAtChange = value => {
     if (new Date(value) >= new Date(endAt)) {
@@ -99,28 +91,28 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
     <Modal isOpen={true} size="md">
       <ModalHeader>Add Event</ModalHeader>
       <ModalBody>
-        <Form className="row">
-          <FormGroup className="has-float-label mb-4 col-12">
-            <Label>Title</Label>
-            <Input
+        <Form errors={errors} className="row">
+          <Form.Group className="has-float-label mb-4 col-12">
+            <Form.Label>Title</Form.Label>
+            <Form.Input
               type="text"
               name="title"
               value={title}
               onChange={e => setTitle(e.target.value)}
             />
-          </FormGroup>
-          <FormGroup className="has-float-label mb-4 col-12">
-            <Label>Description</Label>
-            <Input
+          </Form.Group>
+          <Form.Group className="has-float-label mb-4 col-12">
+            <Form.Label>Description</Form.Label>
+            <Form.Input
               type="text"
               name="description"
               value={description}
               onChange={e => setDescription(e.target.value)}
             />
-          </FormGroup>
-          <FormGroup className="has-float-label mb-4 col-12">
-            <Label>Type</Label>
-            <Select
+          </Form.Group>
+          <Form.Group className="has-float-label mb-4 col-12">
+            <Form.Label>Type</Form.Label>
+            <Form.Select
               name="type"
               placeholder="Select Event Type"
               value={getEventTypeLabel(type)}
@@ -129,28 +121,28 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
               }
               options={useMemo(() => types.map(getEventTypeOption), [types])}
             />
-          </FormGroup>
-          <FormGroup className="has-float-label mb-4 col-6">
-            <Label>Start At</Label>
-            <DatePicker
+          </Form.Group>
+          <Form.Group className="has-float-label mb-4 col-6">
+            <Form.Label>Start At</Form.Label>
+            <Form.DatePicker
               selected={new Date(startAt)}
               onChange={handleStartAtChange}
               showTimeSelect
               dateFormat="Pp"
             />
-          </FormGroup>
-          <FormGroup className="has-float-label mb-4 col-6">
-            <Label>End At</Label>
-            <DatePicker
+          </Form.Group>
+          <Form.Group className="has-float-label mb-4 col-6">
+            <Form.Label>End At</Form.Label>
+            <Form.DatePicker
               selected={new Date(endAt)}
               onChange={handleEndAtChange}
               minDate={new Date(startAt)}
               showTimeSelect
               dateFormat="Pp"
             />
-          </FormGroup>
-          <FormGroup className="has-float-label mb-4 col-12">
-            <Label>Invites</Label>
+          </Form.Group>
+          <Form.Group className="has-float-label mb-4 col-12">
+            <Form.Label>Invites</Form.Label>
             <UserSelect
               isMulti
               name="invites"
@@ -158,16 +150,16 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
               variables={{ exclude: [viewer.user.id] }}
               onChange={setInvites}
             />
-          </FormGroup>
-          <FormGroup className="has-float-label mb-4 col-12">
-            <Label>Location</Label>
-            <Input
+          </Form.Group>
+          <Form.Group className="has-float-label mb-4 col-12">
+            <Form.Label>Location</Form.Label>
+            <Form.Input
               type="text"
               name="location"
               value={location}
               onChange={e => setLocation(e.target.value)}
             />
-          </FormGroup>
+          </Form.Group>
         </Form>
       </ModalBody>
       <ModalFooter>

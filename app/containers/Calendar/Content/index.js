@@ -10,6 +10,7 @@ import extractMap from 'Utils/extractMap';
 import Filters from './Filters';
 import { Button } from 'reactstrap';
 import ModalsManager from 'Modals/Manager';
+import { extractNodes } from 'Utils/graphql';
 import { getDefaultDateTimeRange, defaultTypeFilter } from '../utils';
 
 const Content = React.memo(({ viewer, user, colors }) => {
@@ -57,7 +58,7 @@ const Content = React.memo(({ viewer, user, colors }) => {
       />
       <Calendar
         selectable
-        events={data?.events.edges.map(({ node }) => node) || []}
+        events={extractNodes(data, 'events')}
         tooltipAccessor={({ title, type }) => `[${type}] ${title}`}
         startAccessor={({ start_at }) => new Date(start_at)}
         endAccessor={({ end_at }) => new Date(end_at)}

@@ -18,6 +18,11 @@ typeof window === 'undefined' ? (global.gql = gql) : (window.gql = gql);
 const PageLayout = ({ children }) => children;
 
 class App extends NextApp {
+  componentDidCatch(error, errorInfo) {
+    console.log(error, errorInfo);
+    // TODO(naman): Add ErrorHandler here
+  }
+
   render() {
     const {
       Component: Page,
