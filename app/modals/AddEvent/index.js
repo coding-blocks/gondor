@@ -136,7 +136,6 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
             <Form.DatePicker
               selected={new Date(endAt)}
               onChange={handleEndAtChange}
-              minDate={new Date(startAt)}
               showTimeSelect
               dateFormat="Pp"
             />

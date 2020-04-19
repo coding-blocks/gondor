@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import classNames from 'classnames';
 import ReactSelect, { components } from 'react-select';
 import './style.scss';
@@ -10,7 +9,7 @@ const SelectInput = props => {
   return <components.Input {...customProps} />;
 };
 
-const Select = memo(({ className, invalid, ...props }) => (
+const Select = ({ className, invalid, ...props }) => (
   <ReactSelect
     {...props}
     className={classNames(
@@ -23,6 +22,6 @@ const Select = memo(({ className, invalid, ...props }) => (
     classNamePrefix="react-select"
     components={{ Input: SelectInput }}
   />
-));
+);
 
 export default Select;
