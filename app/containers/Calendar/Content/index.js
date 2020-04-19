@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext, useMemo } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import QUERY from './query.graphql';
@@ -7,30 +7,34 @@ import PageHeader from 'Components/PageHeader';
 import { useQuery } from '@apollo/react-hooks';
 import Calendar from 'Components/Calendar';
 import extractMap from 'Utils/extractMap';
-import Filters, { defaultTypeFilter } from './Filters';
+import Filters from './Filters';
 import { Button } from 'reactstrap';
+import ModalsManager from 'Modals/Manager';
+import { getDefaultDateTimeRange, defaultTypeFilter } from '../utils';
 
 const Content = React.memo(({ viewer, user, colors }) => {
-  const colorsMap = extractMap(colors, { label: 'name', value: 'color' });
   const [selectedType, setSelectedType] = useState(defaultTypeFilter);
-  const [dateTimeRange, setDateTimeRange] = useState({
-    start_at: moment()
-      .startOf('month')
-      .startOf('week'),
-    end_at: moment()
-      .endOf('month')
-      .endOf('week'),
-  });
+  const [dateTimeRange, setDateTimeRange] = useState(getDefaultDateTimeRange());
+  const colorsMap = useMemo(
+    () => extractMap(colors, { label: 'name', value: 'color' }),
+    [colors],
+  );
 
   const variables = {
-    attendees: user ? [user.id] : [],
     dateTimeRange,
+    attendees: user ? [user.id] : [],
     types: selectedType.value ? [selectedType.value] : [],
   };
 
-  const { loading, error, data, fetchMore, reload } = useQuery(QUERY, {
+  const { data, refetch } = useQuery(QUERY, {
     variables,
   });
+
+  const Modals = useContext(ModalsManager.Context);
+  const addEventProps = {
+    onSuccess: () => refetch(),
+    types: colors,
+  };
 
   return (
     <>
@@ -43,7 +47,13 @@ const Content = React.memo(({ viewer, user, colors }) => {
             onTypeChange={setSelectedType}
           />
         )}
-        actions={() => <Button color="primary">Add Event</Button>}
+        actions={() => (
+          <Button
+            color="primary"
+            onClick={() => Modals.AddEvent.open(addEventProps)}>
+            Add Event
+          </Button>
+        )}
       />
       <Calendar
         selectable
@@ -62,6 +72,21 @@ const Content = React.memo(({ viewer, user, colors }) => {
 
           return setDateTimeRange({ start_at: dates.start, end_at: dates.end });
         }}
+        onSelectSlot={({ start, end }) =>
+          Modals.AddEvent.open({
+            ...addEventProps,
+            dateTimeRange: {
+              start_at: start,
+              //NOTE(naman): start and end times are same on date selection
+              end_at:
+                start === end
+                  ? moment(start)
+                      .add(1, 'hour')
+                      .format()
+                  : end,
+            },
+          })
+        }
       />
     </>
   );

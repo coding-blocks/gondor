@@ -1,3 +1,5 @@
+@import './variables';
+
 .pointer {
   cursor: pointer;
 }
@@ -13,5 +15,41 @@
 @media (max-width: 1199px) {
   .app-row {
     padding-right: 0;
+  }
+}
+
+.react-datepicker {
+  display: inline-flex !important;
+  .react-datepicker__time-container {
+    width: 85px !important;
+  }
+}
+
+.react-select.form-control {
+  padding: 0;
+  border: none !important;
+  height: 100%;
+
+  &.is-invalid {
+    .react-select__control {
+      border-color: var(--danger) !important;
+    }
+  }
+}
+
+.react-select--is-disabled {
+  .react-select__value-container {
+    background-color: $disable-field-background !important;
+    .react-select__multi-value.react-select__multi-value--is-disabled {
+      background-color: $input-background !important;
+    }
+  }
+}
+
+.row {
+  > .has-float-label.form-group {
+    label {
+      margin-left: 10px;
+    }
   }
 }

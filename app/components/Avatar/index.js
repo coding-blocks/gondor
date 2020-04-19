@@ -11,11 +11,16 @@ const Avatar = ({
   lastname,
   text,
   shadow,
+  small,
 }) =>
   user.photo ? (
     <img
       id={id}
-      className={classNames('img-round user-avatar', { shadow }, className)}
+      className={classNames(
+        'img-round user-avatar',
+        { shadow, small },
+        className,
+      )}
       src={user.photo}
       alt={`${user.firstname} ${user.lastname}`}
     />

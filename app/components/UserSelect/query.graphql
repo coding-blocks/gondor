@@ -1,14 +1,16 @@
-#import "../../../fragments/user.graphql"
+#import "../../fragments/user.graphql"
 
-query CalendarTeamMembersQuery(
+query UsersSelectQuery(
+  $limit: Int!
   $search: String
+  $roles: [UserRoleName!]
   $after: String
   $exclude: [ID!]
 ) {
   users(
-    roles: [Admin, Member]
+    roles: $roles
     search: $search
-    limit: 20
+    limit: $limit
     after: $after
     exclude: $exclude
   ) {

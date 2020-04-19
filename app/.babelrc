@@ -16,6 +16,7 @@
           "Fragments": "./app/fragments",
           "Hooks": "./app/hooks",
           "Layouts": "./app/layouts",
+          "Modals": "./app/modals",
           "Pages": "./app/pages",
           "Services": "./app/services",
           "Store": "./app/store",

@@ -4,6 +4,7 @@ import NextApp from 'next/app';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { initApolloClient } from 'Apollo/client';
 import gql from 'graphql-tag';
+import ModalsManager from 'Modals/Manager';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
@@ -29,7 +30,9 @@ class App extends NextApp {
         <Head>
           <link rel="icon" href="/favicon.png" />
         </Head>
-        <Page {...pageProps}></Page>
+        <ModalsManager>
+          <Page {...pageProps}></Page>
+        </ModalsManager>
       </ApolloProvider>
     );
   }
