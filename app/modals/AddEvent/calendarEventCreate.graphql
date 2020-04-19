@@ -1,8 +1,8 @@
 #import "../../fragments/event.graphql"
 #import "../../fragments/resource.graphql"
 
-mutation CreateEvent($input: CalendarEventCreateInput!) {
-  calendarEventCreate(input: $input) {
+mutation CalendarEventCreate($input: CalendarEventCreateInput!) {
+  event: calendarEventCreate(input: $input) {
     ...EventFragment
     resources {
       ...ResourceFragment

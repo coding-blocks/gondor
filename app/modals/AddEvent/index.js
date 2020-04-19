@@ -9,7 +9,8 @@ import {
 } from 'Containers/Calendar/utils';
 import Select from 'Components/Select';
 import UserSelect from 'Components/UserSelect';
-import CREATE_EVENT from './createEvent.graphql';
+import CREATE_EVENT from './calendarEventCreate.graphql';
+import CREATE_INVITE from './calendarEventInvite.graphql';
 import Form from 'Components/Form';
 import { formatErrors } from 'Utils/graphql';
 
@@ -43,6 +44,14 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
 
   const viewer = useViewer();
 
+  const [inviteUsers] = useMutation(CREATE_INVITE, {
+    onCompleted: async () => {
+      await onSuccess();
+
+      return onClose();
+    },
+  });
+
   const [addEvent, { error: rawError }] = useMutation(CREATE_EVENT, {
     variables: {
       input: {
@@ -54,11 +63,12 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
         type: type.value,
       },
     },
-    onCompleted: async () => {
-      await onSuccess();
-
-      return onClose();
-    },
+    onCompleted: ({ event }) =>
+      inviteUsers({
+        variables: {
+          input: { event_id: event.id, user_ids: invites.map(({ id }) => id) },
+        },
+      }),
   });
 
   const errors = formatErrors(rawError);

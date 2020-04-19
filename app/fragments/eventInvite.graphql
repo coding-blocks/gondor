@@ -1,0 +1,4 @@
+fragment EventInviteFragment on CalendarEventInvite {
+  id
+  status
+}

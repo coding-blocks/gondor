@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
           'OnlineClass',
           'CourseRecording',
           'OffSiteWorkshop',
-          'Metting',
+          'Meeting',
           'OOO',
           'Other',
         ),
