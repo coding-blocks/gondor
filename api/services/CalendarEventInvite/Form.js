@@ -50,7 +50,7 @@ class CalendarEventInviteForm extends BaseModelForm {
 
     const data = this.instance;
 
-    if (this.input?.event_id !== undefined)
+    if (!data?.event && this.input?.event_id !== undefined)
       data.event = await Models.CalendarEvent.findByPk(this.input.event_id);
 
     return data;

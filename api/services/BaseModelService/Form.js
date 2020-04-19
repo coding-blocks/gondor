@@ -84,11 +84,12 @@ class ModelForm extends BaseModelService {
     const policy = AuthPolicy.can(this.viewer);
 
     if (
-      !(await policy
+      !policy
         .perform(`${name}:create`)
         .having(this.input)
-        .on(this.instance))
+        .on(this.instance)
     ) {
+      console.log(`${name}:create`);
       throw new ForbiddenError(
         `User is not authorized to perform this action.`,
       );

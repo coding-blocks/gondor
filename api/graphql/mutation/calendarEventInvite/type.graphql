@@ -1,8 +1,8 @@
 input CalendarEventInviteInput {
   event_id: ID!
-  user_id: ID!
+  user_ids: [ID!]!
 }
 
 extend type Mutation {
-  calendarEventInvite(input: CalendarEventInviteInput!): CalendarEventInvite!
+  calendarEventInvite(input: CalendarEventInviteInput!): [CalendarEventInvite!]
 }

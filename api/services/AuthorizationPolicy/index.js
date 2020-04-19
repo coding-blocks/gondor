@@ -88,7 +88,7 @@ policy.include('calendarEvent', p => {
   });
 });
 
-policy.include('calendarEventIvite', p => {
+policy.include('calendarEventInvite', p => {
   p.register(
     ['create', 'delete'],
     ({ viewer, entity: { event, status }, action }) =>
