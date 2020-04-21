@@ -1,0 +1,1 @@
+export default {Query:{viewer:require('/Users/tathagatthapliyal/cb/gondor/api/graphql/query/viewer.js').default,},User:{roles:require('/Users/tathagatthapliyal/cb/gondor/api/graphql/query/User/roles.js').default,},}
