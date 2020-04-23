@@ -32,7 +32,7 @@ const UserSelect = ({
       onChange={onChange}
       onInputChange={setSearch}
       getOptionLabel={user => <UserSearchLabel user={user} />}
-      getOptionValue={user => user.first}
+      getOptionValue={user => user.id}
       filterOption={() => true}
       options={extractNodes(data, 'users')}
       placeholder={placeholder}
