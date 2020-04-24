@@ -7,7 +7,7 @@ query UsersSelectQuery(
   $after: String
   $exclude: [ID!]
   $includeAvailability: Boolean!
-  $availableDuring: DateTimeRangeInput!
+  $availabilityDuring: DateTimeRangeInput!
 ) {
   users(
     roles: $roles
@@ -19,7 +19,8 @@ query UsersSelectQuery(
     edges {
       node {
         ...UserFragment
-        availability(dateTimeRange: $availableDuring) @include(if: $includeAvailability)
+        availability(dateTimeRange: $availabilityDuring)
+          @include(if: $includeAvailability)
       }
     }
     pageInfo {

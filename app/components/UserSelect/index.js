@@ -10,15 +10,17 @@ const UserSelect = ({
   placeholder = 'Select users.',
   isMulti = false,
   variables = {},
+  availabilityStatusDuring,
   onChange,
 }) => {
   const [search, setSearch] = useState('');
 
   const { loading, data } = useQuery(QUERY, {
     variables: {
-      includeAvailability: !!variables.availableDuring,
+      includeAvailability: !!availabilityStatusDuring,
       limit: 10,
       ...variables,
+      availabilityDuring: availabilityStatusDuring,
       search,
     },
   });
@@ -32,13 +34,13 @@ const UserSelect = ({
       isLoading={loading}
       onChange={onChange}
       onInputChange={setSearch}
-      getOptionLabel={(user) => (
+      getOptionLabel={user => (
         <UserSearchLabel
-          showAvailability={!!variables.availableDuring}
+          showAvailability={!!availabilityStatusDuring}
           user={user}
         />
       )}
-      getOptionValue={(user) => user.id}
+      getOptionValue={user => user.id}
       filterOption={() => true}
       options={extractNodes(data, 'users')}
       placeholder={placeholder}
