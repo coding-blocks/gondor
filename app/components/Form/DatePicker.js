@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import BaseDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const DatePicker = props => {
+const DatePicker = (props) => {
   const { errors } = useContext(Form.Context);
 
   return (

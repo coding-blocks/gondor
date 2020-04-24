@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {},
   );
-  ClientToken.associate = function(models) {
+  ClientToken.associate = function (models) {
     ClientToken.belongsTo(models.User, {
       as: 'user',
       foreignKey: {

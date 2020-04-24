@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true,
     },
   );
-  User.associate = function(models) {
+  User.associate = function (models) {
     User.hasMany(models.ClientToken, {
       as: 'clientTokens',
       onUpdate: 'CASCADE',

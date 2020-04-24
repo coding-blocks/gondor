@@ -11,7 +11,7 @@ class CalendarEventInviteForm extends BaseModelForm {
   attributes = {
     status: {
       protected: true,
-      validate: status => {
+      validate: (status) => {
         if (
           ['Requested', 'Refused'].includes(this.instance.status) &&
           status === 'Declined'

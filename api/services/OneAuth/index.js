@@ -45,7 +45,7 @@ export default class Auth {
     this._accessToken = value;
   }
 
-  login = res => {
+  login = (res) => {
     const query = {
       response_type: 'code',
       client_id: this.clientId,
@@ -59,7 +59,7 @@ export default class Auth {
       .end();
   };
 
-  getAccessToken = async code => {
+  getAccessToken = async (code) => {
     const { data } = await this.request.post('/oauth/token', {
       code,
       client_id: this.clientId,

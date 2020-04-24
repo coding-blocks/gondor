@@ -16,8 +16,17 @@ loadDirectives(state, root);
 loadQueries(state, root);
 loadMutations(state, root);
 
-fs.writeFileSync(path.resolve(__dirname, '../graphql/_generated/resolvers.js'), transformMap(state.resolvers));
+fs.writeFileSync(
+  path.resolve(__dirname, '../graphql/_generated/resolvers.js'),
+  transformMap(state.resolvers),
+);
 
-fs.writeFileSync(path.resolve(__dirname, '../graphql/_generated/types.graphql'), transformTypeDefs(state.typeDefs));
+fs.writeFileSync(
+  path.resolve(__dirname, '../graphql/_generated/types.graphql'),
+  transformTypeDefs(state.typeDefs),
+);
 
-fs.writeFileSync(path.resolve(__dirname, '../graphql/_generated/directives.js'), transformMap(state.directives));
+fs.writeFileSync(
+  path.resolve(__dirname, '../graphql/_generated/directives.js'),
+  transformMap(state.directives),
+);

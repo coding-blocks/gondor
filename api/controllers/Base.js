@@ -18,14 +18,14 @@ class BaseController {
       'DELETE',
       'HEAD',
       'OPTIONS',
-    ].filter(availableMethod => typeof this[availableMethod] === 'function');
+    ].filter((availableMethod) => typeof this[availableMethod] === 'function');
 
     res.setHeader('Allow', supportedMethods);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   };
 }
 
-BaseController.handler = function() {
+BaseController.handler = function () {
   return (req, res) => {
     const controller = new this();
 

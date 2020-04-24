@@ -9,8 +9,8 @@ class BaseResolver {
   resolve = () => null;
 }
 
-BaseResolver.resolver = function() {
-  return function() {
+BaseResolver.resolver = function () {
+  return function () {
     return new this(...arguments).resolve();
   }.bind(this);
 };

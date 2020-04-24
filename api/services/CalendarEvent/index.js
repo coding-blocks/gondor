@@ -8,7 +8,7 @@ import BaseModelService, {
 export default class CalendarEvent extends BaseModelService {
   @saveInstance
   create(body) {
-    return Models.CalendarEvent.create(body).then(event =>
+    return Models.CalendarEvent.create(body).then((event) =>
       event
         .addAttendee(body.organiser_id, { through: { status: 'Accepted' } })
         .then(() => event),

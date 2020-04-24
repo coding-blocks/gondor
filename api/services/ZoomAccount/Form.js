@@ -11,7 +11,7 @@ class ZoomAccountForm extends BaseModelForm {
 
   attributes = {
     email: {
-      validate: value => isEmail(value) || { error: 'Not a valid email.' },
+      validate: (value) => isEmail(value) || { error: 'Not a valid email.' },
     },
   };
 

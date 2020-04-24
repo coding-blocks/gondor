@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import BaseSelect from 'Components/Select';
 import Form from './';
 
-const Select = props => {
+const Select = (props) => {
   const { errors } = useContext(Form.Context);
 
   return (

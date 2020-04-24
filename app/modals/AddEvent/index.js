@@ -28,18 +28,10 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
   /* NOTE(naman): an extra hour is added because
    * endOf returns HH:59, hence starOf is used*/
   const [startAt, setStartAt] = useState(
-    dateTimeRange ?.start_at ||
-      moment()
-        .add(1, 'hour')
-        .startOf('hour')
-        .format(),
+    dateTimeRange?.start_at || moment().add(1, 'hour').startOf('hour').format(),
   );
   const [endAt, setEndAt] = useState(
-    dateTimeRange ?.end_at ||
-      moment()
-        .add(2, 'hour')
-        .startOf('hour')
-        .format(),
+    dateTimeRange?.end_at || moment().add(2, 'hour').startOf('hour').format(),
   );
 
   const viewer = useViewer();
@@ -73,25 +65,17 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
 
   const errors = formatErrors(rawError);
 
-  const handleStartAtChange = value => {
+  const handleStartAtChange = (value) => {
     if (new Date(value) >= new Date(endAt)) {
-      setEndAt(
-        moment(value)
-          .add(1, 'hours')
-          .format(),
-      );
+      setEndAt(moment(value).add(1, 'hours').format());
     }
 
     return setStartAt(value);
   };
 
-  const handleEndAtChange = value => {
+  const handleEndAtChange = (value) => {
     if (new Date(value) <= new Date(endAt)) {
-      setStartAt(
-        moment(value)
-          .subtract(1, 'hours')
-          .format(),
-      );
+      setStartAt(moment(value).subtract(1, 'hours').format());
     }
 
     return setEndAt(value);
@@ -108,7 +92,7 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
               type="text"
               name="title"
               value={title}
-              onChange={e => setTitle(e.target.value)}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </Form.Group>
           <Form.Group className="has-float-label mb-4 col-12">
@@ -117,7 +101,7 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
               type="text"
               name="description"
               value={description}
-              onChange={e => setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </Form.Group>
           <Form.Group className="has-float-label mb-4 col-12">
@@ -157,10 +141,11 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
               name="invites"
               placeholder="Invite invites"
               variables={{
-                exclude: [viewer.user.id], availableDuring: {
+                exclude: [viewer.user.id],
+                availableDuring: {
                   start_at: startAt,
-                  end_at: endAt
-                }
+                  end_at: endAt,
+                },
               }}
               onChange={setInvites}
             />
@@ -171,7 +156,7 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
               type="text"
               name="location"
               value={location}
-              onChange={e => setLocation(e.target.value)}
+              onChange={(e) => setLocation(e.target.value)}
             />
           </Form.Group>
         </Form>

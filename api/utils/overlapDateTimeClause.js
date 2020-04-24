@@ -2,7 +2,7 @@ import Models from 'Models';
 
 const Op = Models.Sequelize.Op;
 
-const overlapDateTimeClause = range => ({
+const overlapDateTimeClause = (range) => ({
   [Op.or]: [
     {
       start_at: {

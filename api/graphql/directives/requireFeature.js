@@ -7,7 +7,7 @@ export default class RequireFeature extends SchemaDirectiveVisitor {
     const { resolve = defaultFieldResolver } = field;
     const _this = this;
 
-    field.resolve = async function(parent, _args, ctx, _info) {
+    field.resolve = async function (parent, _args, ctx, _info) {
       if (
         await AuthPolicy.can(ctx.viewer)
           .perform(`features:${_this.args.name}`)

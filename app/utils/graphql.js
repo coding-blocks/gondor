@@ -1,4 +1,4 @@
-export const formatErrors = errors => {
+export const formatErrors = (errors) => {
   const error = errors?.graphQLErrors && errors.graphQLErrors[0];
 
   if (!error) return null;

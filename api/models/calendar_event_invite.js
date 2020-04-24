@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  CalendarEventInvite.associate = function(models) {
+  CalendarEventInvite.associate = function (models) {
     CalendarEventInvite.belongsTo(models.User, {
       as: 'user',
       foreignKey: { name: 'user_id', allowNull: false },

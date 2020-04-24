@@ -9,7 +9,7 @@ class ZoomAccounts extends BaseResolver {
     if (this.args.availableDuring) {
       excludeIds = (
         await ZoomAccount.findAllInUse(this.args.availableDuring)
-      ).map(account => account.id);
+      ).map((account) => account.id);
     }
 
     return Models.ZoomAccount.findAll({

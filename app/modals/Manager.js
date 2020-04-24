@@ -27,7 +27,8 @@ const ModalsManager = React.memo(({ children }) => {
 
   const actions = Object.keys(modals).reduce((acm, name) => {
     acm[name] = {
-      open: props => dispatch({ type: 'openModal', payload: { name, props } }),
+      open: (props) =>
+        dispatch({ type: 'openModal', payload: { name, props } }),
       close: () => dispatch({ type: 'closeModal', payload: { name } }),
     };
 

@@ -11,7 +11,7 @@ class CalendarEventForm extends BaseModelForm {
   attributes = {
     title: {
       protected: true,
-      validate: title => !!title || { error: 'Required' },
+      validate: (title) => !!title || { error: 'Required' },
     },
     type: {
       protected: true,
