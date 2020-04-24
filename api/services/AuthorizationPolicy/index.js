@@ -50,6 +50,13 @@ policy.include('user', p => {
       ({ viewer, entity: user }) => isSelf(user, viewer) || isMember(viewer),
     );
   });
+
+  p.include('availability', cp => {
+    cp.register(
+      'read',
+      ({ viewer, entity: user }) => isSelf(user, viewer) || isMember(viewer),
+    )
+  })
 });
 
 policy.include('calendarEvent', p => {
