@@ -1,18 +1,12 @@
 import moment from 'moment';
 import useViewer from 'Hooks/useViewer';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import {
-  getEventTypeOption,
-  getEventTypeLabel,
-} from 'Containers/Calendar/utils';
-import Select from 'Components/Select';
-import UserSelect from 'Components/UserSelect';
+import Form from 'Components/Events/Form';
 import CREATE_EVENT from './calendarEventCreate.graphql';
 import CREATE_INVITE from './calendarEventInvite.graphql';
-import Form from 'Components/Form';
-import { formatErrors } from 'Utils/graphql';
+import { combineErrors, formatErrors } from 'Utils/graphql';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 
 const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
   const [title, setTitle] = useState('');
@@ -36,15 +30,18 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
 
   const viewer = useViewer();
 
-  const [inviteUsers] = useMutation(CREATE_INVITE, {
-    onCompleted: async () => {
-      await onSuccess();
+  const [inviteUsers, { error: createInviteErrors }] = useMutation(
+    CREATE_INVITE,
+    {
+      onCompleted: async () => {
+        await onSuccess();
 
-      return onClose();
+        return onClose();
+      },
     },
-  });
+  );
 
-  const [addEvent, { error: rawError }] = useMutation(CREATE_EVENT, {
+  const [addEvent, { error: createEventErrors }] = useMutation(CREATE_EVENT, {
     variables: {
       input: {
         start_at: startAt,
@@ -63,9 +60,7 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
       }),
   });
 
-  const errors = formatErrors(rawError);
-
-  const handleStartAtChange = (value) => {
+  const handleStartAtChange = value => {
     if (new Date(value) >= new Date(endAt)) {
       setEndAt(moment(value).add(1, 'hours').format());
     }
@@ -73,7 +68,7 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
     return setStartAt(value);
   };
 
-  const handleEndAtChange = (value) => {
+  const handleEndAtChange = value => {
     if (new Date(value) <= new Date(endAt)) {
       setStartAt(moment(value).subtract(1, 'hours').format());
     }
@@ -81,85 +76,39 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
     return setEndAt(value);
   };
 
+  const errors = useMemo(
+    () =>
+      combineErrors(
+        ...[createEventErrors, createInviteErrors].map(err =>
+          formatErrors(err),
+        ),
+      ),
+    [createEventErrors, createInviteErrors],
+  );
+
+  const formProps = {
+    errors,
+    title,
+    setTitle,
+    description,
+    setDescription,
+    type,
+    types,
+    setType,
+    startAt,
+    setStartAt: handleStartAtChange,
+    endAt,
+    setEndAt: handleEndAtChange,
+    setInvites,
+    location,
+    setLocation,
+  };
+
   return (
     <Modal isOpen={true} size="md">
       <ModalHeader>Add Event</ModalHeader>
       <ModalBody>
-        <Form errors={errors} className="row">
-          <Form.Group className="has-float-label mb-4 col-12">
-            <Form.Label>Title</Form.Label>
-            <Form.Input
-              type="text"
-              name="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group className="has-float-label mb-4 col-12">
-            <Form.Label>Description</Form.Label>
-            <Form.Input
-              type="text"
-              name="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </Form.Group>
-          <Form.Group className="has-float-label mb-4 col-12">
-            <Form.Label>Type</Form.Label>
-            <Form.Select
-              name="type"
-              placeholder="Select Event Type"
-              value={getEventTypeLabel(type)}
-              onChange={({ value, color }) =>
-                setType({ label: value, value, color })
-              }
-              options={useMemo(() => types.map(getEventTypeOption), [types])}
-            />
-          </Form.Group>
-          <Form.Group className="has-float-label mb-4 col-6">
-            <Form.Label>Start At</Form.Label>
-            <Form.DatePicker
-              selected={new Date(startAt)}
-              onChange={handleStartAtChange}
-              showTimeSelect
-              dateFormat="Pp"
-            />
-          </Form.Group>
-          <Form.Group className="has-float-label mb-4 col-6">
-            <Form.Label>End At</Form.Label>
-            <Form.DatePicker
-              selected={new Date(endAt)}
-              onChange={handleEndAtChange}
-              showTimeSelect
-              dateFormat="Pp"
-            />
-          </Form.Group>
-          <Form.Group className="has-float-label mb-4 col-12">
-            <Form.Label>Invites</Form.Label>
-            <UserSelect
-              isMulti
-              name="invites"
-              placeholder="Invite invites"
-              variables={{
-                exclude: [viewer.user.id],
-                availableDuring: {
-                  start_at: startAt,
-                  end_at: endAt,
-                },
-              }}
-              onChange={setInvites}
-            />
-          </Form.Group>
-          <Form.Group className="has-float-label mb-4 col-12">
-            <Form.Label>Location</Form.Label>
-            <Form.Input
-              type="text"
-              name="location"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            />
-          </Form.Group>
-        </Form>
+        <Form {...formProps} />
       </ModalBody>
       <ModalFooter>
         <Button className="mr-2" color="gray" onClick={onClose}>
