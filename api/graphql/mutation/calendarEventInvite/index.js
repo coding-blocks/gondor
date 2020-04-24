@@ -16,7 +16,7 @@ class CalendarEventInvite extends BaseMutationResolver {
     if (!event) throw new UserInputError('No  event exists');
 
     return gqlSafeActions(
-      user_ids.map(user_id =>
+      user_ids.map((user_id) =>
         new InviteForm({
           viewer,
           input: { event_id, user_id, event },

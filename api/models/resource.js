@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  Resource.associate = function(models) {
+  Resource.associate = function (models) {
     Resource.belongsTo(models.ZoomAccount, {
       as: 'zoomAccount',
       foreignKey: 'subject_id',
@@ -49,21 +49,21 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Resource.prototype.getSubject = function() {
+  Resource.prototype.getSubject = function () {
     return this[`get${this.subject_type}`]();
   };
 
-  Resource.prototype.getTopic = function() {
+  Resource.prototype.getTopic = function () {
     return this[`get${this.topic_type}`]();
   };
 
-  Resource.addHook('afterFind', findResult => {
+  Resource.addHook('afterFind', (findResult) => {
     if (!Array.isArray(findResult)) findResult = [findResult];
     for (const instance of findResult) {
       const subjects = Resource.rawAttributes.subject_type.values;
       const topics = Resource.rawAttributes.topic_type.values;
 
-      subjects.forEach(s => {
+      subjects.forEach((s) => {
         const attribute = camelcase(s);
         if (instance.subject_type === s && instance[attribute] !== undefined) {
           instance.subject = instance[attribute];
@@ -73,7 +73,7 @@ module.exports = (sequelize, DataTypes) => {
         delete instance.dataValues[attribute];
       });
 
-      topics.forEach(t => {
+      topics.forEach((t) => {
         const attribute = camelcase(t);
         if (instance.topic_type === t && instance[attribute] !== undefined) {
           instance.topic = instance[attribute];

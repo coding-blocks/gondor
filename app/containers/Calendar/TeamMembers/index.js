@@ -31,7 +31,7 @@ const TeamMembers = ({ viewer, setUser, selected }) => {
               type="text"
               name="search"
               placeholder="Search by username, email, name"
-              onKeyPress={e => e.key === 'Enter' && setSearch(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && setSearch(e.target.value)}
             />
           </div>
           {loading && <Loader relative />}

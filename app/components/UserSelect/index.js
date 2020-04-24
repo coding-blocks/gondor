@@ -32,8 +32,13 @@ const UserSelect = ({
       isLoading={loading}
       onChange={onChange}
       onInputChange={setSearch}
-      getOptionLabel={user => <UserSearchLabel showAvailability={!!variables.availableDuring} user={user} />}
-      getOptionValue={user => user.id}
+      getOptionLabel={(user) => (
+        <UserSearchLabel
+          showAvailability={!!variables.availableDuring}
+          user={user}
+        />
+      )}
+      getOptionValue={(user) => user.id}
       filterOption={() => true}
       options={extractNodes(data, 'users')}
       placeholder={placeholder}

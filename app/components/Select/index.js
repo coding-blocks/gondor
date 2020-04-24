@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import ReactSelect, { components } from 'react-select';
 import './style.scss';
 
-const SelectInput = props => {
+const SelectInput = (props) => {
   var customProps = Object.assign({}, props);
   delete customProps.autoCorrect;
   delete customProps.autoCapitalize;

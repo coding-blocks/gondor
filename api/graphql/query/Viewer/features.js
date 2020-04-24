@@ -1,6 +1,6 @@
 import AuthPolicy from 'Services/AuthorizationPolicy';
 
-const features = async parent => {
+const features = async (parent) => {
   const policy = AuthPolicy.can(parent.user);
 
   return [

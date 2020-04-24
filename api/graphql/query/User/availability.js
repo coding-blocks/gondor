@@ -1,5 +1,6 @@
-import User from '../../../services/User'
+import User from '../../../services/User';
 
-const availability = (parent, { dateTimeRange }) => User.findAvailaibilityDuring(parent.id, dateTimeRange)
+const availability = (parent, { dateTimeRange }) =>
+  User.findAvailaibilityDuring(parent.id, dateTimeRange);
 
 export default availability;

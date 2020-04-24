@@ -8,7 +8,7 @@ export default class ProtetedDirective extends SchemaDirectiveVisitor {
     const { resolve = defaultFieldResolver } = field;
     const _this = this;
 
-    field.resolve = async function(parent, _args, ctx, info) {
+    field.resolve = async function (parent, _args, ctx, info) {
       const entityName =
         _this.args.entity ||
         field._parentEntity ||

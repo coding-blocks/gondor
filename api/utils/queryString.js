@@ -1,4 +1,4 @@
-export default obj =>
+export default (obj) =>
   `?${Object.keys(obj)
-    .map(key => `${key}=${obj[key]}`)
+    .map((key) => `${key}=${obj[key]}`)
     .join('&')}`;

@@ -1,6 +1,6 @@
 import Models from 'Models';
 
-const topicResolver = async parent => {
+const topicResolver = async (parent) => {
   const topic = await Models.Resource.build(
     parent.dataValues || parent,
   ).gettopic();

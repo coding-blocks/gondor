@@ -65,7 +65,7 @@ const Content = React.memo(({ viewer, user, colors }) => {
         eventPropGetter={({ type }) => ({
           style: { backgroundColor: colorsMap[type] },
         })}
-        onRangeChange={dates => {
+        onRangeChange={(dates) => {
           if (Array.isArray(dates)) {
             const date = dates[0].toString();
             return setDateTimeRange({ start_at: date, end_at: date });
@@ -80,11 +80,7 @@ const Content = React.memo(({ viewer, user, colors }) => {
               start_at: start,
               //NOTE(naman): start and end times are same on date selection
               end_at:
-                start === end
-                  ? moment(start)
-                      .add(1, 'hour')
-                      .format()
-                  : end,
+                start === end ? moment(start).add(1, 'hour').format() : end,
             },
           })
         }

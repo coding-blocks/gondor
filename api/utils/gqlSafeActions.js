@@ -2,14 +2,14 @@ import { ApolloError } from 'apollo-server-micro';
 
 const gqlSafeActions = (actions, { error } = {}) =>
   Promise.all(
-    actions.map(async action => {
+    actions.map(async (action) => {
       try {
         return await action;
       } catch (error) {
         return { error };
       }
     }),
-  ).then(results => {
+  ).then((results) => {
     const errors = results.filter(({ error }) => !!error);
 
     if (errors.length)

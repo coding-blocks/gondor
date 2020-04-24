@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-const Toolbar = toolbar => {
+const Toolbar = (toolbar) => {
   const goToBack = () => {
     toolbar.onNavigate('PREV');
   };

@@ -7,11 +7,11 @@ class UserForm extends BaseModelForm {
 
   attributes = {
     email: {
-      validate: value => isEmail(value) || { error: 'Not a valid email.' },
+      validate: (value) => isEmail(value) || { error: 'Not a valid email.' },
       protected: true,
     },
     mobile_number: {
-      validate: value =>
+      validate: (value) =>
         isPhoneNumber(value) || { error: 'Not a valid phone number' },
       protected: true,
     },

@@ -6,14 +6,8 @@ export const defaultTypeFilter = {
 };
 
 export const getDefaultDateTimeRange = () => ({
-  start_at: moment()
-    .startOf('month')
-    .startOf('week')
-    .format(),
-  end_at: moment()
-    .endOf('month')
-    .endOf('week')
-    .format(),
+  start_at: moment().startOf('month').startOf('week').format(),
+  end_at: moment().endOf('month').endOf('week').format(),
 });
 
 export const getEventTypeOption = ({ name, color }) => ({

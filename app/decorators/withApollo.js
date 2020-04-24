@@ -5,9 +5,9 @@ import { initApolloClient } from 'Apollo/client';
 
 const defaultHandler = () => ({ props: {} });
 
-export default Component => (
-  getServerSideProps = defaultHandler,
-) => async ctx => {
+export default (Component) => (getServerSideProps = defaultHandler) => async (
+  ctx,
+) => {
   const apolloClient = (ctx.apolloClient = initApolloClient({
     res: ctx.res,
     req: ctx.req,

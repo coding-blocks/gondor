@@ -13,7 +13,7 @@ const createPage = ({
   Loader = LoaderComponent,
   //TODO(naman): add default error layout
   ErrorComponent = () => 'There was some error.',
-}) => props => {
+}) => (props) => {
   const { loading, error, data, ...rest } = useQuery(query, { variables });
 
   let content;

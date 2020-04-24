@@ -32,7 +32,7 @@ export default class BaseConnectionResolver extends BaseResolver {
     });
 
     return {
-      edges: results.map(node => ({
+      edges: results.map((node) => ({
         node,
         cursor: Buffer.from(JSON.stringify(node.id)).toString('base64'),
       })),

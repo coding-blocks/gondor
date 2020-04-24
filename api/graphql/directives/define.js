@@ -7,7 +7,7 @@ export default class DefineDirective extends SchemaDirectiveVisitor {
     const fields = type.getFields();
 
     Object.values(fields).forEach(
-      value => (value._parentEntity = this.args.entity),
+      (value) => (value._parentEntity = this.args.entity),
     );
   }
 }

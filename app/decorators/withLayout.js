@@ -1,4 +1,4 @@
-export default layout => func => {
+export default (layout) => (func) => {
   func.layout = layout;
 
   return func;

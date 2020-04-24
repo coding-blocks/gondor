@@ -15,7 +15,7 @@ const sequelize = new Sequelize(
   config,
 );
 
-fs.readdirSync(path.join(process.env.API_DIR, 'models')).forEach(file => {
+fs.readdirSync(path.join(process.env.API_DIR, 'models')).forEach((file) => {
   if (
     file.indexOf('.') === 0 ||
     file === 'index.js' ||
@@ -29,7 +29,7 @@ fs.readdirSync(path.join(process.env.API_DIR, 'models')).forEach(file => {
   db[pascalcase(model.name)] = model;
 });
 
-Object.keys(db).forEach(modelName => {
+Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }

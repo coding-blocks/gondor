@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Input as BaseInput } from 'reactstrap';
 import Form from './';
 
-const Input = props => {
+const Input = (props) => {
   const { errors } = useContext(Form.Context);
 
   return (
