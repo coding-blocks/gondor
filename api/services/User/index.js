@@ -6,6 +6,7 @@ import BaseModelService, {
   saveInstance,
   requireInstance,
 } from 'Services/BaseModelService';
+import overlapDateTimeClause from 'Utils/overlapDateTimeClause';
 
 export default class User extends BaseModelService {
   static findByUsername(username) {
@@ -30,6 +31,28 @@ export default class User extends BaseModelService {
     } catch (err) {
       return null;
     }
+  }
+
+  static async findAvailaibilityDuring(user_id, dateTimeRange) {
+    const data = await Models.CalendarEventInvite.findOne({
+      where: {
+        user_id,
+        status: "Accepted"
+      },
+      include: [{
+        model: Models.CalendarEvent,
+        as: 'event',
+        where: overlapDateTimeClause(dateTimeRange),
+        required: true
+      }]
+    })
+
+    return !data
+  }
+
+  @requireInstance
+  ifAvailableDuring(dateTimeRange) {
+    return User.findAvailaibilityDuring(this.instance.id, dateTimeRange)
   }
 
   @saveInstance

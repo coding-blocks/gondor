@@ -20,6 +20,7 @@ type User implements Node {
     exclude: [ID!]
     dateTimeRange: DateTimeRangeInput!
   ): CalendarEventConnection @protected @requireFeature(name: "calendar")
+  availability(dateTimeRange: DateTimeRangeInput!): Boolean! @protected
 }
 
 type UserEdge {
