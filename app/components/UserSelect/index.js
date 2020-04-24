@@ -9,13 +9,14 @@ const UserSelect = ({
   name = 'usersSelect',
   placeholder = 'Select users.',
   isMulti = false,
-  variables,
+  variables = {},
   onChange,
 }) => {
   const [search, setSearch] = useState('');
 
   const { loading, data } = useQuery(QUERY, {
     variables: {
+      includeAvailability: !!variables.availableDuring,
       limit: 10,
       ...variables,
       search,
@@ -31,7 +32,7 @@ const UserSelect = ({
       isLoading={loading}
       onChange={onChange}
       onInputChange={setSearch}
-      getOptionLabel={user => <UserSearchLabel user={user} />}
+      getOptionLabel={user => <UserSearchLabel showAvailability={!!variables.availableDuring} user={user} />}
       getOptionValue={user => user.id}
       filterOption={() => true}
       options={extractNodes(data, 'users')}

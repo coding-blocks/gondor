@@ -28,14 +28,14 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
   /* NOTE(naman): an extra hour is added because
    * endOf returns HH:59, hence starOf is used*/
   const [startAt, setStartAt] = useState(
-    dateTimeRange?.start_at ||
+    dateTimeRange ?.start_at ||
       moment()
         .add(1, 'hour')
         .startOf('hour')
         .format(),
   );
   const [endAt, setEndAt] = useState(
-    dateTimeRange?.end_at ||
+    dateTimeRange ?.end_at ||
       moment()
         .add(2, 'hour')
         .startOf('hour')
@@ -156,7 +156,12 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
               isMulti
               name="invites"
               placeholder="Invite invites"
-              variables={{ exclude: [viewer.user.id] }}
+              variables={{
+                exclude: [viewer.user.id], availableDuring: {
+                  start_at: startAt,
+                  end_at: endAt
+                }
+              }}
               onChange={setInvites}
             />
           </Form.Group>
