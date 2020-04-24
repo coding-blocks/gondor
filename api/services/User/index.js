@@ -34,25 +34,26 @@ export default class User extends BaseModelService {
   }
 
   static async findAvailaibilityDuring(user_id, dateTimeRange) {
-    const data = await Models.CalendarEventInvite.findOne({
+    const data = await Models.CalendarEventInvite.scope('visible').findOne({
       where: {
         user_id,
-        status: "Accepted"
       },
-      include: [{
-        model: Models.CalendarEvent,
-        as: 'event',
-        where: overlapDateTimeClause(dateTimeRange),
-        required: true
-      }]
-    })
+      include: [
+        {
+          model: Models.CalendarEvent,
+          as: 'event',
+          where: overlapDateTimeClause(dateTimeRange),
+          required: true,
+        },
+      ],
+    });
 
-    return !data
+    return !data;
   }
 
   @requireInstance
   ifAvailableDuring(dateTimeRange) {
-    return User.findAvailaibilityDuring(this.instance.id, dateTimeRange)
+    return User.findAvailaibilityDuring(this.instance.id, dateTimeRange);
   }
 
   @saveInstance
