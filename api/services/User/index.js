@@ -13,6 +13,10 @@ export default class User extends BaseModelService {
     return Models.User.findOne({ where: { username } });
   }
 
+  static findById(id) {
+    return Models.User.findOne({ where: { id } });
+  }
+
   static async verifyAndFindFromToken(signedToken) {
     try {
       const { user_id, session_id } = await new Promise((resolve, reject) =>
