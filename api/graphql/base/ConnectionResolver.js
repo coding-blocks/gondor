@@ -22,7 +22,7 @@ export default class BaseConnectionResolver extends BaseResolver {
 
     query.where = query.where ? { [Op.and]: [query.where, where] } : where;
 
-    const { results, cursors } = await this.entity.paginate({
+    const { results, cursors } = await this.model.paginate({
       limit: this.MAX_LIMIT ? Math.min(limit || 1, this.MAX_LIMIT) : limit,
       before,
       after,
@@ -32,7 +32,7 @@ export default class BaseConnectionResolver extends BaseResolver {
     });
 
     return {
-      edges: results.map((node) => ({
+      edges: results.map(node => ({
         node,
         cursor: Buffer.from(JSON.stringify(node.id)).toString('base64'),
       })),

@@ -33,7 +33,7 @@ const Sidebar = React.memo(
       <div className="sidebar">
         <div className="main-menu">
           <PerfectScrollbar
-            option={{ suppressScrollX: true, wheelPropagation: false }}>
+            options={{ suppressScrollX: true, wheelPropagation: false }}>
             <div className="scroll">
               <div className="scrollbar-container">
                 <ul className="list-unstyled nav flex-column">

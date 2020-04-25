@@ -3,8 +3,5 @@
 mutation CreateEvent($input: CalendarEventInviteInput!) {
   invites: calendarEventInvite(input: $input) {
     ...EventInviteFragment
-    user {
-      id
-    }
   }
 }

@@ -1,14 +1,7 @@
-#import "../../fragments/user.graphql"
+#import "../../fragments/viewer.graphql"
 
 query HomePageQuery {
   viewer {
-    user {
-      ...UserFragment
-    }
-
-    features {
-      name
-      enabled
-    }
+    ...ViewerFragment
   }
 }

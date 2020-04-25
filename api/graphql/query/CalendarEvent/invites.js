@@ -2,20 +2,26 @@ import Models from 'Models';
 import AuthPolicy from 'Services/AuthorizationPolicy';
 
 const invites = async (parent, _args, ctx) => {
+  const Op = Models.Sequelize.Op;
   const query = {
     where: { event_id: parent.id },
   };
 
   if (
-    !(await AuthPolicy.can(ctx.viewer)
+    await AuthPolicy.can(ctx.viewer)
       .perform('calendarEvent:requests:read')
-      .on(parent))
+      .on(parent)
   ) {
-    const Op = Models.Sequelize.Op;
-
     query.where[Op.or] = [
       {
-        status: { [Op.notIn]: ['Requested', 'Refused'] },
+        status: { [Op.not]: 'Refused' },
+      },
+      { user_id: ctx.viewer?.id, status: 'Refused' },
+    ];
+  } else {
+    query.where[Op.or] = [
+      {
+        status: { [Op.not]: 'Requested' },
       },
       { user_id: ctx.viewer?.id },
     ];

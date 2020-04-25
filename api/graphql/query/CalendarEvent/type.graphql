@@ -38,6 +38,9 @@ type CalendarEventConnection {
 }
 
 extend type Query {
+  #TODO(naman): handle authorization
+  event(id: ID!): CalendarEvent
+
   events(
     limit: Int
     before: String

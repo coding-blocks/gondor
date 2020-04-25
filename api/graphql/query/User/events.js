@@ -3,7 +3,7 @@ import overlapDateTimeClause from 'Utils/overlapDateTimeClause';
 import BaseConnectionResolver from 'Graphql/base/ConnectionResolver';
 
 class UserEventsResolver extends BaseConnectionResolver {
-  entity = Models.CalendarEvent;
+  model = Models.CalendarEvent;
 
   MAX_LIMIT = null;
 

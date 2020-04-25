@@ -57,15 +57,15 @@ const Content = React.memo(({ viewer, user, colors }) => {
         )}
       />
       <Calendar
+        popup
         selectable
         events={extractNodes(data, 'events')}
-        tooltipAccessor={({ title, type }) => `[${type}] ${title}`}
         startAccessor={({ start_at }) => new Date(start_at)}
         endAccessor={({ end_at }) => new Date(end_at)}
         eventPropGetter={({ type }) => ({
           style: { backgroundColor: colorsMap[type] },
         })}
-        onRangeChange={(dates) => {
+        onRangeChange={dates => {
           if (Array.isArray(dates)) {
             const date = dates[0].toString();
             return setDateTimeRange({ start_at: date, end_at: date });
@@ -84,6 +84,7 @@ const Content = React.memo(({ viewer, user, colors }) => {
             },
           })
         }
+        onSelectEvent={event => Modals.ViewEvent.open({ id: event.id })}
       />
     </>
   );

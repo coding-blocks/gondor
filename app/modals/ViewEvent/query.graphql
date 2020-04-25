@@ -1,0 +1,18 @@
+#import "../../fragments/user.graphql"
+#import "../../fragments/event.graphql"
+#import "../../fragments/resource.graphql"
+
+query ViewEventQuery($id: ID!) {
+  event(id: $id) {
+    ...EventFragment
+    organiser {
+      ...UserFragment
+    }
+    invites {
+      ...EventInviteFragment
+    }
+    resources {
+      ...ResourceFragment
+    }
+  }
+}

@@ -2,7 +2,7 @@ import Models from 'Models';
 import BaseConnectionResolver from 'Graphql/base/ConnectionResolver';
 
 class UsersResolver extends BaseConnectionResolver {
-  entity = Models.User;
+  model = Models.User;
 
   query = () => {
     const where = {};

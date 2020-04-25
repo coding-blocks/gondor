@@ -10,8 +10,14 @@ class BaseResolver {
 }
 
 BaseResolver.resolver = function () {
-  return function () {
-    return new this(...arguments).resolve();
+  return async function () {
+    try {
+      return await new this(...arguments).resolve();
+    } catch (err) {
+      console.log(err);
+
+      throw err;
+    }
   }.bind(this);
 };
 

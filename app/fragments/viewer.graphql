@@ -1,0 +1,12 @@
+#import "./user.graphql"
+
+fragment ViewerFragment on Viewer {
+  user {
+    ...UserFragment
+  }
+
+  features {
+    name
+    enabled
+  }
+}

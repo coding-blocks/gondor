@@ -1,0 +1,12 @@
+.attendee-item {
+  cursor: pointer;
+  .actions-wrapper {
+    visibility: hidden;
+  }
+
+  &:hover {
+    .actions-wrapper {
+      visibility: visible;
+    }
+  }
+}

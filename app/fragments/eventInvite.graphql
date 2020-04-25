@@ -1,4 +1,9 @@
+#import "./user.graphql"
+
 fragment EventInviteFragment on CalendarEventInvite {
   id
   status
+  user {
+    ...UserFragment
+  }
 }

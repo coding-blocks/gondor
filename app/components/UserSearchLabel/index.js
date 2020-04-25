@@ -8,7 +8,7 @@ const UserSearchLabel = ({ user, showAvailability }) => (
       {user.firstname} {user.lastname}
     </span>
     {showAvailability && (
-      <div className="float-right mt-1 ml-1">
+      <div className="float-right">
         <Badge pill color={user.availability ? 'success' : 'secondary'}>
           {user.availability ? 'Available' : 'Busy'}
         </Badge>

@@ -111,10 +111,10 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
         <Form {...formProps} />
       </ModalBody>
       <ModalFooter>
-        <Button className="mr-2" color="gray" onClick={onClose}>
+        <Button className="mr-2" size="sm" color="gray" onClick={onClose}>
           Close
         </Button>
-        <Button color="primary" onClick={addEvent}>
+        <Button size="sm" color="primary" onClick={addEvent}>
           Add
         </Button>
       </ModalFooter>

@@ -1,14 +1,8 @@
-#import "../../fragments/user.graphql"
+#import "../../fragments/viewer.graphql"
 
 query CalendarPageQuery {
   viewer {
-    user {
-      ...UserFragment
-    }
-    features {
-      name
-      enabled
-    }
+    ...ViewerFragment
   }
 
   eventTypeColors {
