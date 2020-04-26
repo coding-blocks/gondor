@@ -9,7 +9,10 @@ const UserSearchLabel = ({ user, showAvailability }) => (
     </span>
     {showAvailability && (
       <div className="float-right">
-        <Badge pill color={user.availability ? 'success' : 'secondary'}>
+        <Badge
+          className="mt-1 ml-2"
+          pill
+          color={user.availability ? 'success' : 'secondary'}>
           {user.availability ? 'Available' : 'Busy'}
         </Badge>
       </div>

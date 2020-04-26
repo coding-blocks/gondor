@@ -1,0 +1,7 @@
+#import "../fragments/eventInvite.graphql"
+
+mutation CalendarEventRequest($input: CalendarEventRequestInput!) {
+  requestedInvite: calendarEventRequest(input: $input) {
+    ...EventInviteFragment
+  }
+}

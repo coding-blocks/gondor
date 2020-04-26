@@ -19,7 +19,16 @@ const Calendar = ({ viewer, eventTypeColors }) => {
         <Content user={user} viewer={viewer} colors={eventTypeColors} />
       </AppContent>
       <AppMenu>
-        <TeamMembers viewer={viewer} setUser={setUser} selected={user} />
+        <AppMenu.Context.Consumer>
+          {({ target }) => (
+            <TeamMembers
+              scrollTarget={target}
+              viewer={viewer}
+              setUser={setUser}
+              selected={user}
+            />
+          )}
+        </AppMenu.Context.Consumer>
       </AppMenu>
     </>
   );

@@ -19,11 +19,14 @@ export default class CalendarEventInvite extends BaseModelService {
       },
     });
 
-    if (
-      !created &&
-      ['Refused', 'Requested', 'Declined'].includes(invite.status)
-    ) {
+    if (!created && ['Refused', 'Requested'].includes(invite.status)) {
       invite.status = 'Accepted';
+
+      await invite.save();
+    }
+
+    if (!created && ['Declined'].includes(invite.status)) {
+      invite.status = 'Pending';
 
       await invite.save();
     }

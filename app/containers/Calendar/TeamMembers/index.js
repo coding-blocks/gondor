@@ -5,12 +5,13 @@ import Loader from 'Components/Loader';
 import UserCard from 'Components/UserCard';
 import { useQuery } from '@apollo/react-hooks';
 import { ModalHeader, Input } from 'reactstrap';
+import InfiniteScroll from 'Components/InfiniteScroll';
 
-const TeamMembers = ({ viewer, setUser, selected }) => {
+const TeamMembers = ({ viewer, setUser, selected, scrollTarget }) => {
   const [search, setSearch] = useState('');
   const variables = { search, exclude: [viewer.user.id] };
 
-  const { loading, error, data, fetchMore, reload } = useQuery(QUERY, {
+  const { loading, error, data, fetchMore } = useQuery(QUERY, {
     variables,
   });
 
@@ -35,17 +36,26 @@ const TeamMembers = ({ viewer, setUser, selected }) => {
             />
           </div>
           {loading && <Loader relative />}
-          {data &&
-            data.users.edges.map(({ node: user }) => (
-              <UserCard
-                key={user.id}
-                className={classNames('mb-4 pointer', {
-                  shadow: selected.id === user.id,
-                })}
-                user={user}
-                onClick={() => setUser(user)}
-              />
-            ))}
+          {data && (
+            <InfiniteScroll
+              data={data}
+              loading={loading}
+              fetchMore={fetchMore}
+              variables={variables}
+              target={scrollTarget}
+              connectionPath="users">
+              {data.users.edges.map(({ node: user }) => (
+                <UserCard
+                  key={user.id}
+                  className={classNames('mb-4 pointer', {
+                    shadow: selected.id === user.id,
+                  })}
+                  user={user}
+                  onClick={() => setUser(user)}
+                />
+              ))}
+            </InfiniteScroll>
+          )}
         </>
       )}
     </>

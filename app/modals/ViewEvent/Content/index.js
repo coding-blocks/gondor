@@ -1,14 +1,20 @@
-import { useMemo } from 'react';
+import { useMemo, useContext } from 'react';
+import Auth from 'Services/Auth';
 import useViewer from 'Hooks/useViewer';
 import { useMutation } from '@apollo/react-hooks';
 import AttendeesList from '../AttendeesList';
 import AttendeeItem from '../AttendeesList/Item';
 import InviteStatusBadge from 'Components/InviteStatusBadge';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import DECLINE_INVITE from './declineInvite.graphql';
+import DECLINE_INVITE from 'Mutations/calendarEventInviteDecline.graphql';
+import ACCEPT_INVITE from 'Mutations/calendarEventInviteAccept.graphql';
+import REQUEST_INVITE from 'Mutations/calendarEventRequest.graphql';
+import DELETE_EVENT from 'Mutations/calendarEventDelete.graphql';
+import ModalsManager from 'Modals/Manager';
 
-const EventContent = ({ event }) => {
+const EventContent = ({ event, onClose }) => {
   const viewer = useViewer();
+  const Modals = useContext(ModalsManager.Context);
 
   const invite = useMemo(
     () => event.invites.find(({ user }) => user.id === viewer.user?.id),
@@ -24,13 +30,18 @@ const EventContent = ({ event }) => {
     [event.invites, event.organiser],
   );
 
-  const isOrganiser = event.organiser.id === viewer.user?.id;
+  const canUpdate =
+    viewer.user?.role === 'Admin' || event.organiser.id === viewer.user?.id;
 
-  const [declineInvite] = useMutation(DECLINE_INVITE, {
-    updateQueries: {
-      invites: (prev, { mutationResult }) =>
-        prev.filter(id => id !== mutationResult.declinedInvite?.id),
-    },
+  const [declineInvite] = useMutation(DECLINE_INVITE);
+
+  const [acceptInvite] = useMutation(ACCEPT_INVITE);
+
+  const [requestInvite] = useMutation(REQUEST_INVITE);
+
+  const [deleteEvent] = useMutation(DELETE_EVENT, {
+    variables: { id: event.id },
+    onCompleted: () => onClose(),
   });
 
   return (
@@ -38,10 +49,21 @@ const EventContent = ({ event }) => {
       <ModalHeader className="w-100">
         {event.title}
         <span className="float-right text-small">
-          {invite && <InviteStatusBadge status={invite.status} />}
-          {isOrganiser && (
-            <i className="simple-icon-trash text-muted hover-primary ml-2" />
+          {canUpdate && (
+            <>
+              <i
+                title="Edit"
+                className="simple-icon-pencil text-muted hover-primary mr-2"
+                onClick={() => Modals.EditEvent.open({ id: event.id })}
+              />
+              <i
+                title="Delete"
+                className="simple-icon-trash text-muted hover-primary mr-2"
+                onClick={() => deleteEvent()}
+              />
+            </>
           )}
+          {invite && <InviteStatusBadge status={invite.status} />}
         </span>
       </ModalHeader>
       <ModalBody>
@@ -66,20 +88,43 @@ const EventContent = ({ event }) => {
                 onClick={() =>
                   declineInvite({
                     variables: { id: invite.id },
-                    optimisticResponse: { declinedInvite: invite },
+                    optimisticresponse: {
+                      declinedinvite: { ...invite, status: 'Declined' },
+                    },
                   })
                 }>
                 Decline
               </Button>
             )}
             {['Pending', 'Declined'].includes(invite.status) && (
-              <Button className="m-0 ml-2" size="sm" color="primary">
+              <Button
+                className="m-0 ml-2"
+                size="sm"
+                color="primary"
+                onClick={() =>
+                  acceptInvite({
+                    variables: { id: invite.id },
+                    optimisticResponse: {
+                      acceptedInvite: { ...invite, status: 'Accepted' },
+                    },
+                  })
+                }>
                 Accept
               </Button>
             )}
           </>
         ) : (
-          <Button className="m-0 ml-2" size="sm" color="primary">
+          <Button
+            className="m-0 ml-2"
+            size="sm"
+            color="primary"
+            onClick={() =>
+              viewer.user
+                ? requestInvite({
+                    variables: { input: { event_id: event.id } },
+                  })
+                : Auth.login()
+            }>
             Join
           </Button>
         )}

@@ -1,11 +1,15 @@
-#import "../../fragments/event.graphql"
-#import "../../fragments/resource.graphql"
+#import "../fragments/event.graphql"
+#import "../fragments/resource.graphql"
+#import "../fragments/eventInvite.graphql"
 
 mutation CalendarEventCreate($input: CalendarEventCreateInput!) {
   event: calendarEventCreate(input: $input) {
     ...EventFragment
     resources {
       ...ResourceFragment
+    }
+    invites {
+      ...EventInviteFragment
     }
   }
 }

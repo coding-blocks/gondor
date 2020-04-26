@@ -3,12 +3,12 @@ import useViewer from 'Hooks/useViewer';
 import { useState, useMemo } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import Form from 'Components/Events/Form';
-import CREATE_EVENT from './calendarEventCreate.graphql';
-import CREATE_INVITE from './calendarEventInvite.graphql';
+import CREATE_EVENT from 'Mutations/calendarEventCreate.graphql';
+import CREATE_INVITE from 'Mutations/calendarEventInvite.graphql';
 import { combineErrors, formatErrors } from 'Utils/graphql';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 
-const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
+const AddEvent = ({ dateTimeRange, types, onClose }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
@@ -33,11 +33,7 @@ const AddEvent = ({ dateTimeRange, types, onSuccess, onClose }) => {
   const [inviteUsers, { error: createInviteErrors }] = useMutation(
     CREATE_INVITE,
     {
-      onCompleted: async () => {
-        await onSuccess();
-
-        return onClose();
-      },
+      onCompleted: async () => onClose(),
     },
   );
 

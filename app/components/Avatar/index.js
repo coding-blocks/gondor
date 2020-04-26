@@ -7,9 +7,9 @@ const Avatar = ({
   id,
   className,
   user = {},
-  firstname,
-  lastname,
-  text,
+  firstname = '',
+  lastname = '',
+  text = '',
   shadow,
   small,
 }) =>
@@ -35,7 +35,12 @@ const Avatar = ({
       {text
         ? (text[0] || '').toUpperCase()
         : ((user.firstname || firstname)[0] || '').toUpperCase() +
-          ((user.lastname || lastname)[0] || '').toUpperCase()}
+          (
+            (user.lastname ||
+              lastname ||
+              (user.firstname || firstname)[1] ||
+              '')[0] || ''
+          ).toUpperCase()}
     </div>
   );
 

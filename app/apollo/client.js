@@ -12,10 +12,16 @@ const createApolloClient = (ctx = {}, initialState = {}) => {
     link: createIsomorphLink(ctx),
     cache,
     credentials: 'include',
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: 'cache-and-network',
+      },
+      query: { fetchPolicy: 'cache-and-network' },
+    },
   });
 };
 
-const createIsomorphLink = (ctx) => {
+const createIsomorphLink = ctx => {
   const { HttpLink } = require('apollo-link-http');
 
   return new HttpLink({

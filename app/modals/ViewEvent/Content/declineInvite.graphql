@@ -1,7 +1,0 @@
-#import "../../../fragments/eventInvite.graphql"
-
-mutation DeclineEventInvite($id: ID!) {
-  declinedInvite: calendarEventInviteDecline(id: $id) {
-    ...EventInviteFragment
-  }
-}

@@ -1,4 +1,4 @@
-import { useState, useContext, useMemo } from 'react';
+import { useState, useEffect, useContext, useMemo } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import QUERY from './query.graphql';
@@ -21,19 +21,28 @@ const Content = React.memo(({ viewer, user, colors }) => {
     [colors],
   );
 
-  const variables = {
-    dateTimeRange,
-    attendees: user ? [user.id] : [],
-    types: selectedType.value ? [selectedType.value] : [],
-  };
+  const variables = useMemo(
+    () => ({
+      dateTimeRange,
+      attendees: user ? [user.id] : [],
+      types: selectedType.value ? [selectedType.value] : [],
+    }),
+    [dateTimeRange, user, selectedType],
+  );
 
-  const { data, refetch } = useQuery(QUERY, {
+  const { data, startPolling, stopPolling } = useQuery(QUERY, {
     variables,
   });
 
+  useEffect(() => {
+    stopPolling();
+    startPolling(1000);
+
+    return () => stopPolling();
+  }, [variables]);
+
   const Modals = useContext(ModalsManager.Context);
   const addEventProps = {
-    onSuccess: () => refetch(),
     types: colors,
   };
 

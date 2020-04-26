@@ -1,0 +1,7 @@
+#import "../fragments/eventInvite.graphql"
+
+mutation CalendarEventRequestRefuse($id: ID!) {
+  refusedInvite: calendarEventRequestRefuse(id: $id) {
+    id
+  }
+}

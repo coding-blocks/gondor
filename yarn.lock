@@ -2468,10 +2468,10 @@ atob@^2.1.2:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-auth-policy@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/auth-policy/-/auth-policy-1.0.1.tgz#ae2a4f9beccf60ca7279eb51b0999b51179fa948"
-  integrity sha512-B1GfUkvlY93Ud9mt0bcuJ3Vgm9r0Ot16KA0CLXlknXRGr/Tb9GSi2l+MJHsFic3volQJlXXm3OyPFRh4Z8FRBA==
+auth-policy@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/auth-policy/-/auth-policy-1.0.2.tgz#7fdca29fd8a6dd01663dabafec561c1f23e35030"
+  integrity sha512-Kja4/dZP0qlL042x+UG3jZof4mqFsfHJFZDJ1uARMBVAwa0mvXGVzx4t8mjU+d8qNT2IRkq6oRH0EOimcwXRKw==
 
 autodll-webpack-plugin@0.4.2:
   version "0.4.2"

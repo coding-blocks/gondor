@@ -4,7 +4,7 @@ import { memo, useMemo } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import './style.scss';
 
-const AttendeesList = memo(({ event }) => (
+const AttendeesList = memo(({ event, removeFromCache }) => (
   <div className="attendees-list-wrapper">
     <PerfectScrollbar
       options={{ suppressScrollX: true, wheelPropagation: false }}>
@@ -23,6 +23,7 @@ const AttendeesList = memo(({ event }) => (
               key={invite.id}
               event={event}
               invite={invite}
+              removeFromCache={removeFromCache}
             />
           ))}
         </div>

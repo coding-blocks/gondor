@@ -1,5 +1,6 @@
 #import "../../fragments/user.graphql"
 #import "../../fragments/event.graphql"
+#import "../../fragments/eventInvite.graphql"
 #import "../../fragments/resource.graphql"
 
 query ViewEventQuery($id: ID!) {

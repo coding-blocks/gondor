@@ -1,0 +1,7 @@
+#import "../fragments/eventInvite.graphql"
+
+mutation CalendarEventInviteDelete($id: ID!) {
+  deletedInvite: calendarEventInviteDelete(id: $id) {
+    id
+  }
+}

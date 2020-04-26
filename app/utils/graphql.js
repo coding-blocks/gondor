@@ -37,12 +37,61 @@ export const extractNodes = (data, path) => {
   return [];
 };
 
-export const map = (data, path, cb) => {
-  const destination = path
-    .split('.')
+export const get = (data, path) =>
+  path.split('.').reduce((des, key) => des && des[key], data);
+
+export const set = (data, path, value) => {
+  const keys = path.split('.');
+
+  const base = keys
+    .slice(0, keys.length - 1)
     .reduce((des, key) => data && data[key], data);
+
+  if (base) base[keys[keys.length - 1]] = value;
+
+  return data;
+};
+
+export const map = (data, path, cb) => {
+  const destination = get(data, path);
 
   if (destination?.edges) return destination.edges.map(({ node }) => cb(node));
 
   return [];
+};
+
+export const removeFromCache = ({
+  query,
+  variables,
+  connectionPath,
+  nodePath,
+}) => (client, { data }) => {
+  const cache = client.readQuery({ query, variables });
+  const connection = get(cache, connectionPath);
+  const node = get(data, nodePath);
+
+  client.writeQuery({
+    query,
+    variables,
+    data: set(
+      cache,
+      connectionPath,
+      connection.filter(({ id }) => id !== node?.id),
+    ),
+  });
+};
+
+export const pushToCache = ({ query, variables, connectionPath, nodePath }) => (
+  client,
+  { data },
+) => {
+  const cache = client.readQuery({ query, variables });
+  const connection = get(cache, connectionPath);
+  const node = get(data, nodePath);
+
+  client.writeQuery({
+    query,
+    variables,
+    data: set(cache, connectionPath, [...connection, node]),
+  });
 };
