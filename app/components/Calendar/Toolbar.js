@@ -16,6 +16,7 @@ const Toolbar = (toolbar) => {
     const date = moment(toolbar.date);
     return (
       <span>
+        {toolbar.view === 'day' ? (<span>{date.format('DD')} </span>) : ''}
         <span>{date.format('MMMM')} </span>
         <span> {date.format('YYYY')}</span>
       </span>
