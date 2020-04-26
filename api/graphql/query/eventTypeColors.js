@@ -24,6 +24,10 @@ export default () => [
     color: '#1b1e26',
   },
   {
+    name: 'Youtube',
+    color: '#FF0000',
+  },
+  {
     name: 'Other',
     color: '#d4d4d4',
   },

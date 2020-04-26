@@ -5,6 +5,7 @@ enum CalendarEventType {
   OffSiteWorkshop
   Meeting
   OOO
+  Youtube
   Other
 }
 

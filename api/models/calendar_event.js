@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
           'Meeting',
           'OOO',
           'Other',
+          'Youtube'
         ),
         allowNull: false,
       },
