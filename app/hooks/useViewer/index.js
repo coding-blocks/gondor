@@ -5,13 +5,17 @@ import QUERY from './query.graphql';
 const useViewer = () => {
   const client = useApolloClient();
 
-  const { viewer } = client.readQuery({
-    query: gql`
-      ${QUERY}
-    `,
-  });
+  try {
+    const { viewer } = client.readQuery({
+      query: gql`
+        ${QUERY}
+      `,
+    });
 
-  return viewer;
+    return viewer;
+  } catch (err) {
+    return { user: null, features: [] };
+  }
 };
 
 export default useViewer;
