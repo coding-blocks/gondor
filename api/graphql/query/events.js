@@ -13,9 +13,7 @@ class EventsResolver extends BaseConnectionResolver {
     const {
       dateTimeRange: { start_at, end_at },
     } = this.args;
-    const startDate = moment(start_at);
-    const endDate = moment(end_at);
-    const range = Math.abs(startDate.diff(endDate, 'days')) + 1;
+    const range = Math.abs(moment(start_at).diff(moment(end_at), 'days')) + 1;
 
     if (range > 42) {
       throw new UserInputError(
