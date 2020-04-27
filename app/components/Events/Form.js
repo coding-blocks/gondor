@@ -22,6 +22,7 @@ const EventForm = memo(
     setStartAt,
     endAt,
     setEndAt,
+    invites,
     setInvites,
     location,
     setLocation,
@@ -36,7 +37,7 @@ const EventForm = memo(
             type="text"
             name="title"
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </Form.Group>
         <Form.Group className="has-float-label mb-4 col-12">
@@ -45,7 +46,7 @@ const EventForm = memo(
             type="text"
             name="description"
             value={description}
-            onChange={e => setDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </Form.Group>
         <Form.Group className="has-float-label mb-4 col-12">
@@ -83,6 +84,7 @@ const EventForm = memo(
           <UserSelect
             isMulti
             name="invites"
+            value={invites}
             placeholder="Invite invites"
             variables={{
               exclude: [viewer.user.id],
@@ -100,7 +102,7 @@ const EventForm = memo(
             type="text"
             name="location"
             value={location}
-            onChange={e => setLocation(e.target.value)}
+            onChange={(e) => setLocation(e.target.value)}
           />
         </Form.Group>
       </Form>

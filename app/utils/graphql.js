@@ -1,4 +1,4 @@
-export const formatErrors = errors => {
+export const formatErrors = (errors) => {
   const error = errors?.graphQLErrors && errors.graphQLErrors[0];
 
   if (!error) return null;
@@ -18,7 +18,7 @@ export const combineErrors = (...errors) =>
 
     errors = _errors || {};
 
-    Object.keys(err).map(key => {
+    Object.keys(err).map((key) => {
       if (errors[key] && Array.isArray(errors[key])) errors[key].push(err.key);
       else if (errors[key]) errors[key] = [errors[key], err[key]];
       else errors[key] = err[key];
@@ -95,3 +95,16 @@ export const pushToCache = ({ query, variables, connectionPath, nodePath }) => (
     data: set(cache, connectionPath, [...connection, node]),
   });
 };
+
+export const extractMap = (
+  obj = [],
+  { key = '', label = 'label', value = 'value' } = {
+    key: '',
+    label: 'label',
+    value: 'value',
+  },
+) =>
+  (!!key ? obj[key] : obj).reduce(
+    (m, item) => ((m[get(item, label)] = get(item, value)) || true) && m,
+    {},
+  );

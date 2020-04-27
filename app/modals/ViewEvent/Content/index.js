@@ -1,4 +1,4 @@
-import { useMemo, useContext } from 'react';
+import { memo, useMemo, useContext } from 'react';
 import Auth from 'Services/Auth';
 import useViewer from 'Hooks/useViewer';
 import { useMutation } from '@apollo/react-hooks';
@@ -10,11 +10,11 @@ import DECLINE_INVITE from 'Mutations/calendarEventInviteDecline.graphql';
 import ACCEPT_INVITE from 'Mutations/calendarEventInviteAccept.graphql';
 import REQUEST_INVITE from 'Mutations/calendarEventRequest.graphql';
 import DELETE_EVENT from 'Mutations/calendarEventDelete.graphql';
-import ModalsManager from 'Modals/Manager';
+import useModals from 'Hooks/useModals';
 
-const EventContent = ({ event, onClose }) => {
+const EventContent = memo(({ event, onClose }) => {
   const viewer = useViewer();
-  const Modals = useContext(ModalsManager.Context);
+  const Modals = useModals();
 
   const invite = useMemo(
     () => event.invites.find(({ user }) => user.id === viewer.user?.id),
@@ -23,7 +23,7 @@ const EventContent = ({ event, onClose }) => {
 
   const organiserInvite = useMemo(
     () =>
-      event.invites.find(invite => invite.user.id === event.organiser.id) || {
+      event.invites.find((invite) => invite.user.id === event.organiser.id) || {
         status: 'Declined',
         user: event.organiser,
       },
@@ -67,7 +67,6 @@ const EventContent = ({ event, onClose }) => {
         </span>
       </ModalHeader>
       <ModalBody>
-        {event.description && <p>{event.description}</p>}
         <p>
           <strong>Organiser:</strong>
         </p>
@@ -75,7 +74,20 @@ const EventContent = ({ event, onClose }) => {
         <p>
           <strong>Attendees:</strong>
         </p>
-        <AttendeesList event={event} />
+        <AttendeesList className="mb-4" event={event} />
+        {event.description && (
+          <>
+            <p className="mb-0">
+              <strong>Description:</strong>
+            </p>
+            <p>{event.description}</p>
+          </>
+        )}
+        {event.location && (
+          <p>
+            <strong>Location:</strong> {event.location}
+          </p>
+        )}
       </ModalBody>
       <ModalFooter>
         {invite ? (
@@ -131,6 +143,6 @@ const EventContent = ({ event, onClose }) => {
       </ModalFooter>
     </>
   );
-};
+});
 
 export default EventContent;

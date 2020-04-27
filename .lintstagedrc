@@ -1,10 +1,8 @@
 {
   "app/**/*.{js,jsx,json,css,scss,graphql,gql}": [
     "prettier --write",
-    "git add"
   ],
   "api/**/*.{js,jsx,json,css,scss,graphql,gql}": [
     "prettier --write",
-    "git add"
   ]
 }

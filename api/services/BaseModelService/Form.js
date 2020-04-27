@@ -13,8 +13,8 @@ class ModelForm extends BaseModelService {
 
   attributes = {};
 
-  _handleForeignKeyConstraintError = err => {
-    const columnName = (str => str.substring(5, str.length - 2))(
+  _handleForeignKeyConstraintError = (err) => {
+    const columnName = ((str) => str.substring(5, str.length - 2))(
       err.parent.detail?.match(/^Key \([^\)]*\)=/)[0] || '',
     );
 
@@ -31,21 +31,21 @@ class ModelForm extends BaseModelService {
     }
   };
 
-  _handleUniqueConstraintError = err => {
+  _handleUniqueConstraintError = (err) => {
     const fields = Object.keys(err.fields).filter(
-      field => typeof this.input[field] !== 'undefined',
+      (field) => typeof this.input[field] !== 'undefined',
     );
     if (!fields.length) return;
 
     const graphqlFields = fields.map(
-      field => this.attributes[field]?.graphqlName || field,
+      (field) => this.attributes[field]?.graphqlName || field,
     );
     const message = `A ${this.text || this.name} with same ${graphqlFields.join(
       ', ',
     )} already exists.`;
 
     throw new UserInputError(message, {
-      validationErrors: graphqlFields.map(field => ({
+      validationErrors: graphqlFields.map((field) => ({
         field,
         message: 'Must be unique.',
       })),
@@ -60,7 +60,7 @@ class ModelForm extends BaseModelService {
     );
   };
 
-  _handleErrors = async cb => {
+  _handleErrors = async (cb) => {
     try {
       return await cb();
     } catch (err) {
@@ -97,7 +97,7 @@ class ModelForm extends BaseModelService {
     const data = {};
 
     await Promise.all(
-      Object.keys(this.input).map(async inputField => {
+      Object.keys(this.input).map(async (inputField) => {
         const value = this.input[inputField];
         const attribute = this.attributes[inputField];
 
@@ -144,7 +144,7 @@ class ModelForm extends BaseModelService {
     const data = {};
 
     await Promise.all(
-      Object.keys(this.input).map(async inputField => {
+      Object.keys(this.input).map(async (inputField) => {
         const value = this.input[inputField];
         const attribute = this.attributes[inputField];
 

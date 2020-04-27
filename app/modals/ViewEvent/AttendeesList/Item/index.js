@@ -9,13 +9,7 @@ import DELETE_INVITE from 'Mutations/calendarEventInviteDelete.graphql';
 import REFUSE_INVITE from 'Mutations/CalendarEventRequestRefuse.graphql';
 import './style.scss';
 
-const AttendeeItem = ({
-  className,
-  showActions,
-  event,
-  invite,
-  removeFromCache,
-}) => {
+const AttendeeItem = ({ className, showActions, event, invite }) => {
   const viewer = useViewer();
   const { organiser } = event;
 
@@ -45,7 +39,7 @@ const AttendeeItem = ({
             className="simple-icon-refresh text-muted hover-primary"
           />,
         );
-
+        break;
       case 'Requested':
         actions.push(
           <i

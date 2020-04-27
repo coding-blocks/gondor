@@ -1,0 +1,24 @@
+#import "../../fragments/user.graphql"
+#import "../../fragments/event.graphql"
+#import "../../fragments/eventInvite.graphql"
+#import "../../fragments/resource.graphql"
+
+query EditEventQuery($id: ID!) {
+  event(id: $id) {
+    ...EventFragment
+    organiser {
+      ...UserFragment
+    }
+    invites {
+      ...EventInviteFragment
+    }
+    resources {
+      ...ResourceFragment
+    }
+  }
+
+  types: eventTypeColors {
+    name
+    color
+  }
+}

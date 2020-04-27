@@ -1,5 +1,5 @@
 const extractMap = (
-  obj,
+  obj = [],
   { key = '', label = 'label', value = 'value' } = {
     key: '',
     label: 'label',

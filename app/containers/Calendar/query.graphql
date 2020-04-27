@@ -4,9 +4,4 @@ query CalendarPageQuery {
   viewer {
     ...ViewerFragment
   }
-
-  eventTypeColors {
-    name
-    color
-  }
 }

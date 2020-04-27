@@ -52,7 +52,7 @@ const InfiniteScroll = ({
     infiniteScrollCount += 1;
     const ele = document.getElementById(target || wrapperId);
 
-    const handleScroll = e => {
+    const handleScroll = (e) => {
       const currentPos = ele.scrollTop;
       const maxPos = ele.scrollTopMax;
 

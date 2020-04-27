@@ -10,7 +10,7 @@
     "build": "next build",
     "prebuild": "yarn generate:schema",
     "generate:schema": "babel-node ./api/bin/generate.schema.js",
-    "precommit": "lint-staged",
+    "pre-commit": "lint-staged",
     "format": "prettier --write \"{app,api}/**/*.{js,jsx,json,css,scss,grpahql,gql}\""
   },
   "dependencies": {
@@ -70,5 +70,10 @@
     "prettier": "^2.0.5",
     "sequelize-cli": "^5.5.1",
     "webpack-graphql-loader": "^1.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

@@ -1,11 +1,10 @@
 import moment from 'moment';
-import useViewer from 'Hooks/useViewer';
 import { useState, useMemo } from 'react';
-import { useMutation } from '@apollo/react-hooks';
 import Form from 'Components/Events/Form';
+import { useMutation } from '@apollo/react-hooks';
+import useCombinedErrors from 'Hooks/useCombinedErrors';
 import CREATE_EVENT from 'Mutations/calendarEventCreate.graphql';
 import CREATE_INVITE from 'Mutations/calendarEventInvite.graphql';
-import { combineErrors, formatErrors } from 'Utils/graphql';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 
 const AddEvent = ({ dateTimeRange, types, onClose }) => {
@@ -27,8 +26,6 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
   const [endAt, setEndAt] = useState(
     dateTimeRange?.end_at || moment().add(2, 'hour').startOf('hour').format(),
   );
-
-  const viewer = useViewer();
 
   const [inviteUsers, { error: createInviteErrors }] = useMutation(
     CREATE_INVITE,
@@ -56,7 +53,7 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
       }),
   });
 
-  const handleStartAtChange = value => {
+  const handleStartAtChange = (value) => {
     if (new Date(value) >= new Date(endAt)) {
       setEndAt(moment(value).add(1, 'hours').format());
     }
@@ -64,7 +61,7 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
     return setStartAt(value);
   };
 
-  const handleEndAtChange = value => {
+  const handleEndAtChange = (value) => {
     if (new Date(value) <= new Date(endAt)) {
       setStartAt(moment(value).subtract(1, 'hours').format());
     }
@@ -72,15 +69,7 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
     return setEndAt(value);
   };
 
-  const errors = useMemo(
-    () =>
-      combineErrors(
-        ...[createEventErrors, createInviteErrors].map(err =>
-          formatErrors(err),
-        ),
-      ),
-    [createEventErrors, createInviteErrors],
-  );
+  const errors = useCombinedErrors(createEventErrors, createInviteErrors);
 
   const formProps = {
     errors,

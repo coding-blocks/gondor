@@ -3,22 +3,22 @@ import { isUser, isMember, isAdmin, isSelf, isOrganiser } from './utils';
 
 const policy = new Policy();
 
-policy.include('query', p => {
-  p.include('events', cp =>
+policy.include('query', (p) => {
+  p.include('events', (cp) =>
     cp.register('read', ({ viewer }) => isMember(viewer)),
   );
 
-  p.include('zoomAccounts', cp =>
+  p.include('zoomAccounts', (cp) =>
     cp.register('read', ({ viewer }) => isMember(viewer)),
   );
 });
 
-policy.include('features', p => {
+policy.include('features', (p) => {
   p.register('teamManagement', ({ viewer }) => isMember(viewer));
   p.register('calendar', ({ viewer }) => isMember(viewer));
 });
 
-policy.include('user', p => {
+policy.include('user', (p) => {
   p.register('impersonate', ({ viewer }) => isAdmin(viewer));
   p.register('read', ({ viewer }) => isUser(viewer));
   p.register(
@@ -26,7 +26,7 @@ policy.include('user', p => {
     ({ viewer, entity: user }) => isSelf(user, viewer) || isAdmin(viewer),
   );
 
-  p.include(['email', 'mobile_number', 'photo'], cp => {
+  p.include(['email', 'mobile_number', 'photo'], (cp) => {
     cp.register(
       'read',
       ({ viewer, entity: user }) => isSelf(user, viewer) || isMember(viewer),
@@ -37,7 +37,7 @@ policy.include('user', p => {
     );
   });
 
-  p.include('role', cp => {
+  p.include('role', (cp) => {
     cp.register(
       'read',
       ({ viewer, entity: user }) => isSelf(user, viewer) || isMember(viewer),
@@ -45,14 +45,14 @@ policy.include('user', p => {
     cp.register('update', ({ viewer }) => isAdmin(viewer));
   });
 
-  p.include('events', cp => {
+  p.include('events', (cp) => {
     cp.register(
       'read',
       ({ viewer, entity: user }) => isSelf(user, viewer) || isMember(viewer),
     );
   });
 
-  p.include('availability', cp => {
+  p.include('availability', (cp) => {
     cp.register(
       'read',
       ({ viewer, entity: user }) => isSelf(user, viewer) || isMember(viewer),
@@ -60,7 +60,7 @@ policy.include('user', p => {
   });
 });
 
-policy.include('calendarEvent', p => {
+policy.include('calendarEvent', (p) => {
   p.register('create', ({ viewer }) => isMember(viewer));
   p.register(
     ['update', 'delete'],
@@ -70,7 +70,7 @@ policy.include('calendarEvent', p => {
 
   p.include(
     ['title', 'description', 'start_at', 'end_at', 'location', 'type'],
-    cp => {
+    (cp) => {
       cp.register(
         'update',
         ({ viewer, entity: event }) =>
@@ -79,7 +79,7 @@ policy.include('calendarEvent', p => {
     },
   );
 
-  p.include('requests', cp => {
+  p.include('requests', (cp) => {
     cp.register(
       'read',
       ({ viewer, entity: event }) =>
@@ -87,7 +87,7 @@ policy.include('calendarEvent', p => {
     );
   });
 
-  p.include('resources', cp => {
+  p.include('resources', (cp) => {
     cp.register(
       'read',
       ({ viewer, entity: event }) =>
@@ -96,7 +96,7 @@ policy.include('calendarEvent', p => {
   });
 });
 
-policy.include('calendarEventInvite', p => {
+policy.include('calendarEventInvite', (p) => {
   p.register(
     ['create', 'delete'],
     ({ viewer, entity: { event, status }, action }) =>
@@ -110,11 +110,11 @@ policy.include('calendarEventInvite', p => {
       isSelf({ id: user_id }, viewer) || isOrganiser(event, viewer),
   );
 
-  p.include(['entity', 'user'], cp => {
+  p.include(['entity', 'user'], (cp) => {
     cp.register('update', () => false);
   });
 
-  p.include('status', cp => {
+  p.include('status', (cp) => {
     cp.register('update', ({ viewer, entity: { user_id, event, status } }) => {
       const requested = ['Requested', 'Refused'].includes(status);
 
@@ -125,10 +125,10 @@ policy.include('calendarEventInvite', p => {
   });
 });
 
-policy.include('zoomAccount', p => {
+policy.include('zoomAccount', (p) => {
   p.register(['create', 'delete'], ({ viewer }) => isAdmin(viewer));
 
-  p.include('uses', cp =>
+  p.include('uses', (cp) =>
     cp.register('read', ({ viewer }) => isMember(viewer)),
   );
 });

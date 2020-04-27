@@ -7,6 +7,7 @@ query CalendarPageContentQuery(
   $attendees: [ID!]
   $types: [CalendarEventType!]
   $after: String
+  $includeAll: Boolean!
 ) {
   events(
     dateTimeRange: $dateTimeRange
@@ -28,5 +29,10 @@ query CalendarPageContentQuery(
       endCursor
       hasNextPage
     }
+  }
+
+  types: eventTypeColors @include(if: $includeAll) {
+    name
+    color
   }
 }

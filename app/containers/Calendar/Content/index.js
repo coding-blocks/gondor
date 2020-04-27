@@ -9,30 +9,32 @@ import Calendar from 'Components/Calendar';
 import extractMap from 'Utils/extractMap';
 import Filters from './Filters';
 import { Button } from 'reactstrap';
-import ModalsManager from 'Modals/Manager';
+import useModals from 'Hooks/useModals';
 import { extractNodes } from 'Utils/graphql';
 import { getDefaultDateTimeRange, defaultTypeFilter } from '../utils';
 
-const Content = React.memo(({ viewer, user, colors }) => {
+const Content = React.memo(({ viewer, user }) => {
   const [selectedType, setSelectedType] = useState(defaultTypeFilter);
   const [dateTimeRange, setDateTimeRange] = useState(getDefaultDateTimeRange());
-  const colorsMap = useMemo(
-    () => extractMap(colors, { label: 'name', value: 'color' }),
-    [colors],
-  );
 
   const variables = useMemo(
     () => ({
       dateTimeRange,
       attendees: user ? [user.id] : [],
       types: selectedType.value ? [selectedType.value] : [],
+      includeAll: false,
     }),
     [dateTimeRange, user, selectedType],
   );
 
   const { data, startPolling, stopPolling } = useQuery(QUERY, {
-    variables,
+    variables: { ...variables, includeAll: true },
   });
+
+  const colorsMap = useMemo(
+    () => extractMap(data?.types, { label: 'name', value: 'color' }),
+    [data?.types],
+  );
 
   useEffect(() => {
     stopPolling();
@@ -41,9 +43,9 @@ const Content = React.memo(({ viewer, user, colors }) => {
     return () => stopPolling();
   }, [variables]);
 
-  const Modals = useContext(ModalsManager.Context);
+  const Modals = useModals();
   const addEventProps = {
-    types: colors,
+    types: data?.types,
   };
 
   return (
@@ -52,7 +54,7 @@ const Content = React.memo(({ viewer, user, colors }) => {
         heading="Calendar"
         filters={() => (
           <Filters
-            types={colors}
+            types={data?.types}
             filters={{ type: selectedType }}
             onTypeChange={setSelectedType}
           />
@@ -74,7 +76,7 @@ const Content = React.memo(({ viewer, user, colors }) => {
         eventPropGetter={({ type }) => ({
           style: { backgroundColor: colorsMap[type] },
         })}
-        onRangeChange={dates => {
+        onRangeChange={(dates) => {
           if (Array.isArray(dates)) {
             const date = dates[0].toString();
             return setDateTimeRange({ start_at: date, end_at: date });
@@ -93,7 +95,7 @@ const Content = React.memo(({ viewer, user, colors }) => {
             },
           })
         }
-        onSelectEvent={event => Modals.ViewEvent.open({ id: event.id })}
+        onSelectEvent={(event) => Modals.ViewEvent.open({ id: event.id })}
       />
     </>
   );

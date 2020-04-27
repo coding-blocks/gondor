@@ -6,7 +6,7 @@ import { Calendar as BigCalendar, Views } from 'react-big-calendar';
 import localizer from 'react-big-calendar/lib/localizers/moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-const Calendar = memo(props => (
+const Calendar = memo((props) => (
   <Card>
     <CardBody>
       <BigCalendar

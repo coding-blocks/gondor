@@ -17,7 +17,7 @@ const createPage = ({
   LoaderComponent = () => <Loader />,
   //TODO(naman): add default error layout
   ErrorComponent = () => 'There was some error.',
-}) => props => {
+}) => (props) => {
   const [fetched, setFetched] = useState(false);
   const { loading, error, data, ...rest } = useQuery(inject(query, props), {
     variables: inject(variables, props),

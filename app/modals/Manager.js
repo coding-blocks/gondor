@@ -21,6 +21,7 @@ const reducer = (state, { type, payload }) => {
 const modals = {
   AddEvent: dynamic(() => import('./AddEvent')),
   ViewEvent: dynamic(() => import('./ViewEvent')),
+  EditEvent: dynamic(() => import('./EditEvent')),
 };
 
 const ModalsManager = React.memo(({ children }) => {
@@ -28,7 +29,8 @@ const ModalsManager = React.memo(({ children }) => {
 
   const actions = Object.keys(modals).reduce((acm, name) => {
     acm[name] = {
-      open: props => dispatch({ type: 'openModal', payload: { name, props } }),
+      open: (props) =>
+        dispatch({ type: 'openModal', payload: { name, props } }),
       close: () => dispatch({ type: 'closeModal', payload: { name } }),
     };
 
@@ -36,8 +38,8 @@ const ModalsManager = React.memo(({ children }) => {
   }, {});
 
   return (
-    <>
-      <Context.Provider value={actions}>{children}</Context.Provider>
+    <Context.Provider value={actions}>
+      {children}
       {state.map(({ name, props }, index) => {
         const Modal = modals[name];
 
@@ -57,7 +59,7 @@ const ModalsManager = React.memo(({ children }) => {
           />
         );
       })}
-    </>
+    </Context.Provider>
   );
 });
 

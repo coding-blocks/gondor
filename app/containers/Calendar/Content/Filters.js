@@ -8,7 +8,7 @@ import {
   getEventTypeLabel,
 } from '../utils';
 
-const Fitlers = memo(({ filters, types, onTypeChange }) => (
+const Fitlers = memo(({ filters, types = [], onTypeChange }) => (
   <Dropdown
     className="d-inline-block mr-2"
     selected={getEventTypeLabel(filters.type, 'Event Type:')}

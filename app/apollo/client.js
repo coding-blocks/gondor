@@ -21,7 +21,7 @@ const createApolloClient = (ctx = {}, initialState = {}) => {
   });
 };
 
-const createIsomorphLink = ctx => {
+const createIsomorphLink = (ctx) => {
   const { HttpLink } = require('apollo-link-http');
 
   return new HttpLink({

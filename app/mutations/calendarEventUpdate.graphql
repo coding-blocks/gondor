@@ -1,0 +1,15 @@
+#import "../fragments/event.graphql"
+#import "../fragments/resource.graphql"
+#import "../fragments/eventInvite.graphql"
+
+mutation CalendarEventUpdate($id: ID!, $input: CalendarEventUpdateInput!) {
+  event: calendarEventUpdate(id: $id, input: $input) {
+    ...EventFragment
+    resources {
+      ...ResourceFragment
+    }
+    invites {
+      ...EventInviteFragment
+    }
+  }
+}
