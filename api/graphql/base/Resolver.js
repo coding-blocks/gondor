@@ -12,7 +12,11 @@ class BaseResolver {
 BaseResolver.resolver = function () {
   return async function () {
     try {
-      return await new this(...arguments).resolve();
+      const handler = new this(...arguments);
+      if (typeof handler.validate === 'function') {
+        await handler.validate();
+      }
+      return await handler.resolve();
     } catch (err) {
       console.log(err);
 
