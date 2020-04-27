@@ -7,7 +7,7 @@ const UserSearchLabel = ({ user, showAvailability }) => (
     <span>
       {user.firstname} {user.lastname}
     </span>
-    {showAvailability && (
+    {showAvailability && typeof user.availability === 'boolean' && (
       <div className="float-right">
         <Badge
           className="mt-1 ml-2"

@@ -37,7 +37,11 @@ export default class User extends BaseModelService {
     }
   }
 
-  static async findAvailaibilityDuring(user_id, dateTimeRange) {
+  static async findAvailaibilityDuring(
+    user_id,
+    dateTimeRange,
+    exculdeEvents = [],
+  ) {
     const data = await Models.CalendarEventInvite.scope('visible').findOne({
       where: {
         user_id,
@@ -46,7 +50,16 @@ export default class User extends BaseModelService {
         {
           model: Models.CalendarEvent,
           as: 'event',
-          where: overlapDateTimeClause(dateTimeRange),
+          where: {
+            [Models.Sequelize.Op.and]: [
+              overlapDateTimeClause(dateTimeRange),
+              {
+                id: {
+                  [Models.Sequelize.Op.notIn]: exculdeEvents,
+                },
+              },
+            ],
+          },
           required: true,
         },
       ],
@@ -56,8 +69,12 @@ export default class User extends BaseModelService {
   }
 
   @requireInstance
-  ifAvailableDuring(dateTimeRange) {
-    return User.findAvailaibilityDuring(this.instance.id, dateTimeRange);
+  ifAvailableDuring(dateTimeRange, exculdeEvents) {
+    return User.findAvailaibilityDuring(
+      this.instance.id,
+      dateTimeRange,
+      exculdeEvents,
+    );
   }
 
   @saveInstance

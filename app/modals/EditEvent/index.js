@@ -30,7 +30,7 @@ const EditEvent = ({ loading, onClose, types, event }) => {
       () =>
         event.invites
           .filter((invite) => invite.user.id !== event.organiser.id)
-          .map(({ user }) => user),
+          .map(({ user, availability }) => ({ ...user, availability })),
       [event.invites],
     ),
   );
