@@ -110,6 +110,7 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
     setStartAt: handleStartAtChange,
     endAt,
     setEndAt: handleEndAtChange,
+    invites,
     setInvites,
     location,
     setLocation,

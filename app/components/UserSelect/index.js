@@ -19,8 +19,16 @@ const UserSelect = ({
   const { loading, data } = useQuery(QUERY, {
     variables: {
       includeAvailability: !!availabilityStatusDuring,
-      limit: 10,
+      limit: 5,
       ...variables,
+      exclude: [
+        ...(variables.exclude || []),
+        ...(value
+          ? isMulti
+            ? value.map(({ id }) => id) || []
+            : [value.id]
+          : []),
+      ],
       availabilityDuring: availabilityStatusDuring,
       search,
     },
