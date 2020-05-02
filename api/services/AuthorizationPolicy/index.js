@@ -13,7 +13,7 @@ policy.include('query', (p) => {
   );
 
   p.include('zoomAccounts', (cp) =>
-    cp.register('read', ({ viewer }) => isMember(viewer)),
+    cp.register('read', ({ viewer }) => isAdmin(viewer)),
   );
 });
 
@@ -133,9 +133,27 @@ policy.include('calendarEventInvite', (p) => {
 policy.include('zoomAccount', (p) => {
   p.register(['create', 'delete'], ({ viewer }) => isAdmin(viewer));
 
-  p.include('uses', (cp) =>
+  p.include(['uses', 'availability'], (cp) =>
     cp.register('read', ({ viewer }) => isMember(viewer)),
   );
+});
+
+policy.include('resource', (p) => {
+  p.register('create', ({ viewer, value: { topic_type, topic } }) => {
+    if (topic_type === 'CalendarEvent') {
+      return isOrganiser(topic, viewer) || isAdmin(viewer);
+    }
+
+    return false;
+  });
+
+  p.register('delete', ({ viewer, entity: { topic_type, topic } }) => {
+    if (topic_type === 'CalendarEvent') {
+      return isOrganiser(topic, viewer) || isAdmin(viewer);
+    }
+
+    return false;
+  });
 });
 
 export default policy;

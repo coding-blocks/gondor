@@ -1,0 +1,4 @@
+fragment ZoomAccountFragment on ZoomAccount {
+  id
+  email
+}

@@ -1,7 +1,7 @@
-#import "../fragments/zoomAccounts.graphql"
+#import "../fragments/zoomAccount.graphql"
 
 mutation ZoomAccountCreate($input: ZoomAccountCreateInput!) {
   zoomAccount: zoomAccountCreate(input: $input) {
-    ...ZoomAccountsFragment
+    ...ZoomAccountFragment
   }
 }

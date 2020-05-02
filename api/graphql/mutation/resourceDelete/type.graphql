@@ -1,0 +1,3 @@
+extend type Mutation {
+  resourceDelete(id: ID!): Resource!
+}

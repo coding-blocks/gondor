@@ -1,5 +1,3 @@
-#import "../fragments/zoomAccounts.graphql"
-
 mutation ZoomAccountDelete($id: ID!) {
   deletedAccount: zoomAccountDelete(id: $id) {
     id

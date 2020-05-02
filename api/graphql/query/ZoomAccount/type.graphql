@@ -2,6 +2,7 @@ type ZoomAccount {
   id: ID!
   email: String!
   uses: [Resource!] @protected
+  availability(dateTimeRange: DateTimeRangeInput!): Boolean @protected
 }
 
 extend type Query {

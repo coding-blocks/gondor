@@ -1,4 +1,6 @@
 'use strict';
+const camelcase = require('camelcase');
+
 module.exports = (sequelize, DataTypes) => {
   const Resource = sequelize.define(
     'resource',

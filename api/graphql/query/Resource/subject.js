@@ -5,7 +5,7 @@ const subjectResolver = async (parent) => {
     parent.dataValues || parent,
   ).getSubject();
 
-  return { ...subject.toJSON(), __resolveType: parent.subject_type };
+  return { ...subject.toJSON(), __typename: parent.subject_type };
 };
 
 export default subjectResolver;

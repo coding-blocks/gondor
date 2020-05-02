@@ -1,0 +1,7 @@
+#import "../fragments/resource.graphql"
+
+mutation ResourceCreate($input: ResourceCreateInput!) {
+  resource: resourceCreate(input: $input) {
+    ...ResourceFragment
+  }
+}

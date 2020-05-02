@@ -8,6 +8,7 @@ import ModalsManager from 'Modals/Manager';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import 'Styles/theme/styles.scss';
 import 'Styles/theme/iconsmind/style.scss';
