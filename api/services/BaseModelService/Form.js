@@ -26,7 +26,7 @@ class ModelForm extends BaseModelService {
         attribute?.foreignKeyConstraintError || `No ${name} found.`;
 
       throw new UserInputError(message, {
-        validationErrors: [{ field, message }],
+        validationErrors: [{ field, error: message }],
       });
     }
   };
@@ -47,7 +47,7 @@ class ModelForm extends BaseModelService {
     throw new UserInputError(message, {
       validationErrors: graphqlFields.map((field) => ({
         field,
-        message: 'Must be unique.',
+        error: 'Already exists.',
       })),
     });
   };

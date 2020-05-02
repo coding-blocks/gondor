@@ -11,6 +11,7 @@ import Filters from './Filters';
 import { Button } from 'reactstrap';
 import useModals from 'Hooks/useModals';
 import useViewer from 'Hooks/useViewer';
+import authHelper from 'Utils/authHelper';
 import { extractNodes } from 'Utils/graphql';
 import { getDefaultDateTimeRange, defaultTypeFilter } from '../utils';
 
@@ -61,13 +62,15 @@ const Content = React.memo(({ user }) => {
             onTypeChange={setSelectedType}
           />
         )}
-        actions={() => (
-          <Button
-            color="primary"
-            onClick={() => Modals.AddEvent.open(addEventProps)}>
-            Add Event
-          </Button>
-        )}
+        actions={() =>
+          authHelper.isMember(viewer) && (
+            <Button
+              color="primary"
+              onClick={() => Modals.AddEvent.open(addEventProps)}>
+              Add Event
+            </Button>
+          )
+        }
       />
       <Calendar
         popup

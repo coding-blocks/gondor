@@ -7,7 +7,9 @@ import DatePicker from './DatePicker';
 
 const Form = ({ children, errors = null, ...props }) => (
   <Context.Provider value={{ errors }}>
-    <BaseForm {...props}>{children}</BaseForm>
+    <BaseForm onSubmit={() => {}} {...props}>
+      {children}
+    </BaseForm>
   </Context.Provider>
 );
 

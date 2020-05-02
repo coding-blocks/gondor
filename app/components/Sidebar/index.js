@@ -23,6 +23,13 @@ const navigation = ({ viewer }) => {
       icon: 'iconsmind-Calendar-4',
       hidden: !features.calendar,
     },
+    {
+      name: 'Zoom-accounts',
+      href: '/settings/zoom-accounts',
+      match: /^\/settings\/zoom-accounts/,
+      icon: 'iconsmind-Cinema',
+      hidden: !features.settings,
+    },
   ];
 };
 
