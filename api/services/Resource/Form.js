@@ -2,7 +2,7 @@ import Models from 'Models';
 import Resource from './';
 import { UserInputError } from 'apollo-server-micro';
 import BaseModelForm from 'Services/BaseModelService/Form';
-import { saveInstance } from 'Services/BaseModelService';
+import { saveInstance, requireInstance } from 'Services/BaseModelService';
 
 class ResourceForm extends BaseModelForm {
   name = 'resource';
@@ -10,7 +10,7 @@ class ResourceForm extends BaseModelForm {
   @saveInstance
   async beforeCreate() {
     const { subject_type, subject_id, topic_type, topic_id } = this.input;
-    const [topic, subject] = await Promise.all([
+    const [subject, topic] = await Promise.all([
       Models[subject_type].findByPk(subject_id),
       Models[topic_type].findByPk(topic_id),
     ]);
@@ -21,7 +21,7 @@ class ResourceForm extends BaseModelForm {
     if (!subject)
       validationErrors.push({ field: 'subject_id', error: 'Not Found' });
 
-    if (!validationErrors.length)
+    if (validationErrors.length)
       throw new UserInputError('Wrong Input', { validationErrors });
 
     return {
@@ -35,7 +35,7 @@ class ResourceForm extends BaseModelForm {
   }
 
   @saveInstance
-  async beforeCreate() {
+  async beforeDelete() {
     return Models.Resource.findByPk(this.id, {
       includes: [Models.ZoomAccount, Models.CalendarEvent],
     });
@@ -46,7 +46,7 @@ class ResourceForm extends BaseModelForm {
   }
 
   onDelete() {
-    return new CalendarEvent(this.instance).delete();
+    return new Resource(this.instance).delete();
   }
 }
 

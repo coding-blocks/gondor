@@ -58,16 +58,17 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
             },
           },
         }),
-        createZoomAccount({
-          variables: {
-            input: {
-              subject_type: 'ZoomAccount',
-              subject_id: zoomAccount?.id,
-              topic_type: 'CalendarEvent',
-              topic_id: event.id,
+        zoomAccount &&
+          createZoomAccount({
+            variables: {
+              input: {
+                subject_type: 'ZoomAccount',
+                subject_id: zoomAccount?.id,
+                topic_type: 'CalendarEvent',
+                topic_id: event.id,
+              },
             },
-          },
-        }),
+          }),
       ]);
 
       return onClose();

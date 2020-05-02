@@ -13,11 +13,7 @@ class ResourceCreate extends BaseMutationResolver {
       input,
     });
 
-    const res = await form.create();
-
-    console.log(res.subject);
-
-    return res;
+    return form.create();
   };
 }
 

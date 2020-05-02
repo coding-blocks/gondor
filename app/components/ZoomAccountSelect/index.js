@@ -26,6 +26,7 @@ const ZoomAccountSelect = memo(
       <Form.Select
         name={name}
         isMulti={isMulti}
+        isClearable
         value={value}
         isLoading={loading}
         onChange={onChange}
@@ -37,7 +38,7 @@ const ZoomAccountSelect = memo(
         )}
         getOptionValue={(account) => account.id}
         filterOption={({ data }, search) =>
-          console.log(data, search) || data.email.startsWith(search)
+          data.id !== value?.id && data.email.startsWith(search)
         }
         options={data?.zoomAccounts || []}
         placeholder={placeholder}

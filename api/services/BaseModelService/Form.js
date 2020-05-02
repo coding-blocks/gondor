@@ -87,7 +87,6 @@ class ModelForm extends BaseModelService {
     if (
       !policy.perform(`${name}:create`).having(this.input).on(this.instance)
     ) {
-      console.log(`${name}:create`);
       throw new ForbiddenError(
         `User is not authorized to perform this action.`,
       );

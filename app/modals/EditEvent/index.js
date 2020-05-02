@@ -9,6 +9,8 @@ import useCombinedErrors from 'Hooks/useCombinedErrors';
 import UPDATE_EVENT from 'Mutations/calendarEventUpdate.graphql';
 import CREATE_INVITE from 'Mutations/calendarEventInvite.graphql';
 import DELETE_INVITE from 'Mutations/calendarEventInviteDelete.graphql';
+import CREATE_RESOURCE from 'Mutations/resourceCreate.graphql';
+import DELETE_RESOURCE from 'Mutations/resourceDelete.graphql';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 
 const EditEvent = ({ loading, onClose, types, event }) => {
@@ -34,6 +36,17 @@ const EditEvent = ({ loading, onClose, types, event }) => {
       [event.invites],
     ),
   );
+  const zoomAccountResource = useMemo(
+    () =>
+      event.resources.find(
+        ({ subject: { __typename } }) => __typename === 'ZoomAccount',
+      ),
+    [event.resources],
+  );
+  const [zoomAccount, setZoomAccount] = useState({
+    ...zoomAccountResource?.subject,
+    availability: zoomAccountResource?.availability,
+  });
 
   const [startAt, setStartAt] = useState(event.start_at);
   const [endAt, setEndAt] = useState(event.end_at);
@@ -44,6 +57,13 @@ const EditEvent = ({ loading, onClose, types, event }) => {
 
   const [deleteInvite, { error: deleteInviteErrors }] = useMutation(
     DELETE_INVITE,
+  );
+
+  const [createResource, { errors: createResourceErrors }] = useMutation(
+    CREATE_RESOURCE,
+  );
+  const [deleteResource, { errors: deleteResourceErrors }] = useMutation(
+    DELETE_RESOURCE,
   );
 
   const [updateEvent, { error: updateEventErrors }] = useMutation(
@@ -76,6 +96,32 @@ const EditEvent = ({ loading, onClose, types, event }) => {
         const invitesAdded = invites.filter(
           ({ id }) => id !== event.organiser.id && !prevInvites[id],
         );
+
+        let zoomAccountActions = [];
+        const zoomAccountChanged =
+          zoomAccountResource?.subject.id !== zoomAccount?.id;
+
+        if (zoomAccountChanged) {
+          if (!!zoomAccountResource)
+            zoomAccountActions.push(
+              deleteResource({ variables: { id: zoomAccountResource.id } }),
+            );
+
+          if (!!zoomAccount)
+            zoomAccountActions.push(
+              createResource({
+                variables: {
+                  input: {
+                    subject_type: 'ZoomAccount',
+                    subject_id: zoomAccount.id,
+                    topic_type: 'CalendarEvent',
+                    topic_id: event.id,
+                  },
+                },
+              }),
+            );
+        }
+
         try {
           await Promise.all([
             inviteUsers({
@@ -93,6 +139,7 @@ const EditEvent = ({ loading, onClose, types, event }) => {
                 }),
               ),
             ),
+            Promise.all(zoomAccountActions),
           ]);
 
           return onClose();
@@ -142,6 +189,8 @@ const EditEvent = ({ loading, onClose, types, event }) => {
     setInvites,
     location,
     setLocation,
+    zoomAccount,
+    setZoomAccount,
   };
 
   return (

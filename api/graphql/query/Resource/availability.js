@@ -1,6 +1,6 @@
 import Models from 'Models';
 import ZoomAccount from 'Services/ZoomAccount';
-import BaseResolver from 'Graphql/Base/Resolver';
+import BaseResolver from 'Graphql/base/Resolver';
 
 class ZoomAccountAvailability extends BaseResolver {
   resolve = async () => {
