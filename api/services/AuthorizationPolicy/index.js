@@ -19,7 +19,8 @@ policy.include('query', (p) => {
 
 policy.include('features', (p) => {
   p.register('teamManagement', ({ viewer }) => isMember(viewer));
-  p.register('calendar', ({ viewer }) => isMember(viewer));
+  p.register('calendar', ({ viewer }) => isUser(viewer));
+  p.register('settings', ({ viewer }) => isAdmin(viewer));
 });
 
 policy.include('user', (p) => {

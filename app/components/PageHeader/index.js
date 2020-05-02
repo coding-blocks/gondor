@@ -25,7 +25,7 @@ const PageHeader = ({
       {actions && <div className="action-items">{actions()}</div>}
     </div>
     {filters && (
-      <div className="mb-2">
+      <div>
         <Collapse id="displayOptions" className="d-md-block">
           <div className="d-block d-md-inline-block">
             <div className="float-md-left d-flex header-filters-wrap">
@@ -35,7 +35,7 @@ const PageHeader = ({
         </Collapse>
       </div>
     )}
-    <div className="separator mb-5" />
+    <div className="separator mt-2 mb-5" />
   </>
 );
 

@@ -12,6 +12,10 @@ const features = async (parent) => {
       name: 'calendar',
       enabled: policy.perform('features:calendar').on(null),
     },
+    {
+      name: 'settings',
+      enabled: policy.perform('features:settings').on(null),
+    },
   ];
 };
 

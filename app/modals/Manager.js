@@ -22,6 +22,7 @@ const modals = {
   AddEvent: dynamic(() => import('./AddEvent')),
   ViewEvent: dynamic(() => import('./ViewEvent')),
   EditEvent: dynamic(() => import('./EditEvent')),
+  AddZoomAccount: dynamic(() => import('./AddZoomAccount')),
 };
 
 const ModalsManager = React.memo(({ children }) => {
