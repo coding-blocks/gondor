@@ -5,7 +5,7 @@ const topicResolver = async (parent) => {
     parent.dataValues || parent,
   ).gettopic();
 
-  return { ...topic.toJSON(), __resolveType: parent.topic_type };
+  return { ...topic.toJSON(), __typename: parent.topic_type };
 };
 
 export default topicResolver;

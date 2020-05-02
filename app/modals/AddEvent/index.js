@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/react-hooks';
 import useCombinedErrors from 'Hooks/useCombinedErrors';
 import CREATE_EVENT from 'Mutations/calendarEventCreate.graphql';
 import CREATE_INVITE from 'Mutations/calendarEventInvite.graphql';
+import CREATE_RESOURCE from 'Mutations/resourceCreate.graphql';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 
 const AddEvent = ({ dateTimeRange, types, onClose }) => {
@@ -17,6 +18,7 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
     color: types[0].color,
   });
   const [invites, setInvites] = useState([]);
+  const [zoomAccount, setZoomAccount] = useState();
 
   /* NOTE(naman): an extra hour is added because
    * endOf returns HH:59, hence starOf is used*/
@@ -29,9 +31,10 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
 
   const [inviteUsers, { error: createInviteErrors }] = useMutation(
     CREATE_INVITE,
-    {
-      onCompleted: async () => onClose(),
-    },
+  );
+
+  const [createZoomAccount, { error: createZoomAccountErrors }] = useMutation(
+    CREATE_RESOURCE,
   );
 
   const [addEvent, { error: createEventErrors }] = useMutation(CREATE_EVENT, {
@@ -45,12 +48,31 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
         type: type.value,
       },
     },
-    onCompleted: ({ event }) =>
-      inviteUsers({
-        variables: {
-          input: { event_id: event.id, user_ids: invites.map(({ id }) => id) },
-        },
-      }),
+    onCompleted: async ({ event }) => {
+      await Promise.all([
+        inviteUsers({
+          variables: {
+            input: {
+              event_id: event.id,
+              user_ids: invites.map(({ id }) => id),
+            },
+          },
+        }),
+        zoomAccount &&
+          createZoomAccount({
+            variables: {
+              input: {
+                subject_type: 'ZoomAccount',
+                subject_id: zoomAccount?.id,
+                topic_type: 'CalendarEvent',
+                topic_id: event.id,
+              },
+            },
+          }),
+      ]);
+
+      return onClose();
+    },
   });
 
   const handleStartAtChange = (value) => {
@@ -69,7 +91,11 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
     return setEndAt(value);
   };
 
-  const errors = useCombinedErrors(createEventErrors, createInviteErrors);
+  const errors = useCombinedErrors(
+    createEventErrors,
+    createInviteErrors,
+    createZoomAccountErrors,
+  );
 
   const formProps = {
     errors,
@@ -87,6 +113,8 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
     setInvites,
     location,
     setLocation,
+    zoomAccount,
+    setZoomAccount,
   };
 
   return (

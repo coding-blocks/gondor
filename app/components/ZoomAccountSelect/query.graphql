@@ -1,0 +1,12 @@
+#import "../../fragments/zoomAccount.graphql"
+
+query ZoomAccountSelectQuery(
+  $includeAvailability: Boolean!
+  $availabilityDuring: DateTimeRangeInput!
+) {
+  zoomAccounts {
+    ...ZoomAccountFragment
+    availability(dateTimeRange: $availabilityDuring)
+      @include(if: $includeAvailability)
+  }
+}

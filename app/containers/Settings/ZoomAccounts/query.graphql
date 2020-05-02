@@ -1,11 +1,11 @@
 #import "../../../fragments/viewer.graphql"
-#import "../../../fragments/ZoomAccounts.graphql"
+#import "../../../fragments/ZoomAccount.graphql"
 
 query ZoomAccountsPage {
   viewer {
     ...ViewerFragment
   }
   zoomAccounts {
-    ...ZoomAccountsFragment
+    ...ZoomAccountFragment
   }
 }

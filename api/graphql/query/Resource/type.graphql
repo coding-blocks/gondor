@@ -1,8 +1,17 @@
 union ResourceSubject = ZoomAccount
 union ResourceTopic = CalendarEvent
 
+enum ResourceSubjectType {
+  ZoomAccount
+}
+
+enum ResourceTopicType {
+  CalendarEvent
+}
+
 type Resource {
   id: ID!
   subject: ResourceSubject!
   topic: ResourceTopic!
+  availability: Boolean @protected
 }

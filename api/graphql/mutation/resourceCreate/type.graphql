@@ -1,0 +1,10 @@
+input ResourceCreateInput {
+  subject_type: ResourceSubjectType!
+  subject_id: ID!
+  topic_type: ResourceTopicType!
+  topic_id: ID!
+}
+
+extend type Mutation {
+  resourceCreate(input: ResourceCreateInput!): Resource!
+}

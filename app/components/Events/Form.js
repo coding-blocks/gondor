@@ -7,6 +7,7 @@ import {
 } from 'Containers/UserCalendar/utils';
 import Select from 'Components/Select';
 import UserSelect from 'Components/UserSelect';
+import ZoomAccountSelect from 'Components/ZoomAccountSelect';
 
 const EventForm = memo(
   ({
@@ -26,6 +27,8 @@ const EventForm = memo(
     setInvites,
     location,
     setLocation,
+    zoomAccount,
+    setZoomAccount,
   }) => {
     const viewer = useViewer();
 
@@ -85,7 +88,7 @@ const EventForm = memo(
             isMulti
             name="invites"
             value={invites}
-            placeholder="Invite invites"
+            placeholder="Invite users"
             variables={{
               exclude: [viewer.user.id],
             }}
@@ -94,6 +97,19 @@ const EventForm = memo(
               end_at: endAt,
             }}
             onChange={setInvites}
+          />
+        </Form.Group>
+        <Form.Group className="has-float-label mb-4 col-12">
+          <Form.Label>Zoom Account</Form.Label>
+          <ZoomAccountSelect
+            name="zoomAccount"
+            value={zoomAccount}
+            placeholder="Select account"
+            availabilityStatusDuring={{
+              start_at: startAt,
+              end_at: endAt,
+            }}
+            onChange={setZoomAccount}
           />
         </Form.Group>
         <Form.Group className="has-float-label mb-4 col-12">
