@@ -11,6 +11,7 @@ import ACCEPT_INVITE from 'Mutations/calendarEventInviteAccept.graphql';
 import REQUEST_INVITE from 'Mutations/calendarEventRequest.graphql';
 import DELETE_EVENT from 'Mutations/calendarEventDelete.graphql';
 import useModals from 'Hooks/useModals';
+import ZoomAccountLabel from 'Components/ZoomAccountSelect/Label';
 
 const EventContent = memo(({ event, onClose }) => {
   const viewer = useViewer();
@@ -28,6 +29,14 @@ const EventContent = memo(({ event, onClose }) => {
         user: event.organiser,
       },
     [event.invites, event.organiser],
+  );
+
+  const zoomAccount = useMemo(
+    () =>
+      event.resources.find(
+        ({ subject: { __typename } }) => __typename === 'ZoomAccount',
+      ),
+    [event.resources],
   );
 
   const canUpdate =
@@ -81,6 +90,20 @@ const EventContent = memo(({ event, onClose }) => {
               <strong>Description:</strong>
             </p>
             <p>{event.description}</p>
+          </>
+        )}
+        {zoomAccount && (
+          <>
+            <p className="mb-0">
+              <strong>ZoomAccount:</strong>
+            </p>
+            <ZoomAccountLabel
+              account={{
+                ...zoomAccount.subject,
+                availability: zoomAccount.availability,
+              }}
+              showAvailability
+            />
           </>
         )}
         {event.location && (

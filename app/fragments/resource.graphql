@@ -1,11 +1,13 @@
+#import "./zoomAccount.graphql"
+
 fragment ResourceFragment on Resource {
   id
+  availability
   subject {
     __typename
 
     ... on ZoomAccount {
-      id
-      email
+      ...ZoomAccountFragment
     }
   }
 }

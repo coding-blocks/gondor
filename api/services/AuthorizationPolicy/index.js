@@ -136,6 +136,10 @@ policy.include('zoomAccount', (p) => {
   p.include(['uses', 'availability'], (cp) =>
     cp.register('read', ({ viewer }) => isMember(viewer)),
   );
+
+  p.include('availability', (cp) =>
+    cp.register('read', ({ viewer }) => isMember(viewer)),
+  );
 });
 
 policy.include('resource', (p) => {
@@ -154,6 +158,10 @@ policy.include('resource', (p) => {
 
     return false;
   });
+
+  p.include('availability', (cp) =>
+    cp.register('read', ({ viewer }) => isMember(viewer)),
+  );
 });
 
 export default policy;
