@@ -10,10 +10,12 @@ import extractMap from 'Utils/extractMap';
 import Filters from './Filters';
 import { Button } from 'reactstrap';
 import useModals from 'Hooks/useModals';
+import useViewer from 'Hooks/useViewer';
 import { extractNodes } from 'Utils/graphql';
 import { getDefaultDateTimeRange, defaultTypeFilter } from '../utils';
 
-const Content = React.memo(({ viewer, user }) => {
+const Content = React.memo(({ user }) => {
+  const viewer = useViewer();
   const [selectedType, setSelectedType] = useState(defaultTypeFilter);
   const [dateTimeRange, setDateTimeRange] = useState(getDefaultDateTimeRange());
 

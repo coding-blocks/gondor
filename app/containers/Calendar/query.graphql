@@ -1,7 +1,0 @@
-#import "../../fragments/viewer.graphql"
-
-query CalendarPageQuery {
-  viewer {
-    ...ViewerFragment
-  }
-}

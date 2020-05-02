@@ -14,10 +14,16 @@ export default (Component) => (getServerSideProps = defaultHandler) => async (
   }));
 
   const { props: pageProps } = await getServerSideProps(ctx);
+  const props = {
+    params: ctx.params || {},
+    query: ctx.query,
+    preview: ctx.preview || false,
+    ...pageProps,
+  };
 
   if (typeof window === 'undefined') {
     if (ctx.res && ctx.res.finished) {
-      return pageProps;
+      return { props };
     }
 
     try {
@@ -27,7 +33,7 @@ export default (Component) => (getServerSideProps = defaultHandler) => async (
         <App
           Component={Component}
           pageProps={{
-            ...pageProps,
+            ...props,
             apolloClient,
           }}
         />,
@@ -43,7 +49,7 @@ export default (Component) => (getServerSideProps = defaultHandler) => async (
 
   return {
     props: {
-      ...pageProps,
+      ...props,
       apolloState,
     },
   };

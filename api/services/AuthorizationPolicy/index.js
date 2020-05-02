@@ -4,6 +4,10 @@ import { isUser, isMember, isAdmin, isSelf, isOrganiser } from './utils';
 const policy = new Policy();
 
 policy.include('query', (p) => {
+  p.include('user', (cp) =>
+    cp.register('read', ({ viewer }) => isMember(viewer)),
+  );
+
   p.include('events', (cp) =>
     cp.register('read', ({ viewer }) => isMember(viewer)),
   );

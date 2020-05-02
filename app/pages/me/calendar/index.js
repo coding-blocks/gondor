@@ -1,4 +1,4 @@
-import Calendar from 'Containers/Calendar';
+import Calendar from 'Containers/UserCalendar';
 import withApollo from 'Decorators/withApollo';
 
 export default Calendar;

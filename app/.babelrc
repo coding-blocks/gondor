@@ -19,6 +19,7 @@
           "Modals": "./app/modals",
           "Mutations": "./app/mutations",
           "Pages": "./app/pages",
+          "Paths": "./app/paths",
           "Services": "./app/services",
           "Store": "./app/store",
           "Styles": "./app/styles",

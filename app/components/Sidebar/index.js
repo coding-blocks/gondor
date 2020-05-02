@@ -1,4 +1,5 @@
 import React from 'react';
+import paths from 'Paths';
 import Link from 'next/link';
 import classNames from 'classnames';
 import { withRouter } from 'next/router';
@@ -17,8 +18,8 @@ const navigation = ({ viewer }) => {
   return [
     {
       name: 'Calendar',
-      href: '/calendar',
-      match: /^\/calendar/,
+      href: paths.me.calendar()[0],
+      match: /^\/(me\/calendar|users\/[^\/]*\/calendar)/,
       icon: 'iconsmind-Calendar-4',
       hidden: !features.calendar,
     },

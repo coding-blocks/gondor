@@ -1,19 +1,28 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import classNames from 'classnames';
 import QUERY from './query.graphql';
 import Loader from 'Components/Loader';
+import useViewer from 'Hooks/useViewer';
 import UserCard from 'Components/UserCard';
 import { useQuery } from '@apollo/react-hooks';
 import { ModalHeader, Input } from 'reactstrap';
 import InfiniteScroll from 'Components/InfiniteScroll';
 
-const TeamMembers = ({ viewer, setUser, selected, scrollTarget }) => {
+const TeamMembers = ({ setUser, selected, scrollTarget }) => {
+  const viewer = useViewer();
   const [search, setSearch] = useState('');
   const variables = { search, exclude: [viewer.user.id] };
 
   const { loading, error, data, fetchMore } = useQuery(QUERY, {
     variables,
   });
+
+  const selectedVisible = useMemo(
+    () =>
+      selected.id === viewer.user.id ||
+      !!data?.users.edges.find(({ node: user }) => user.id === selected.id),
+    [viewer, data, selected],
+  );
 
   return (
     <>
@@ -44,6 +53,13 @@ const TeamMembers = ({ viewer, setUser, selected, scrollTarget }) => {
               variables={variables}
               target={scrollTarget}
               connectionPath="users">
+              {!selectedVisible && (
+                <UserCard
+                  key={selected.id}
+                  className="mb-4 pointer shadow"
+                  user={selected}
+                />
+              )}
               {data.users.edges.map(({ node: user }) => (
                 <UserCard
                   key={user.id}

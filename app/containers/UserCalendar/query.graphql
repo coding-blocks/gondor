@@ -1,0 +1,11 @@
+#import "../../fragments/viewer.graphql"
+#import "../../fragments/user.graphql"
+
+query UserCalendarPageQuery($userId: ID!, $includeUser: Boolean!) {
+  viewer {
+    ...ViewerFragment
+  }
+  user(id: $userId) @include(if: $includeUser) {
+    ...UserFragment
+  }
+}

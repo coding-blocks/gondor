@@ -4,7 +4,7 @@ import Form from 'Components/Form';
 import {
   getEventTypeOption,
   getEventTypeLabel,
-} from 'Containers/Calendar/utils';
+} from 'Containers/UserCalendar/utils';
 import Select from 'Components/Select';
 import UserSelect from 'Components/UserSelect';
 
