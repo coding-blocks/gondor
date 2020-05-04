@@ -1,5 +1,5 @@
 #import "../../../fragments/viewer.graphql"
-#import "../../../fragments/ZoomAccount.graphql"
+#import "../../../fragments/zoomAccount.graphql"
 
 query ZoomAccountsPage {
   viewer {

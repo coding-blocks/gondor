@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "start": "next start",
-    "prestart": "yarn build",
     "dev": "next dev",
     "predev": "rm -rf .next && yarn build",
     "build": "next build",

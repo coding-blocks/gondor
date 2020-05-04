@@ -6,7 +6,7 @@ import { useMutation } from '@apollo/react-hooks';
 import InviteStatusBadge from 'Components/InviteStatusBadge';
 import CREATE_INVITE from 'Mutations/calendarEventInvite.graphql';
 import DELETE_INVITE from 'Mutations/calendarEventInviteDelete.graphql';
-import REFUSE_INVITE from 'Mutations/CalendarEventRequestRefuse.graphql';
+import REFUSE_INVITE from 'Mutations/calendarEventRequestRefuse.graphql';
 import './style.scss';
 
 const AttendeeItem = ({ className, showActions, event, invite }) => {
