@@ -78,9 +78,31 @@ const Content = React.memo(({ user }) => {
         events={extractNodes(data, 'events')}
         startAccessor={({ start_at }) => new Date(start_at)}
         endAccessor={({ end_at }) => new Date(end_at)}
-        eventPropGetter={({ type }) => ({
-          style: { backgroundColor: colorsMap[type] },
-        })}
+        eventPropGetter={({ type, inviteStatus }) => {
+          const notAccepted =
+            user.id === viewer.user?.id && inviteStatus !== 'Accepted';
+          let style = {};
+
+          if (notAccepted) {
+            style = {
+              borderColor: colorsMap[type],
+              borderStyle: 'solid',
+              borderWidth: '2px',
+              marginBottom: '-1px',
+              backgroundColor: 'transparent',
+              color: '#303030',
+            };
+
+            if (inviteStatus === 'Declined')
+              style.textDecoration = 'line-through';
+          } else {
+            style = {
+              backgroundColor: colorsMap[type],
+            };
+          }
+
+          return { style };
+        }}
         onRangeChange={(dates) => {
           if (Array.isArray(dates)) {
             const date = dates[0].toString();

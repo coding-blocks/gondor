@@ -25,6 +25,7 @@ type CalendarEvent implements Node {
   end_at: DateTime!
   invites: [CalendarEventInvite!]!
   resources: [Resource!] @protected
+  inviteStatus: CalendarEventInviteStatus
 }
 
 type CalendarEventEdge {

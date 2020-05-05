@@ -50,9 +50,17 @@ class EventsResolver extends BaseConnectionResolver {
             user_id: {
               [Op.in]: this.args.attendees,
             },
-            status: {
-              [Op.in]: ['Pending', 'Accepted', 'Requested'],
-            },
+            [Op.or]: [
+              {
+                status: {
+                  [Op.in]: ['Pending', 'Accepted', 'Requested'],
+                },
+              },
+              {
+                status: 'Declined',
+                user_id: this.ctx.viewer?.id,
+              },
+            ],
           },
         },
         required: true,

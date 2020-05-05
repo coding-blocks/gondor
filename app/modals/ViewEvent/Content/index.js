@@ -1,4 +1,5 @@
 import { memo, useMemo, useContext } from 'react';
+import moment from 'moment';
 import Auth from 'Services/Auth';
 import useViewer from 'Hooks/useViewer';
 import { useMutation } from '@apollo/react-hooks';
@@ -76,6 +77,18 @@ const EventContent = memo(({ event, onClose }) => {
         </span>
       </ModalHeader>
       <ModalBody>
+        <p>
+          <strong>From:</strong>{' '}
+          <span className="float-right">
+            {moment(event.start_at).format('DD MMM YYYY, HH:MM A')}
+          </span>
+        </p>
+        <p>
+          <strong>To:</strong>{' '}
+          <span className="float-right">
+            {moment(event.end_at).format('DD MMM YYYY, HH:MM A')}
+          </span>
+        </p>
         <p>
           <strong>Organiser:</strong>
         </p>
