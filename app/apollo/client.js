@@ -23,10 +23,13 @@ const createApolloClient = (ctx = {}, initialState = {}) => {
 };
 
 const createIsomorphLink = (ctx) => {
+  const ssrMode = typeof window === 'undefined';
   const { HttpLink } = require('apollo-link-http');
 
   return new HttpLink({
-    uri: config.app.url + '/api/graphql',
+    uri: ssrMode
+      ? 'http://localhost:3000/api/graphql'
+      : config.app.url + '/api/graphql',
     credentials: 'same-origin',
     fetch: require('node-fetch'),
     headers: {
