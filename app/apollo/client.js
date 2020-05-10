@@ -1,5 +1,6 @@
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import config from 'Config';
 
 let globalApolloClient = null;
 
@@ -25,7 +26,7 @@ const createIsomorphLink = (ctx) => {
   const { HttpLink } = require('apollo-link-http');
 
   return new HttpLink({
-    uri: 'http://localhost:3000/api/graphql',
+    uri: config.app.url + '/api/graphql',
     credentials: 'same-origin',
     fetch: require('node-fetch'),
     headers: {
