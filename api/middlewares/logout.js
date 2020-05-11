@@ -8,10 +8,9 @@ export default (req, res) => {
     'Set-Cookie',
     cookie.serialize('lotr', '', {
       httpOnly: secure,
-      maxAge: -1,
       path: '/',
       domain: secure
-        ? '.' + config.app.url.replace(/^http{s}?:/, '')
+        ? '.' + config.app.url.replace(/https?:\/\//, '')
         : undefined,
       sameSite: secure ? 'lax' : undefined,
       secure,
