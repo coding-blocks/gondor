@@ -10,6 +10,7 @@ module.exports = withSass(
     withFonts({
       env: {
         API_DIR: path.join(__dirname, 'api'),
+        APP_URL: process.env.APP_URL,
       },
       exportTrailingSlash: true,
       enableSvg: true,
