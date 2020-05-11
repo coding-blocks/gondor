@@ -4,6 +4,7 @@ import OneAuth from 'Services/OneAuth';
 import User from 'Services/User';
 import BaseController from 'Controllers/Base';
 import logout from 'Middlewares/decorators/logout';
+import config from 'Config';
 
 class LoginCallback extends BaseController {
   @logout
@@ -27,10 +28,9 @@ class LoginCallback extends BaseController {
         'Set-Cookie',
         cookie.serialize('lotr', token, {
           httpOnly: secure,
-          maxAge: -1,
           path: '/',
           domain: secure
-            ? '.' + config.app.url.replace(/^http{s}?:/, '')
+            ? '.' + config.app.url.replace(/^https?:\/\//, '')
             : undefined,
           sameSite: secure ? 'lax' : undefined,
           secure,

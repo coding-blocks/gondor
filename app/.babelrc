@@ -27,6 +27,6 @@
         }
       }
     ],
-    ["import-graphql", { "runtime": true }]
+    "import-graphql"
   ]
 }
