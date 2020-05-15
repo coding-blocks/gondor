@@ -3,11 +3,18 @@ A platform for internal tools at Coding Blocks, hosted at https://tools.codingbl
 
 ## Getting Started
 
-First, run the development server:
+### Installing npm
+npm is installed with Node.js<br>
+This means that you have to install Node.js to get npm installed on your computer.<br>
+Download Node.js from the official Node.js web site: [https://nodejs.org](https://nodejs.org)
+### Installing yarn
+`npm install -g yarn`
 
-```bash
-yarn dev
-```
+change the directory to `/gondor` project in terminal.
+### Installing dependencies
+`yarn install`
+### Run development server
+`yarn dev`
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
