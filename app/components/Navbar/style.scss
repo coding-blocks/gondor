@@ -2,4 +2,15 @@
   .menu-button {
     padding-left: 30px;
   }
+  .d-inline-block{
+    display: inline-flex;
+  }
+  .username {
+    display: inline-flex;
+    align-items: center;
+  }
+  .useravatar{
+    justify-content: center;
+    align-items: center;
+  }
 }

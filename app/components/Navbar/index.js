@@ -55,10 +55,10 @@ const Navbar = () => {
                 toggle={() => setUserMenu(!showUserMenu)}>
                 <DropdownToggle tag="div" aria-extended={showUserMenu}>
                   <div className="d-inline-block pointer">
-                    <span className="mb-0 mr-2">
+                    <span className="mb-0 mr-2 username">
                       {viewer.user.firstname} {viewer.user.lastname}
                     </span>
-                    <Avatar user={viewer.user} />
+                    <Avatar className="useravatar" user={viewer.user} />
                   </div>
                 </DropdownToggle>
                 <DropdownMenu>
