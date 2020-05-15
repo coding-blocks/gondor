@@ -13,7 +13,7 @@ Download Node.js from the official Node.js web site: [https://nodejs.org](https:
 change the directory to `/gondor` project in terminal.
 ### Installing dependencies
 `yarn install`
-### Run the development server
+### Run development server
 `yarn dev`
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
