@@ -1,5 +1,5 @@
 # Gondor
-A platform for internal tools at Coding Blocks, hosted at https://tools.codingblocks.com.
+A platform for internal tools at Coding Blocks, hosted at https://tools.codingblocks.com. This project is part of boss, please check for [issues here](https://github.com/coding-blocks/gondor/labels/BOSS). For any queries regarding setup or contribution, feel free to join [discord](https://discord.gg/wNFXjh) and post in #gondor channel.
 
 ## Setup
 
@@ -38,12 +38,26 @@ yarn sequelize db:migrate
 
 ### Setting Up OneAuth
 
-This project uses OneAuth as a signle sign on server. For authentication it is required for this project to be running locally.  Please follow the instructions [here](https://github.com/coding-blocks/oneauth) to setup up OneAuth.
+This project uses OneAuth as a signle sign on server. For authentication it is required for OneAuth to be either running locally or to have a client application created [here](https://account.codingblocks.com/users/me/clients).
 
-Once OneAuth is setup successfully on your system, [create a client application](https://github.com/coding-blocks/oneauth/wiki/Explicit-Authentication) and get the `ONEAUTH_CLIENT_ID` and `ONEAUTH_CLIENT_SECRET` and add it to your `.env`.
+(optional) Please follow the instructions [here](https://github.com/coding-blocks/oneauth) to setup up OneAuth locally.
+
+**Config for OneAuth Client App**
+
+```
+domain = http://localhost:3000
+default url = http://localhost:3000
+callback url = http://localhost:3000/api/login/callback
+```
+
+If you have setup OneAuth locally, then [create a client application](https://github.com/coding-blocks/oneauth/wiki/Explicit-Authentication), get the `ONEAUTH_CLIENT_ID` & `ONEAUTH_CLIENT_SECRET` and add it to your `.env`.
+
+Otherwise, similarly create a client application for authentication [here](https://account.codingblocks.com/users/me/clients), get the `ONEAUTH_CLIENT_ID` & `ONEAUTH_CLIENT_SECRET` and add it to your `.env`.
+ 
+**Add Env Vars**
 ```bash
 #.env
-ONEAUTH_URL=http://localhost:3838 #or any other address where oneauth is running.
+ONEAUTH_URL=http://localhost:3838 #include only if oneauth setup locally
 ONEAUTH_CLIENT_SECRET=<client_id>
 ONEAUTH_CLIENT_SECRET=<client_scret>
 ```
@@ -65,3 +79,4 @@ Take a look at the following resources:
 - [Apollo Server](https://www.apollographql.com/docs/apollo-server/) - learn about graphql api server.
 - [Apollo Client](https://www.apollographql.com/docs/react) - learn about graphql react client.
 - [DataLoader](https://www.youtube.com/watch?v=OQTnXNCDywA) - learn how to fix N+1 query problem.
+- [ReactStrap](https://reactstrap.github.io/) - learn bootstrap components for react.
