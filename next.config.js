@@ -11,7 +11,8 @@ module.exports = withSass(
       env: {
         API_DIR: path.join(__dirname, 'api'),
         APP_URL: process.env.APP_URL,
-        SENTRY_DSN: process.env.SENTRY_DSN,
+        SENTRY_DSN_SERVER: process.env.SENTRY_DSN_SERVER,
+        SENTRY_DSN_CLIENT: process.env.SENTRY_DSN_CLIENT,
       },
       exportTrailingSlash: true,
       enableSvg: true,

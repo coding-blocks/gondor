@@ -15,7 +15,10 @@ import 'Styles/theme/iconsmind/style.scss';
 import 'Styles/theme/simple-line-icons/css/simple-line-icons.css';
 
 Sentry.init({
-  dsn: process.env.SENTRY_DSN,
+  dsn:
+    typeof window === 'undefined'
+      ? process.env.SENTRY_DSN_SERVER
+      : process.env.SENTRY_DSN_CLIENT,
 });
 
 const PageLayout = ({ children }) => children;
