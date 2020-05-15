@@ -16,6 +16,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 Take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features.
-- [Graphql] - learn grpahql specififcation.
+- [Graphql](https://graphql.org/learn/) - learn grpahql specififcation.
 - [Apollo Server](https://www.apollographql.com/docs/apollo-server/) - learn about graphql api server.
 - [Apollo Client](https://www.apollographql.com/docs/react) - learn about graphql react client.
