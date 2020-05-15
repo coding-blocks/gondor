@@ -14,7 +14,6 @@ import 'Styles/theme/styles.scss';
 import 'Styles/theme/iconsmind/style.scss';
 import 'Styles/theme/simple-line-icons/css/simple-line-icons.css';
 
-// Todo: Add SENTRY_DSN in your .env file
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
 });
@@ -24,6 +23,9 @@ const PageLayout = ({ children }) => children;
 class App extends NextApp {
   componentDidCatch(error, errorInfo) {
     console.log(error, errorInfo);
+    Sentry.withScope((scope) => {
+      scope.setExtras(errorInfo);
+    });
     // TODO(naman): Add ErrorHandler here
   }
 
