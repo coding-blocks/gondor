@@ -3,14 +3,6 @@ A platform for internal tools at Coding Blocks, hosted at https://tools.codingbl
 
 ## Getting Started
 
-### Installing npm
-npm is installed with Node.js<br>
-This means that you have to install Node.js to get npm installed on your computer.<br>
-Download Node.js from the official Node.js web site: [https://nodejs.org](https://nodejs.org)
-### Installing yarn
-`npm install -g yarn`
-
-change the directory to `/gondor` project in terminal.
 ### Installing dependencies
 `yarn install`
 ### Run development server
