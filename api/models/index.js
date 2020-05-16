@@ -15,7 +15,9 @@ const sequelize = new Sequelize(
   config,
 );
 
-fs.readdirSync(path.join(process.env.API_DIR, 'models')).forEach((file) => {
+fs.readdirSync(
+  path.join(process.env.API_DIR || path.resolve(__dirname, '..'), 'models'),
+).forEach((file) => {
   if (
     file.indexOf('.') === 0 ||
     file === 'index.js' ||
@@ -24,7 +26,11 @@ fs.readdirSync(path.join(process.env.API_DIR, 'models')).forEach((file) => {
     return;
 
   const model = sequelize['import'](
-    path.join(process.env.API_DIR, 'models', file),
+    path.join(
+      process.env.API_DIR || path.resolve(__dirname, '..'),
+      'models',
+      file,
+    ),
   );
   db[pascalcase(model.name)] = model;
 });
