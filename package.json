@@ -74,5 +74,9 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  }
+  },
+  "engines": {
+    "node": "12.16.3"
+  },
+  "engineStrict": true
 }
