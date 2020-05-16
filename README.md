@@ -42,7 +42,7 @@ yarn sequelize db:migrate
 
 ### Setting Up OneAuth
 
-This project uses OneAuth as a signle sign on server. For authentication it is required for OneAuth to be either running locally or to have a client application created [here](https://account.codingblocks.com/users/me/clients).
+This project uses OneAuth as a single sign on server. For authentication it is required for OneAuth to be either running locally or to have a client application created [here](https://account.codingblocks.com/users/me/clients).
 
 (optional) Please follow the instructions [here](https://github.com/coding-blocks/oneauth) to setup up OneAuth locally.
 
