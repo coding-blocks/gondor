@@ -67,6 +67,7 @@
     "husky": "^4.2.5",
     "lint-staged": "^10.1.7",
     "prettier": "^2.0.5",
+    "rimraf": "2.2.6",
     "sequelize-cli": "^5.5.1",
     "webpack-graphql-loader": "^1.0.2"
   },
