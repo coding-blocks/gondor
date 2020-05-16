@@ -75,6 +75,32 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Development
+
+There are multiple tools used to make developer experience smooth. You can suggest your ideas in form of issues.
+
+### Seed Users
+
+If you don't have a local OneAuth setup and want to seed database with random users, you can use the command below. The caveat is that you won't be able to login through their accounts. But you may impersonate them using your own account *(admin role required)*.
+```bash
+npx babel-node api/bin/seedUsers.js
+```
+
+### Update User Role
+
+Use the following script to update the role of any user.
+```bash
+ npx babel-node api/bin/updateRole <username> <role(Admin, Member, User)>
+```
+
+### Impersonate User
+
+During local development setup, it takes a lot of time to login and log out of different user profile for testing various features. To solve this problem there exists the impersonate user functionality.
+
+If your logged in user is an Admin, you can add a cookie named `iuid` with the value of any other user's id. On reload you will be logged in as the other user. Removing the cookie and reloading will login you back as the original user.
+
+The same functionality can be used for debugging on production.
+
 ## Learn More
 
 Take a look at the following resources:
