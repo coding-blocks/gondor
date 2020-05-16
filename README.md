@@ -63,7 +63,7 @@ Otherwise, similarly create a client application for authentication [here](https
 ```bash
 #.env
 ONEAUTH_URL=http://localhost:3838 #include only if oneauth setup locally
-ONEAUTH_CLIENT_SECRET=<client_id>
+ONEAUTH_CLIENT_ID=<client_id>
 ONEAUTH_CLIENT_SECRET=<client_scret>
 ```
 
