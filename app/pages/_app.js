@@ -22,10 +22,11 @@ class App extends NextApp {
   }
 
   render() {
-    const {
+    let {
       Component: Page,
       pageProps: { apolloClient, apolloState, ...pageProps },
     } = this.props;
+    pageProps = { ...pageProps, hasError: true };
 
     return (
       <ApolloProvider

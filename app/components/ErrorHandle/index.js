@@ -3,15 +3,8 @@ import './style.scss';
 
 const ErrorHandle = () => (
   <div className="err-message">
-    <h2>
-      There was some error.{' '}
-      <a href="/" class="orange">
-        Back to Home
-      </a>
-    </h2>
-    <img
-      src="https://minio.codingblocks.com/amoeba/404-image-min.png"
-      alt="Error"></img>
+    <h2>There was some error.</h2>
+    <img src="/img/error.png" alt="Error"></img>
   </div>
 );
 
