@@ -29,13 +29,10 @@ const createPage = ({
 
   const viewer = useViewer();
 
-  let hasError;
-  hasError = 'hasError' in _props ? true : false;
-
   let content;
   if (loading && !fetched) {
     content = <Loader {...props} />;
-  } else if (error || hasError) {
+  } else if (error) {
     content = <ErrorComponent error={error} {...props} />;
   } else if (requireLogin && !viewer?.user) {
     //TODO(naman): add default access denied layout
