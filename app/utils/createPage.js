@@ -4,6 +4,7 @@ import useViewer from 'Hooks/useViewer';
 import { useQuery } from '@apollo/react-hooks';
 import Loader from 'Components/Loader';
 import Dashboard from 'Layouts/Dashboard';
+import ErrorHandle from 'Components/ErrorHandle';
 
 const inject = (obj, props) => (typeof obj === 'function' ? obj(props) : obj);
 
@@ -15,8 +16,7 @@ const createPage = ({
   requireFeatures = [],
   requireLogin = true,
   LoaderComponent = () => <Loader />,
-  //TODO(naman): add default error layout
-  ErrorComponent = () => 'There was some error.',
+  ErrorComponent = () => <ErrorHandle />,
   authorize = () => true,
 }) => (_props) => {
   const router = useRouter() || { query: _props.params };
@@ -29,10 +29,13 @@ const createPage = ({
 
   const viewer = useViewer();
 
+  let hasError;
+  hasError = 'hasError' in _props ? true : false;
+
   let content;
   if (loading && !fetched) {
     content = <Loader {...props} />;
-  } else if (error) {
+  } else if (error || hasError) {
     content = <ErrorComponent error={error} {...props} />;
   } else if (requireLogin && !viewer?.user) {
     //TODO(naman): add default access denied layout

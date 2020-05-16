@@ -18,7 +18,7 @@ const PageLayout = ({ children }) => children;
 class App extends NextApp {
   componentDidCatch(error, errorInfo) {
     console.log(error, errorInfo);
-    // TODO(naman): Add ErrorHandler here
+    pageProps = { ...pageProps, hasError: true };
   }
 
   render() {
