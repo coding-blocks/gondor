@@ -47,7 +47,7 @@ const Navbar = () => {
             </a>
           </Link>
         </div>
-        <div className="col-4 text-right">
+        <div className="col-4 text-right text-avatar">
           <div className="d-inline-block pointer">
             {viewer?.user ? (
               <Dropdown
