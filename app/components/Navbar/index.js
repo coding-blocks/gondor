@@ -13,7 +13,7 @@ import useViewer from 'Hooks/useViewer';
 
 import './style.scss';
 
-const Navbar = () => {
+const Navbar = (props) => {
   const viewer = useViewer();
   const [showUserMenu, setUserMenu] = useState(false);
 
@@ -21,7 +21,9 @@ const Navbar = () => {
     <nav className="navbar fixed-top p-none">
       <div className="row w-100">
         <div className="col-4">
-          <div className="menu-button pointer d-md-block text-left">
+          <div
+            onClick={props.handleSideBar}
+            className="menu-button pointer d-md-block text-left">
             <svg
               className="main"
               xmlns="http://www.w3.org/2000/svg"
