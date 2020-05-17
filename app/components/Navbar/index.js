@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import Link from 'next/link';
 import {
   Button,
@@ -15,7 +15,22 @@ import './style.scss';
 
 const Navbar = () => {
   const viewer = useViewer();
+  const [size, setSize] = useState([0, 0]);
   const [showUserMenu, setUserMenu] = useState(false);
+
+  function useWindowSize() {
+    useLayoutEffect(() => {
+      function updateSize() {
+        setSize([window.innerWidth, window.innerHeight]);
+      }
+      window.addEventListener('resize', updateSize);
+      updateSize();
+      return () => window.removeEventListener('resize', updateSize);
+    }, []);
+    return size;
+  }
+
+  const [width] = useWindowSize();
 
   return (
     <nav className="navbar fixed-top p-none">
@@ -40,14 +55,16 @@ const Navbar = () => {
             </svg>
           </div>
         </div>
-        <div className="col-4 text-center">
-          <Link href="/" passHref>
-            <a className="navbar-logo d-none d-md-block">
-              <img className="navbar-logo" src="/img/logo.png" />
-            </a>
-          </Link>
-        </div>
-        <div className="col-4 text-right">
+        {width >= 500 && (
+          <div className="col-4 text-center">
+            <Link href="/" passHref>
+              <a className="navbar-logo d-none d-md-block">
+                <img className="navbar-logo" src="/img/logo.png" />
+              </a>
+            </Link>
+          </div>
+        )}
+        <div className="col col-md-4 text-right">
           <div className="d-inline-block pointer">
             {viewer?.user ? (
               <Dropdown
