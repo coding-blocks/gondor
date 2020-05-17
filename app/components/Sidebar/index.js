@@ -9,6 +9,9 @@ import useViewer from 'Hooks/useViewer';
 import './style.scss';
 
 const navigation = ({ viewer }) => {
+  let viewingHeight = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${viewingHeight}px`);
+
   const features = extractMap(viewer, {
     key: 'features',
     label: 'name',
