@@ -14,8 +14,8 @@ const Dashboard = ({ children, data }) => {
 
   return (
     <div className="dashboard-layout">
-      <Navbar handleSideBar={toggleSideBar} />
-      {showSideBar && <Sidebar />}
+      <Navbar toggleSideBar={toggleSideBar} />
+      <Sidebar show={showSideBar} />
       <main>{children}</main>
     </div>
   );

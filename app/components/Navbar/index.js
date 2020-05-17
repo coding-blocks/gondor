@@ -16,13 +16,14 @@ import './style.scss';
 const Navbar = (props) => {
   const viewer = useViewer();
   const [showUserMenu, setUserMenu] = useState(false);
+  const { toggleSideBar } = props;
 
   return (
     <nav className="navbar fixed-top p-none">
       <div className="row w-100">
         <div className="col-4">
           <div
-            onClick={props.handleSideBar}
+            onClick={toggleSideBar}
             className="menu-button pointer d-md-block text-left">
             <svg
               className="main"
