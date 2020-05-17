@@ -4,6 +4,7 @@ import NextApp from 'next/app';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { initApolloClient } from 'Apollo/client';
 import ModalsManager from 'Modals/Manager';
+import ErrorLayout from 'Components/ErrorLayout';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
@@ -16,12 +17,17 @@ import 'Styles/theme/simple-line-icons/css/simple-line-icons.css';
 const PageLayout = ({ children }) => children;
 
 class App extends NextApp {
+  state = {
+    hasError: false,
+  };
+
   componentDidCatch(error, errorInfo) {
     console.log(error, errorInfo);
-    // TODO(naman): Add ErrorHandler here
+    this.setState({ hasError: true });
   }
 
   render() {
+    const { hasError } = this.state;
     const {
       Component: Page,
       pageProps: { apolloClient, apolloState, ...pageProps },
@@ -34,7 +40,7 @@ class App extends NextApp {
           <link rel="icon" href="/favicon.png" />
         </Head>
         <ModalsManager>
-          <Page {...pageProps}></Page>
+          {hasError ? <ErrorLayout /> : <Page {...pageProps}></Page>}
         </ModalsManager>
       </ApolloProvider>
     );

@@ -4,6 +4,7 @@ import useViewer from 'Hooks/useViewer';
 import { useQuery } from '@apollo/react-hooks';
 import Loader from 'Components/Loader';
 import Dashboard from 'Layouts/Dashboard';
+import ErrorLayout from 'Components/ErrorLayout';
 
 const inject = (obj, props) => (typeof obj === 'function' ? obj(props) : obj);
 
@@ -15,8 +16,7 @@ const createPage = ({
   requireFeatures = [],
   requireLogin = true,
   LoaderComponent = () => <Loader />,
-  //TODO(naman): add default error layout
-  ErrorComponent = () => 'There was some error.',
+  ErrorComponent = ErrorLayout,
   authorize = () => true,
 }) => (_props) => {
   const router = useRouter() || { query: _props.params };
