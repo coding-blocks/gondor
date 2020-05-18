@@ -93,7 +93,7 @@ const EventContent = memo(({ event, onClose }) => {
           <strong>Organiser:</strong>
         </p>
         <AttendeeItem className="mb-4" invite={organiserInvite} event={event} />
-        {event.invites && (
+        {!!event.invites?.length && (
           <>
             <p>
               <strong>Attendees:</strong>
