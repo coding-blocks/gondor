@@ -53,7 +53,7 @@ const Navbar = () => {
               <Dropdown
                 isOpen={showUserMenu}
                 toggle={() => setUserMenu(!showUserMenu)}>
-                <DropdownToggle tag="div" aria-extended={showUserMenu}>
+                <DropdownToggle tag="div" aria-expanded={showUserMenu}>
                   <div className="d-inline-block pointer">
                     <span className="mb-0 mr-2">
                       {viewer.user.firstname} {viewer.user.lastname}
