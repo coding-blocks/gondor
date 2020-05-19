@@ -67,6 +67,18 @@ ONEAUTH_CLIENT_ID=<client_id>
 ONEAUTH_CLIENT_SECRET=<client_scret>
 ```
 
+## Create symlinks
+
+Open CMD as administrator and run the following commands at the root of the project:
+
+- mklink /D ".\app\pages\api" ".\api\routes"
+- mklink /D ".\pages" ".\app\pages"
+
+Before running this command delete these files:
+
+- ".\app\pages\api"
+- ".\pages"
+
 ### Running Development Server
 
 ```bash
