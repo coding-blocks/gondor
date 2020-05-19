@@ -74,7 +74,16 @@ policy.include('calendarEvent', (p) => {
   );
 
   p.include(
-    ['title', 'description', 'start_at', 'end_at', 'location', 'type'],
+    [
+      'title',
+      'description',
+      'start_at',
+      'end_at',
+      'location',
+      'type',
+      'is_open',
+      'is_public',
+    ],
     (cp) => {
       cp.register(
         'update',

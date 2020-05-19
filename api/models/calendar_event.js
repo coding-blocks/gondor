@@ -43,6 +43,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: false,
       },
+      is_public: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
+      is_open: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
     },
     {
       paranoid: true,

@@ -23,6 +23,10 @@ const EventForm = memo(
     setStartAt,
     endAt,
     setEndAt,
+    isOpen,
+    setIsOpen,
+    isPublic,
+    setIsPublic,
     invites,
     setInvites,
     location,
@@ -119,6 +123,24 @@ const EventForm = memo(
             name="location"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="has-float-label mb-4 col-12">
+          <Form.Label>Open</Form.Label>
+          <Form.Input
+            type="checkbox"
+            name="open"
+            value={isOpen}
+            onChange={() => setIsOpen(!isOpen)}
+          />
+        </Form.Group>
+        <Form.Group className="has-float-label mb-4 col-12">
+          <Form.Label>Public</Form.Label>
+          <Form.Input
+            type="checkbox"
+            name="public"
+            value={isPublic}
+            onClick={() => setIsPublic(!isPublic)}
           />
         </Form.Group>
       </Form>
