@@ -46,16 +46,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      is_public: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
-      },
-      is_open: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
-      },
       deleted_at: {
         type: Sequelize.DATE,
       },

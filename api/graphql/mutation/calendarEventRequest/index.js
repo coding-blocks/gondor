@@ -21,7 +21,7 @@ class CalendarEventRequest extends BaseMutationResolver {
       },
     });
 
-    return event?.is_open && form.create();
+    return form.create();
   };
 }
 

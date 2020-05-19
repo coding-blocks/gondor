@@ -132,14 +132,14 @@ const EventContent = memo(({ event, onClose }) => {
           </p>
         )}
         {event.is_open && (
-          <>
-            <Badge color="primary">Open</Badge>
-          </>
+          <Badge color="primary" pill>
+            Open
+          </Badge>
         )}
         {event.is_public && (
-          <>
-            <Badge color="primary">Public</Badge>
-          </>
+          <Badge color="primary" pill>
+            Public
+          </Badge>
         )}
       </ModalBody>
       <ModalFooter>

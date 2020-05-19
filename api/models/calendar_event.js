@@ -46,10 +46,12 @@ module.exports = (sequelize, DataTypes) => {
       is_public: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
+        defaultValue: false,
       },
       is_open: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
+        defaultValue: false,
       },
     },
     {
