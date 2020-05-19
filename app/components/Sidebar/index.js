@@ -41,7 +41,7 @@ const Sidebar = React.memo(
       <div className="sidebar">
         <div
           className={classNames('main-menu', {
-            'main-hidden': show,
+            'menu-hidden': show,
           })}>
           <PerfectScrollbar
             options={{ suppressScrollX: true, wheelPropagation: false }}>

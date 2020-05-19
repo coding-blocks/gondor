@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from 'Components/Navbar';
 import Sidebar from 'Components/Sidebar';
-
+import classNames from 'classnames';
 import './style.scss';
 
 const Dashboard = ({ children, data }) => {
@@ -13,7 +13,11 @@ const Dashboard = ({ children, data }) => {
   };
 
   return (
-    <div className="dashboard-layout">
+    <div
+      className={classNames('dashboard-layout', {
+        'menu-default menu-sub-hidden': showSideBar,
+        'menu-default menu-sub-hidden main-hidden': !showSideBar,
+      })}>
       <Navbar toggleSideBar={toggleSideBar} />
       <Sidebar show={showSideBar} />
       <main>{children}</main>
