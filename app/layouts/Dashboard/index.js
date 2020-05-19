@@ -17,6 +17,7 @@ const Dashboard = ({ children, data }) => {
   const isEmbed = router.query.hasOwnProperty('embed');
 
   return (
+
     <div
       className={classNames('dashboard-layout', {
         'menu-default menu-sub-hidden': showSideBar,
