@@ -129,13 +129,18 @@ policy.include('calendarEventInvite', (p) => {
   });
 
   p.include('status', (cp) => {
-    cp.register('update', ({ viewer, entity: { user_id, event, status } }) => {
-      const requested = ['Requested', 'Refused'].includes(status);
+    cp.register(
+      'update',
+      ({ viewer, entity: { user_id, event, status, value } }) => {
+        const requested = ['Requested', 'Refused'].includes(status);
 
-      if (!requested) return isSelf({ id: user_id }, viewer);
+        if (value.status !== 'Requested' && !event.is_open) return false;
 
-      if (requested) return isOrganiser(event, viewer);
-    });
+        if (!requested) return isSelf({ id: user_id }, viewer);
+
+        if (requested) return isOrganiser(event, viewer);
+      },
+    );
   });
 });
 
