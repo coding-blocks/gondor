@@ -29,7 +29,10 @@ const UserSelect = ({
             : [value.id]
           : []),
       ],
-      availabilityDuring: availabilityStatusDuring,
+      availabilityDuring: availabilityStatusDuring || {
+        start_at: 0,
+        end_at: 0,
+      },
       search,
     },
   });
