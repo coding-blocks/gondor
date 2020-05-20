@@ -78,15 +78,13 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Fixing Windows Symlink Issue
 
-If you are a windows users and facing error while starting the development server try running the following:
-
 Run the following command from root of the project:
 
 ```bash
 bash ./bin/windows_start.sh
 ```
 
-You might be needed to enable Windows Subsystem for Linux feature on your OS or run the command inside git bash.
+*You might be needed to enable Windows Subsystem for Linux feature on your OS or run the command inside git bash.*
 
 
 ## Development
