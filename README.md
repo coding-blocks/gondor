@@ -80,23 +80,14 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 If you are a windows users and facing error while starting the development server try running the following:
 
-# Run the following command from root of the project:
+Run the following command from root of the project:
 
+```bash
 bash ./bin/windows_start.sh
+```
 
 You might be needed to enable Windows Subsystem for Linux feature on your OS or run the command inside git bash.
 
-Or
-
-# Open CMD as administrator and run the following commands at the root of the project:
-
-- mklink /D ".\app\pages\api" ".\api\routes"
-- mklink /D ".\pages" ".\app\pages"
-
-Before running this command delete these files:
-
-- ".\app\pages\api"
-- ".\pages"
 
 ## Development
 
