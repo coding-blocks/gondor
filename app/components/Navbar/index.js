@@ -10,13 +10,14 @@ import {
 import Auth from 'Services/Auth';
 import Avatar from 'Components/Avatar';
 import useViewer from 'Hooks/useViewer';
-
+import useModals from 'Hooks/useModals';
 import './style.scss';
 
 const Navbar = (props) => {
   const viewer = useViewer();
   const [showUserMenu, setUserMenu] = useState(false);
   const { toggleSideBar } = props;
+  const Modals = useModals();
 
   return (
     <nav className="navbar fixed-top p-none">
@@ -65,6 +66,11 @@ const Navbar = (props) => {
                   </div>
                 </DropdownToggle>
                 <DropdownMenu>
+                  {viewer.user.role === 'Admin' && (
+                    <DropdownItem onClick={() => Modals.Impersonate.open()}>
+                      Impersonate
+                    </DropdownItem>
+                  )}
                   <DropdownItem onClick={Auth.logout}>Logout</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
