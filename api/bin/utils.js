@@ -33,7 +33,7 @@ const convertMapToString = (map) =>
       (str, key) => `${str}
         ${key}: ${
         typeof map[key] === 'string'
-          ? `require('${getRawString(map[key])}').default`
+          ? `require(String.raw\`${map[key]}\`).default`
           : convertMapToString(map[key])
       },
       `,

@@ -55,7 +55,12 @@ const createPage = ({
   }
 
   return (
-    <Layout loading={loading} error={error} data={data}>
+    <Layout
+      loading={loading}
+      error={error}
+      data={data}
+      router={router}
+      {..._props}>
       {content}
     </Layout>
   );
