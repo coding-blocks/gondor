@@ -46,6 +46,69 @@ This project uses OneAuth as a single sign on server. For authentication it is r
 
 (optional) Please follow the instructions [here](https://github.com/coding-blocks/oneauth) to setup up OneAuth locally.
 
+
+### Setup SymLinks(Symbolic Links) for Windows
+
+
+**Create Symbolic Links Using Command Prompt**
+Note: though I’m showing this in Windows 10, the commands shown here are applicable to Windows Vista and up.
+
+**Step-1:**
+To start, press “Win + X,” and then select the option “Command Prompt (Admin)” to open the Command Prompt with admin rights.
+
+
+![Command Prompt (Admin)](https://www.maketecheasier.com/assets/uploads/2017/01/create-symlinks-win10-select-command-prompt.jpg.webp)
+
+**Step-2:**
+Use the below command format to create a symlink for a file.
+
+
+```
+mklink Link Target
+```
+
+**Step-3:**
+In my case, I want to create a symlink in the E drive for a text file located on the F drive, so the command looks something like this.
+
+
+```
+mklink "E:\Path\Symlink_File.txt" "F:\Real_File.txt"
+```
+
+![](https://www.maketecheasier.com/assets/uploads/2017/01/create-symlinks-win10-for-files.jpg.webp)
+
+
+**Step-4:**
+This path is called a “Link.” The second path belongs to the actual file on your disk and is called “Target.”
+Once the symlink has been created, this is how it looks in the File Explorer. Though the icon looks like a regular shortcut, it is a symlink.
+
+
+![](https://www.maketecheasier.com/assets/uploads/2017/01/create-symlinks-win10-symlink-for-file-created.jpg.webp)
+
+
+**Step-5:**
+Along with individual files, you can create symlinks for entire directories. To do that, use the below command. The switch /D allows you create a symlink for a directory or folder.
+
+
+```
+mklink /D "E:\Path\Symlink_Books" "F:\Books"
+```
+
+
+![](https://www.maketecheasier.com/assets/uploads/2017/01/create-symlinks-win10-for-folders.jpg.webp)
+
+
+**Step-6:**
+As soon as you execute the command, the symlink will be created for the target directory. You can use it to access all the files and folders inside the real folder. If you ever want to, you can delete the symbolic link like any other file or folder. Just select the symlink and press the delete key on your keyboard and you are good to go.
+
+
+![](https://www.maketecheasier.com/assets/uploads/2017/01/create-symlinks-win10-symlink-for-folder-created.jpg.webp)
+
+
+It is that simple to create symbolic links in Windows 10.
+
+
+
 **Config for OneAuth Client App**
 
 ```
