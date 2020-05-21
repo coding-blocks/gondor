@@ -10,18 +10,22 @@ import {
 import Auth from 'Services/Auth';
 import Avatar from 'Components/Avatar';
 import useViewer from 'Hooks/useViewer';
-
+import useModals from 'Hooks/useModals';
 import './style.scss';
 
-const Navbar = () => {
+const Navbar = (props) => {
   const viewer = useViewer();
   const [showUserMenu, setUserMenu] = useState(false);
+  const { toggleSideBar } = props;
+  const Modals = useModals();
 
   return (
     <nav className="navbar fixed-top p-none">
       <div className="row w-100">
         <div className="col-4">
-          <div className="menu-button pointer d-md-block text-left">
+          <div
+            onClick={toggleSideBar}
+            className="menu-button pointer d-md-block text-left">
             <svg
               className="main"
               xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +57,7 @@ const Navbar = () => {
               <Dropdown
                 isOpen={showUserMenu}
                 toggle={() => setUserMenu(!showUserMenu)}>
-                <DropdownToggle tag="div" aria-extended={showUserMenu}>
+                <DropdownToggle tag="div" aria-expanded={showUserMenu}>
                   <div className="d-inline-block pointer">
                     <span className="mb-0 mr-2">
                       {viewer.user.firstname} {viewer.user.lastname}
@@ -62,6 +66,11 @@ const Navbar = () => {
                   </div>
                 </DropdownToggle>
                 <DropdownMenu>
+                  {viewer.user.role === 'Admin' && (
+                    <DropdownItem onClick={() => Modals.Impersonate.open()}>
+                      Impersonate
+                    </DropdownItem>
+                  )}
                   <DropdownItem onClick={Auth.logout}>Logout</DropdownItem>
                 </DropdownMenu>
               </Dropdown>

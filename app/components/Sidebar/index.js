@@ -34,12 +34,15 @@ const navigation = ({ viewer }) => {
 };
 
 const Sidebar = React.memo(
-  withRouter(({ router }) => {
+  withRouter(({ router, show }) => {
     const viewer = useViewer();
 
     return (
       <div className="sidebar">
-        <div className="main-menu">
+        <div
+          className={classNames('main-menu', {
+            'menu-hidden': show,
+          })}>
           <PerfectScrollbar
             options={{ suppressScrollX: true, wheelPropagation: false }}>
             <div className="scroll">

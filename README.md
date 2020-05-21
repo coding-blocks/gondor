@@ -88,7 +88,7 @@ npx babel-node api/bin/seedUsers.js
 
 ### Update User Role
 
-Use the following script to update the role of any user.
+Applications has 3 user roles with different [AuthorizationPolicy](https://github.com/coding-blocks/gondor/blob/master/api/services/AuthorizationPolicy/index.js) attached to them. Due to missing user management feature in the UI, use the following script to update the role of any user.
 ```bash
  npx babel-node api/bin/updateRole <username> <role(Admin, Member, User)>
 ```
