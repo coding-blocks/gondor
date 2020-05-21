@@ -38,8 +38,8 @@ export default class User extends BaseModelService {
     }
   }
 
-  static async batchFunctionForAvailabilityLoader(keys) {
-    const resultPromise = keys.map((key) => {
+  static async findAllAvailabilityDuring(keys) {
+    const resultPromises = keys.map((key) => {
       return Models.CalendarEventInvite.scope('visible').findOne({
         where: {
           user_id: key.user_id,
@@ -63,34 +63,22 @@ export default class User extends BaseModelService {
         ],
       });
     });
-    return Promise.all(resultPromise);
+    const result = await Promise.all(resultPromises);
+    return result.map((data) => !data);
   }
 
-  static availabilityLoader = new DataLoader(
-    this.batchFunctionForAvailabilityLoader,
-  );
-
-  static async findAvailaibilityDuring(
-    user_id,
-    dateTimeRange,
-    exculdeEvents = [],
-  ) {
-    const keyForDataLoader = {
-      user_id,
-      dateTimeRange,
-      exculdeEvents,
-    };
-    const data = await this.availabilityLoader.load(keyForDataLoader);
-    return !data;
+  static getAvailabilityLoader() {
+    return new DataLoader(this.findAllAvailabilityDuring);
   }
 
   @requireInstance
   ifAvailableDuring(dateTimeRange, exculdeEvents) {
-    return User.findAvailaibilityDuring(
-      this.instance.id,
+    const key = {
+      user_id: this.instance.id,
       dateTimeRange,
       exculdeEvents,
-    );
+    };
+    return User.getAvailabilityLoader().load(key);
   }
 
   @saveInstance
