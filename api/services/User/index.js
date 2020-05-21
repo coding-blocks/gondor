@@ -1,3 +1,4 @@
+import DataLoader from 'dataloader';
 import uuid from 'uuid/v4';
 import Models from 'Models';
 import config from 'Config';
@@ -37,34 +38,49 @@ export default class User extends BaseModelService {
     }
   }
 
+  static async batchFunctionForAvailabilityLoader(keys) {
+    const resultPromise = keys.map((key) => {
+      return Models.CalendarEventInvite.scope('visible').findOne({
+        where: {
+          user_id: key.user_id,
+        },
+        include: [
+          {
+            model: Models.CalendarEvent,
+            as: 'event',
+            where: {
+              [Models.Sequelize.Op.and]: [
+                overlapDateTimeClause(key.dateTimeRange),
+                {
+                  id: {
+                    [Models.Sequelize.Op.notIn]: key.exculdeEvents,
+                  },
+                },
+              ],
+            },
+            required: true,
+          },
+        ],
+      });
+    });
+    return Promise.all(resultPromise);
+  }
+
+  static availabilityLoader = new DataLoader(
+    this.batchFunctionForAvailabilityLoader,
+  );
+
   static async findAvailaibilityDuring(
     user_id,
     dateTimeRange,
     exculdeEvents = [],
   ) {
-    const data = await Models.CalendarEventInvite.scope('visible').findOne({
-      where: {
-        user_id,
-      },
-      include: [
-        {
-          model: Models.CalendarEvent,
-          as: 'event',
-          where: {
-            [Models.Sequelize.Op.and]: [
-              overlapDateTimeClause(dateTimeRange),
-              {
-                id: {
-                  [Models.Sequelize.Op.notIn]: exculdeEvents,
-                },
-              },
-            ],
-          },
-          required: true,
-        },
-      ],
-    });
-
+    const keyForDataLoader = {
+      user_id,
+      dateTimeRange,
+      exculdeEvents,
+    };
+    const data = await this.availabilityLoader.load(keyForDataLoader);
     return !data;
   }
 
