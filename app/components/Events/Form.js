@@ -8,11 +8,13 @@ import {
 import Select from 'Components/Select';
 import UserSelect from 'Components/UserSelect';
 import ZoomAccountSelect from 'Components/ZoomAccountSelect';
+import slugify from 'slugify';
 
 const EventForm = memo(
   ({
     errors,
     title,
+    slug,
     setTitle,
     description,
     setDescription,
@@ -54,6 +56,17 @@ const EventForm = memo(
             name="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group className="has-float-label mb-4 col-12">
+          <Form.Label>Title Slug</Form.Label>
+          <Form.Input
+            className="ml-1"
+            type="text"
+            name="slug"
+            value={slug}
+            onChange={(e) => slugify(e.target.value)}
           />
         </Form.Group>
         <Form.Group className="has-float-label mb-4 col-12">

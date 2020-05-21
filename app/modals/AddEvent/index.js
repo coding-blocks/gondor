@@ -7,6 +7,7 @@ import CREATE_EVENT from 'Mutations/calendarEventCreate.graphql';
 import CREATE_INVITE from 'Mutations/calendarEventInvite.graphql';
 import CREATE_RESOURCE from 'Mutations/resourceCreate.graphql';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import slugify from 'slugify';
 
 const AddEvent = ({ dateTimeRange, types, onClose }) => {
   const [title, setTitle] = useState('');
@@ -47,6 +48,7 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
         end_at: endAt,
         is_open: isOpen,
         is_public: isPublic,
+        slug: slugify(title),
         title,
         description,
         location,
@@ -105,6 +107,7 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
   const formProps = {
     errors,
     title,
+    slug,
     setTitle,
     description,
     setDescription,

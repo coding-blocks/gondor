@@ -1,6 +1,7 @@
 fragment EventFragment on CalendarEvent {
   id
   title
+  slug
   description
   type
   start_at

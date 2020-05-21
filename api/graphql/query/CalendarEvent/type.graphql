@@ -17,6 +17,7 @@ type CalendarEventTypeColorMap {
 type CalendarEvent implements Node {
   id: ID!
   title: String!
+  slug: String
   description: String
   type: CalendarEventType!
   location: String

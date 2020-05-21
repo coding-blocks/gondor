@@ -12,6 +12,7 @@ import DELETE_INVITE from 'Mutations/calendarEventInviteDelete.graphql';
 import CREATE_RESOURCE from 'Mutations/resourceCreate.graphql';
 import DELETE_RESOURCE from 'Mutations/resourceDelete.graphql';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import slugify from 'slugify';
 
 const EditEvent = ({ loading, onClose, types, event }) => {
   const [title, setTitle] = useState(event.title);
@@ -51,6 +52,8 @@ const EditEvent = ({ loading, onClose, types, event }) => {
   const [startAt, setStartAt] = useState(event.start_at);
   const [endAt, setEndAt] = useState(event.end_at);
 
+  const [slug, changedslug] = useState(event.slug);
+
   const [isOpen, setIsOpen] = useState(event.is_open);
   const [isPublic, setIsPublic] = useState(event.is_public);
 
@@ -79,6 +82,7 @@ const EditEvent = ({ loading, onClose, types, event }) => {
           end_at: endAt,
           is_open: isOpen,
           is_public: isPublic,
+          slug: slugify(title),
           title,
           description,
           location,
@@ -180,6 +184,8 @@ const EditEvent = ({ loading, onClose, types, event }) => {
   const formProps = {
     errors,
     title,
+    slug,
+    changedslug,
     setTitle,
     description,
     setDescription,
