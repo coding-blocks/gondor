@@ -6,7 +6,14 @@ import { useMutation } from '@apollo/react-hooks';
 import AttendeesList from '../AttendeesList';
 import AttendeeItem from '../AttendeesList/Item';
 import InviteStatusBadge from 'Components/InviteStatusBadge';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  Badge,
+} from 'reactstrap';
 import DECLINE_INVITE from 'Mutations/calendarEventInviteDecline.graphql';
 import ACCEPT_INVITE from 'Mutations/calendarEventInviteAccept.graphql';
 import REQUEST_INVITE from 'Mutations/calendarEventRequest.graphql';
@@ -132,6 +139,16 @@ const EventContent = memo(({ event, onClose }) => {
             <strong>Location:</strong> {event.location}
           </p>
         )}
+        {event.is_open && (
+          <Badge color="primary" pill>
+            Open
+          </Badge>
+        )}
+        {event.is_public && (
+          <Badge className="ml-1" color="primary" pill>
+            Public
+          </Badge>
+        )}
       </ModalBody>
       <ModalFooter>
         {invite ? (
@@ -170,19 +187,21 @@ const EventContent = memo(({ event, onClose }) => {
             )}
           </>
         ) : (
-          <Button
-            className="m-0 ml-2"
-            size="sm"
-            color="primary"
-            onClick={() =>
-              viewer.user
-                ? requestInvite({
-                    variables: { input: { event_id: event.id } },
-                  })
-                : Auth.login()
-            }>
-            Join
-          </Button>
+          event.is_open && (
+            <Button
+              className="m-0 ml-2"
+              size="sm"
+              color="primary"
+              onClick={() =>
+                viewer.user
+                  ? requestInvite({
+                      variables: { input: { event_id: event.id } },
+                    })
+                  : Auth.login()
+              }>
+              Join
+            </Button>
+          )
         )}
       </ModalFooter>
     </>
