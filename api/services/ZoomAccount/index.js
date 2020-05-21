@@ -1,5 +1,5 @@
-import DataLoader from 'dataloader';
 import Models from 'Models';
+import DataLoader from 'dataloader';
 import BaseModelService, {
   saveInstance,
   requireInstance,
@@ -10,16 +10,17 @@ export default class ZoomAccount extends BaseModelService {
   static findAllInUse(...args) {
     return Models.ZoomAccount.findAll(utilizedResourceClause(...args));
   }
-  static async findAllAvailabilityDuring(keys) {
-    const resultPromises = keys.map(async (key) => {
-      const { id, ...args } = key;
-      return !(await Models.ZoomAccount.findOne({
-        where: { id },
-        ...utilizedResourceClause(args),
-      }));
-    });
 
-    return Promise.all(resultPromises);
+  static async findAllAvailabilityDuring(keys) {
+    return Promise.all(
+      keys.map(
+        async ({ id, ...args }) =>
+          !(await Models.ZoomAccount.findOne({
+            where: { id },
+            ...utilizedResourceClause(args),
+          })),
+      ),
+    );
   }
 
   static getAvailabilityLoader() {
@@ -28,13 +29,15 @@ export default class ZoomAccount extends BaseModelService {
 
   @requireInstance
   async ifAvailableDuring(dateTimeRange, options) {
-    const key = {
-      id: this.instance.id,
-      dateTimeRange,
-      options,
-    };
-
-    return (await ZoomAccount.findAllAvailabilityDuring([key]))[0];
+    return (
+      await ZoomAccount.findAllAvailabilityDuring([
+        {
+          id: this.instance.id,
+          dateTimeRange,
+          ...options,
+        },
+      ])
+    )[0];
   }
 
   @saveInstance
