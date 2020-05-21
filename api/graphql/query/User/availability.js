@@ -1,5 +1,5 @@
-const availability = async (parent, { dateTimeRange }, ctx) =>
-  ctx.loaders.userAvailabilityLoader.load({
+const availability = async (parent, { dateTimeRange }, { loaders }) =>
+  loaders.userAvailabilityLoader.load({
     user_id: parent.id,
     dateTimeRange,
     exculdeEvents: [],

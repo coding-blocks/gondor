@@ -1,7 +1,7 @@
-import DataLoader from 'dataloader';
 import uuid from 'uuid/v4';
 import Models from 'Models';
 import config from 'Config';
+import DataLoader from 'dataloader';
 import jwt from 'jsonwebtoken';
 import BaseModelService, {
   saveInstance,
@@ -39,31 +39,33 @@ export default class User extends BaseModelService {
   }
 
   static async findAllAvailabilityDuring(keys) {
-    const resultPromises = keys.map(async (key) => {
-      return !(await Models.CalendarEventInvite.scope('visible').findOne({
-        where: {
-          user_id: key.user_id,
-        },
-        include: [
-          {
-            model: Models.CalendarEvent,
-            as: 'event',
+    return Promise.all(
+      keys.map(
+        async (key) =>
+          !(await Models.CalendarEventInvite.scope('visible').findOne({
             where: {
-              [Models.Sequelize.Op.and]: [
-                overlapDateTimeClause(key.dateTimeRange),
-                {
-                  id: {
-                    [Models.Sequelize.Op.notIn]: key.exculdeEvents || [],
-                  },
-                },
-              ],
+              user_id: key.user_id,
             },
-            required: true,
-          },
-        ],
-      }));
-    });
-    return await Promise.all(resultPromises);
+            include: [
+              {
+                model: Models.CalendarEvent,
+                as: 'event',
+                where: {
+                  [Models.Sequelize.Op.and]: [
+                    overlapDateTimeClause(key.dateTimeRange),
+                    {
+                      id: {
+                        [Models.Sequelize.Op.notIn]: key.exculdeEvents || [],
+                      },
+                    },
+                  ],
+                },
+                required: true,
+              },
+            ],
+          })),
+      ),
+    );
   }
 
   static getAvailabilityLoader() {
@@ -72,12 +74,15 @@ export default class User extends BaseModelService {
 
   @requireInstance
   async ifAvailableDuring(dateTimeRange, exculdeEvents) {
-    const key = {
-      user_id: this.instance.id,
-      dateTimeRange,
-      exculdeEvents,
-    };
-    return (await User.findAllAvailabilityDuring([key]))[0];
+    return (
+      await User.findAllAvailabilityDuring([
+        {
+          user_id: this.instance.id,
+          dateTimeRange,
+          exculdeEvents,
+        },
+      ])
+    )[0];
   }
 
   @saveInstance
