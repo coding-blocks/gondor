@@ -36,6 +36,8 @@ const EventForm = memo(
   }) => {
     const viewer = useViewer();
 
+    console.log(isOpen, isPublic);
+
     return (
       <Form errors={errors} className="row">
         <Form.Group className="has-float-label mb-4 col-12">
@@ -126,19 +128,23 @@ const EventForm = memo(
           />
         </Form.Group>
         <Form.Group className="has-float-label mb-4 col-12">
-          <Form.Label>Open</Form.Label>
+          <Form.Label className="ml-4 mt-2">Open</Form.Label>
           <Form.Input
+            className="ml-1"
             type="checkbox"
             name="open"
+            checked={isOpen}
             value={isOpen}
             onChange={() => setIsOpen(!isOpen)}
           />
         </Form.Group>
         <Form.Group className="has-float-label mb-4 col-12">
-          <Form.Label>Public</Form.Label>
+          <Form.Label className="ml-4 mt-2">Public</Form.Label>
           <Form.Input
+            className="ml-1"
             type="checkbox"
             name="public"
+            checked={isPublic}
             value={isPublic}
             onClick={() => setIsPublic(!isPublic)}
           />

@@ -78,7 +78,7 @@ const EditEvent = ({ loading, onClose, types, event }) => {
           start_at: startAt,
           end_at: endAt,
           is_open: isOpen,
-          isPublic: isPublic,
+          is_public: isPublic,
           title,
           description,
           location,

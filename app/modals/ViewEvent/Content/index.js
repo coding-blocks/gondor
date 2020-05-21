@@ -137,7 +137,7 @@ const EventContent = memo(({ event, onClose }) => {
           </Badge>
         )}
         {event.is_public && (
-          <Badge color="primary" pill>
+          <Badge className="ml-1" color="primary" pill>
             Public
           </Badge>
         )}
