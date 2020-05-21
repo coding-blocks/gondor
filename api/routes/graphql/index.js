@@ -3,7 +3,7 @@ import connect from 'Utils/connect';
 import cookieParser from 'micro-cookie';
 import { ApolloServer } from 'apollo-server-micro';
 import authenticate from 'Middlewares/authenticate';
-import User from '../../services/User';
+import User from 'Services/User';
 
 const server = new ApolloServer({
   schema,

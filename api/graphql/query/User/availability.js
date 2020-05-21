@@ -1,12 +1,8 @@
-const availability = async (parent, { dateTimeRange }, ctx) => {
-  const key = {
+const availability = async (parent, { dateTimeRange }, ctx) =>
+  ctx.loaders.userAvailabilityLoader.load({
     user_id: parent.id,
     dateTimeRange,
     exculdeEvents: [],
-  };
-  const isAvailable = await ctx.loaders.userAvailabilityLoader.load(key);
-  delete ctx.loaders.userAvailabilityLoader;
-  return isAvailable;
-};
+  });
 
 export default availability;

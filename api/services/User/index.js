@@ -39,8 +39,8 @@ export default class User extends BaseModelService {
   }
 
   static async findAllAvailabilityDuring(keys) {
-    const resultPromises = keys.map((key) => {
-      return Models.CalendarEventInvite.scope('visible').findOne({
+    const resultPromises = keys.map(async (key) => {
+      return !(await Models.CalendarEventInvite.scope('visible').findOne({
         where: {
           user_id: key.user_id,
         },
@@ -53,7 +53,7 @@ export default class User extends BaseModelService {
                 overlapDateTimeClause(key.dateTimeRange),
                 {
                   id: {
-                    [Models.Sequelize.Op.notIn]: key.exculdeEvents,
+                    [Models.Sequelize.Op.notIn]: key.exculdeEvents || [],
                   },
                 },
               ],
@@ -61,24 +61,23 @@ export default class User extends BaseModelService {
             required: true,
           },
         ],
-      });
+      }));
     });
-    const result = await Promise.all(resultPromises);
-    return result.map((data) => !data);
+    return await Promise.all(resultPromises);
   }
 
   static getAvailabilityLoader() {
-    return new DataLoader(this.findAllAvailabilityDuring);
+    return new DataLoader(User.findAllAvailabilityDuring);
   }
 
   @requireInstance
-  ifAvailableDuring(dateTimeRange, exculdeEvents) {
+  async ifAvailableDuring(dateTimeRange, exculdeEvents) {
     const key = {
       user_id: this.instance.id,
       dateTimeRange,
       exculdeEvents,
     };
-    return User.getAvailabilityLoader().load(key);
+    return (await User.findAllAvailabilityDuring([key]))[0];
   }
 
   @saveInstance
