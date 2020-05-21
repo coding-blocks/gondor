@@ -10,7 +10,7 @@ const Impersonate = ({ onClose }) => {
 
   const handleImpersonate = () => {
     const user_id = user.id;
-    document.cookie = `iuid=${user_id}`;
+    document.cookie = `iuid=${user_id};path=/`;
     window.location = router.pathname;
   };
 
@@ -20,7 +20,7 @@ const Impersonate = ({ onClose }) => {
       <ModalBody>
         <Form className="row">
           <Form.Group className="has-float-label mb-4 col-12">
-            <Form.Label>Impersonate</Form.Label>
+            <Form.Label>User</Form.Label>
             <UserSelect
               name="User"
               placeholder="User"
