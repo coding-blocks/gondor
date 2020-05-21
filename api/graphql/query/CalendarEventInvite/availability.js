@@ -1,6 +1,6 @@
 import Models from 'Models';
 
-const availability = async (parent, ags, { loaders }) => {
+const availability = async (parent, _args, { loaders }) => {
   const event = await Models.CalendarEvent.findByPk(parent.event_id);
 
   return loaders.userAvailabilityLoader.load({
