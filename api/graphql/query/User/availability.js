@@ -1,6 +1,8 @@
-import User from '../../../services/User';
-
-const availability = (parent, { dateTimeRange }) =>
-  User.findAvailaibilityDuring(parent.id, dateTimeRange);
+const availability = async (parent, { dateTimeRange }, { loaders }) =>
+  loaders.userAvailabilityLoader.load({
+    user_id: parent.id,
+    dateTimeRange,
+    exculdeEvents: [],
+  });
 
 export default availability;
