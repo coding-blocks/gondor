@@ -36,8 +36,6 @@ const EventForm = memo(
   }) => {
     const viewer = useViewer();
 
-    console.log(isOpen, isPublic);
-
     return (
       <Form errors={errors} className="row">
         <Form.Group className="has-float-label mb-4 col-12">
