@@ -2,3 +2,10 @@
   max-height: calc(100vh - 120px);
   overflow-y: auto;
 }
+
+@media only screen and (max-width: 1439px) {
+  /* For mobile phones: */
+  .main-menu {
+    max-height: none;
+  }
+}
