@@ -76,6 +76,7 @@ policy.include('calendarEvent', (p) => {
   p.include(
     [
       'title',
+      'slug',
       'description',
       'start_at',
       'end_at',
@@ -85,11 +86,17 @@ policy.include('calendarEvent', (p) => {
       'is_public',
     ],
     (cp) => {
-      cp.register(
-        'update',
-        ({ viewer, entity: event }) =>
-          isOrganiser(event, viewer) || isAdmin(viewer),
-      );
+      cp.register('update', ({ viewer, entity: { event, value } }) => {
+        if (viewer.role === 'Admin') return true;
+
+        if (viewer.id === event.id) {
+          if (value.role === 'Admin') return false;
+
+          return true;
+        }
+
+        return false;
+      });
     },
   );
 

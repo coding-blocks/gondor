@@ -68,6 +68,11 @@ const EventContent = memo(({ event, onClose }) => {
           <span className="w-50 text-truncate" title={event.title}>
             {event.title}
           </span>
+          <i
+            className="w-50 text-truncate"
+            onClick={() => Modals.ViewEvent.open({ id: event.id })}>
+            ({event.slug})
+          </i>
           <span className="float-right text-small">
             {canUpdate && (
               <>

@@ -17,6 +17,7 @@ import slugify from 'slugify';
 const EditEvent = ({ loading, onClose, types, event }) => {
   const [title, setTitle] = useState(event.title);
   const [description, setDescription] = useState(event.description);
+  const [slug, changedslug] = useState(event.slug);
   const [location, setLocation] = useState(event.location);
   const [type, setType] = useState(
     useMemo(
@@ -51,8 +52,6 @@ const EditEvent = ({ loading, onClose, types, event }) => {
 
   const [startAt, setStartAt] = useState(event.start_at);
   const [endAt, setEndAt] = useState(event.end_at);
-
-  const [slug, changedslug] = useState(event.slug);
 
   const [isOpen, setIsOpen] = useState(event.is_open);
   const [isPublic, setIsPublic] = useState(event.is_public);

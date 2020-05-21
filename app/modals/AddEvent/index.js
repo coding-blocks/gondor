@@ -21,6 +21,7 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
   const [invites, setInvites] = useState([]);
   const [zoomAccount, setZoomAccount] = useState();
 
+  const [slug, changedslug] = useState('');
   /* NOTE(naman): an extra hour is added because
    * endOf returns HH:59, hence starOf is used*/
   const [startAt, setStartAt] = useState(
