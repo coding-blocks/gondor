@@ -10,17 +10,17 @@ class ZoomAccountAvailability extends BaseResolver {
     });
     const topic = await resource.getTopic();
 
-    if (this.parent.subject_type === 'ZoomAccount')
-      return ZoomAccount.findAvailaibilityDuring(
-        this.parent.subject_id,
-        {
+    if (this.parent.subject_type === 'ZoomAccount') {
+      const key = {
+        id: this.parent.subject_id,
+        dateTimeRange: {
           start_at: topic.start_at,
           end_at: topic.end_at,
         },
-        {
-          excludeTopics: [topic.id],
-        },
-      );
+        excludeTopics: [topic.id],
+      };
+      return (await ZoomAccount.findAllAvailabilityDuring([key]))[0];
+    }
 
     //NOTE(naman) For a new resource add finding availability logic here
     return false;

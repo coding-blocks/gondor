@@ -1,3 +1,4 @@
+import DataLoader from 'dataloader';
 import Models from 'Models';
 import BaseModelService, {
   saveInstance,
@@ -9,23 +10,31 @@ export default class ZoomAccount extends BaseModelService {
   static findAllInUse(...args) {
     return Models.ZoomAccount.findAll(utilizedResourceClause(...args));
   }
-
-  static async findAvailaibilityDuring(id, ...args) {
-    const data = await Models.ZoomAccount.findOne({
-      where: { id },
-      ...utilizedResourceClause(...args),
+  static async findAllAvailabilityDuring(keys) {
+    const resultPromises = keys.map(async (key) => {
+      const { id, ...args } = key;
+      return !(await Models.ZoomAccount.findOne({
+        where: { id },
+        ...utilizedResourceClause(args),
+      }));
     });
 
-    return !data;
+    return Promise.all(resultPromises);
+  }
+
+  static getAvailabilityLoader() {
+    return new DataLoader(this.findAllAvailabilityDuring);
   }
 
   @requireInstance
-  ifAvailableDuring(dateTimeRange, options) {
-    return ZoomAccount.findAvailaibilityDuring(
-      this.instance.id,
+  async ifAvailableDuring(dateTimeRange, options) {
+    const key = {
+      id: this.instance.id,
       dateTimeRange,
       options,
-    );
+    };
+
+    return (await ZoomAccount.findAllAvailabilityDuring([key]))[0];
   }
 
   @saveInstance

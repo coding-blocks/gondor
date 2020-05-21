@@ -1,12 +1,11 @@
-import ZoomAccount from 'Services/ZoomAccount';
 import BaseResolver from 'Graphql/base/Resolver';
 
 class ZoomAccountAvailability extends BaseResolver {
-  resolve = () =>
-    ZoomAccount.findAvailaibilityDuring(
-      this.parent.id,
-      this.args.dateTimeRange,
-    );
+  resolve = async () =>
+    await this.ctx.loaders.zoomAccountAvailabilityLoader.load({
+      id: this.parent.id,
+      dateTimeRange: this.args.dateTimeRange,
+    });
 }
 
 export default ZoomAccountAvailability.resolver();

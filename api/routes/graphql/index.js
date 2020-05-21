@@ -5,6 +5,7 @@ import { ApolloServer } from 'apollo-server-micro';
 import authenticate from 'Middlewares/authenticate';
 import CalendarEventInvite from 'Services/CalendarEventInvite';
 import User from 'Services/User';
+import ZoomAccount from 'Services/ZoomAccount';
 
 const server = new ApolloServer({
   schema,
@@ -13,6 +14,7 @@ const server = new ApolloServer({
     loaders: {
       userAvailability: User.getAvailabilityLoader(),
       eventInviteStatus: CalendarEventInvite.getStatusLoader(),
+      zoomAccountAvailabilityLoader: ZoomAccount.getAvailabilityLoader()
     },
   }),
 });
