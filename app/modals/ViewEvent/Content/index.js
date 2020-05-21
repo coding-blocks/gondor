@@ -6,7 +6,14 @@ import { useMutation } from '@apollo/react-hooks';
 import AttendeesList from '../AttendeesList';
 import AttendeeItem from '../AttendeesList/Item';
 import InviteStatusBadge from 'Components/InviteStatusBadge';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  Badge,
+} from 'reactstrap';
 import DECLINE_INVITE from 'Mutations/calendarEventInviteDecline.graphql';
 import ACCEPT_INVITE from 'Mutations/calendarEventInviteAccept.graphql';
 import REQUEST_INVITE from 'Mutations/calendarEventRequest.graphql';
@@ -57,24 +64,28 @@ const EventContent = memo(({ event, onClose }) => {
   return (
     <>
       <ModalHeader className="w-100">
-        {event.title}
-        <span className="float-right text-small">
-          {canUpdate && (
-            <>
-              <i
-                title="Edit"
-                className="simple-icon-pencil text-muted hover-primary mr-2"
-                onClick={() => Modals.EditEvent.open({ id: event.id })}
-              />
-              <i
-                title="Delete"
-                className="simple-icon-trash text-muted hover-primary mr-2"
-                onClick={() => deleteEvent()}
-              />
-            </>
-          )}
-          {invite && <InviteStatusBadge status={invite.status} />}
-        </span>
+        <div className="d-flex justify-content-between">
+          <span className="w-50 text-truncate" title={event.title}>
+            {event.title}
+          </span>
+          <span className="float-right text-small">
+            {canUpdate && (
+              <>
+                <i
+                  title="Edit"
+                  className="simple-icon-pencil text-muted hover-primary mr-2"
+                  onClick={() => Modals.EditEvent.open({ id: event.id })}
+                />
+                <i
+                  title="Delete"
+                  className="simple-icon-trash text-muted hover-primary mr-2"
+                  onClick={() => deleteEvent()}
+                />
+              </>
+            )}
+            {invite && <InviteStatusBadge status={invite.status} />}
+          </span>
+        </div>
       </ModalHeader>
       <ModalBody>
         <p>
@@ -93,10 +104,14 @@ const EventContent = memo(({ event, onClose }) => {
           <strong>Organiser:</strong>
         </p>
         <AttendeeItem className="mb-4" invite={organiserInvite} event={event} />
-        <p>
-          <strong>Attendees:</strong>
-        </p>
-        <AttendeesList className="mb-4" event={event} />
+        {!!event.invites?.length && (
+          <>
+            <p>
+              <strong>Attendees:</strong>
+            </p>
+            <AttendeesList className="mb-4" event={event} />
+          </>
+        )}
         {event.description && (
           <>
             <p className="mb-0">
@@ -123,6 +138,16 @@ const EventContent = memo(({ event, onClose }) => {
           <p>
             <strong>Location:</strong> {event.location}
           </p>
+        )}
+        {event.is_open && (
+          <Badge color="primary" pill>
+            Open
+          </Badge>
+        )}
+        {event.is_public && (
+          <Badge className="ml-1" color="primary" pill>
+            Public
+          </Badge>
         )}
       </ModalBody>
       <ModalFooter>
@@ -162,19 +187,21 @@ const EventContent = memo(({ event, onClose }) => {
             )}
           </>
         ) : (
-          <Button
-            className="m-0 ml-2"
-            size="sm"
-            color="primary"
-            onClick={() =>
-              viewer.user
-                ? requestInvite({
-                    variables: { input: { event_id: event.id } },
-                  })
-                : Auth.login()
-            }>
-            Join
-          </Button>
+          event.is_open && (
+            <Button
+              className="m-0 ml-2"
+              size="sm"
+              color="primary"
+              onClick={() =>
+                viewer.user
+                  ? requestInvite({
+                      variables: { input: { event_id: event.id } },
+                    })
+                  : Auth.login()
+              }>
+              Join
+            </Button>
+          )
         )}
       </ModalFooter>
     </>

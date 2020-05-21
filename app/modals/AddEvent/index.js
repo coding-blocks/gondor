@@ -29,6 +29,9 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
     dateTimeRange?.end_at || moment().add(2, 'hour').startOf('hour').format(),
   );
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [isPublic, setIsPublic] = useState(false);
+
   const [inviteUsers, { error: createInviteErrors }] = useMutation(
     CREATE_INVITE,
   );
@@ -42,6 +45,8 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
       input: {
         start_at: startAt,
         end_at: endAt,
+        is_open: isOpen,
+        is_public: isPublic,
         title,
         description,
         location,
@@ -110,6 +115,10 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
     setStartAt: handleStartAtChange,
     endAt,
     setEndAt: handleEndAtChange,
+    isOpen,
+    setIsOpen,
+    isPublic,
+    setIsPublic,
     invites,
     setInvites,
     location,

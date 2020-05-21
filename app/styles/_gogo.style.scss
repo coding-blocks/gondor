@@ -4014,6 +4014,7 @@ select.form-control:not([size]):not([multiple]) {
 .react-select .react-select__single-value,
 .react-select .react-select__multi-value__label {
   color: $primary-color;
+  display: contents;
 }
 
 .react-select .react-select__dropdown-indicator,
