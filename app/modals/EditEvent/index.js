@@ -54,6 +54,8 @@ const EditEvent = ({ loading, onClose, types, event }) => {
   const [isOpen, setIsOpen] = useState(event.is_open);
   const [isPublic, setIsPublic] = useState(event.is_public);
 
+  const [slug, setSlug] = useState(event.slug);
+  console.log(event);
   const [inviteUsers, { error: createInviteErrors }] = useMutation(
     CREATE_INVITE,
   );
@@ -79,6 +81,7 @@ const EditEvent = ({ loading, onClose, types, event }) => {
           end_at: endAt,
           is_open: isOpen,
           is_public: isPublic,
+          slug,
           title,
           description,
           location,
@@ -194,6 +197,8 @@ const EditEvent = ({ loading, onClose, types, event }) => {
     setIsOpen,
     isPublic,
     setIsPublic,
+    slug,
+    setSlug,
     invites,
     setInvites,
     location,

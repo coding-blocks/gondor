@@ -83,6 +83,7 @@ policy.include('calendarEvent', (p) => {
       'type',
       'is_open',
       'is_public',
+      'slug',
     ],
     (cp) => {
       cp.register(
@@ -107,6 +108,10 @@ policy.include('calendarEvent', (p) => {
       ({ viewer, entity: event }) =>
         isOrganiser(event, viewer) || isMember(viewer),
     );
+  });
+
+  p.include('slug', (cp) => {
+    cp.register('read', () => true);
   });
 });
 

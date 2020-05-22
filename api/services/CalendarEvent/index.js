@@ -4,10 +4,13 @@ import BaseModelService, {
   requireInstance,
   withTransaction,
 } from 'Services/BaseModelService';
+import slugify from 'slugify';
 
 export default class CalendarEvent extends BaseModelService {
   @saveInstance
   create(body) {
+    let generatedSlug = slugify(body.title);
+    body.slug = generatedSlug;
     return Models.CalendarEvent.create(body).then((event) =>
       event
         .addAttendee(body.organiser_id, { through: { status: 'Accepted' } })

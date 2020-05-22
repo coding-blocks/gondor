@@ -64,6 +64,11 @@ const EventContent = memo(({ event, onClose }) => {
   return (
     <>
       <ModalHeader className="w-100">
+        <div className="d-flex">
+          <span className="w-50 text-small">
+            <a href={`event/${event.slug}`}>events/{event.slug}</a>
+          </span>
+        </div>
         <div className="d-flex justify-content-between">
           <span className="w-50 text-truncate" title={event.title}>
             {event.title}
