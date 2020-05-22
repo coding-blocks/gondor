@@ -1,6 +1,5 @@
 import { memo, useMemo } from 'react';
 import Dropdown from 'Components/Dropdown';
-import ColorsList from 'Components/ColorsList';
 import { UncontrolledPopover as Popover, PopoverBody } from 'reactstrap';
 import {
   defaultTypeFilter,
