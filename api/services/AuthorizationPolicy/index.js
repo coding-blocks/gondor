@@ -133,7 +133,7 @@ policy.include('calendarEventInvite', (p) => {
       ({ viewer, entity: { user_id, event, status, value } }) => {
         const requested = ['Requested', 'Refused'].includes(status);
 
-        if (value.status === 'Requested' && !event.is_open) return false;
+        if (value?.status === 'Requested' && !event.is_open) return false;
 
         if (!requested) return isSelf({ id: user_id }, viewer);
 

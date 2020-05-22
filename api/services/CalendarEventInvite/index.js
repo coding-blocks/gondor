@@ -1,4 +1,5 @@
 import Models from 'Models';
+import DataLoader from 'dataloader';
 import BaseModelService, {
   saveInstance,
   requireInstance,
@@ -55,5 +56,25 @@ export default class CalendarEventInvite extends BaseModelService {
     if (count) return null;
 
     return this.instance;
+  }
+
+  static async findAllCalenderEventInviteStatus(keys) {
+    return Models.CalendarEventInvite.findAll({
+      where: {
+        user_id: keys[0].viewer.id,
+        event_id: {
+          [Models.Sequelize.Op.in]: keys.map(({ event_id }) => event_id),
+        },
+      },
+    }).then((invites) =>
+      keys.map(
+        (key) =>
+          invites.find((invite) => invite.event_id === key.event_id)?.status,
+      ),
+    );
+  }
+
+  static getViewerCalendarEventInviteStatusLoader() {
+    return new DataLoader(CalendarEventInvite.findAllCalenderEventInviteStatus);
   }
 }

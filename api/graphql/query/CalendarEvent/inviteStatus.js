@@ -1,13 +1,10 @@
-import Models from 'Models';
-
-const inviteStatus = async (parent, _args, { viewer }) => {
+const inviteStatus = async (parent, _args, { viewer, loaders }) => {
   if (!viewer) return null;
 
-  const invite = await Models.CalendarEventInvite.findOne({
-    where: { event_id: parent.id, user_id: viewer.id },
+  return await loaders.viewerCalendarEventInviteStatus.load({
+    event_id: parent.id,
+    viewer,
   });
-
-  return invite?.status;
 };
 
 export default inviteStatus;
