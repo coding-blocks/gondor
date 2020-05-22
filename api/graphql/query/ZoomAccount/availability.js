@@ -2,7 +2,7 @@ import BaseResolver from 'Graphql/base/Resolver';
 
 class ZoomAccountAvailability extends BaseResolver {
   resolve = async () =>
-    await this.ctx.loaders.zoomAccountAvailabilityLoader.load({
+    await this.ctx.loaders.zoomAccountAvailability.load({
       id: this.parent.id,
       dateTimeRange: this.args.dateTimeRange,
     });

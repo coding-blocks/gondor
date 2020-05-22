@@ -14,7 +14,7 @@ const server = new ApolloServer({
     loaders: {
       userAvailability: User.getAvailabilityLoader(),
       eventInviteStatus: CalendarEventInvite.getStatusLoader(),
-      zoomAccountAvailabilityLoader: ZoomAccount.getAvailabilityLoader()
+      zoomAccountAvailability: ZoomAccount.getAvailabilityLoader()
     },
   }),
 });
