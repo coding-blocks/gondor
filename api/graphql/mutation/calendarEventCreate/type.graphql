@@ -1,6 +1,5 @@
 input CalendarEventCreateInput {
   title: String!
-  slug: String
   type: CalendarEventType!
   description: String
   start_at: DateTime!
