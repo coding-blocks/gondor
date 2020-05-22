@@ -1,1 +1,4 @@
-/app/styles
+/app/styles/_gogo.style.css
+/app/styles/_mixins.css
+/app/styles/_nunito.css
+/app/styles/_variables.css
