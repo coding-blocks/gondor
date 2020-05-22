@@ -66,16 +66,15 @@ export default class CalendarEventInvite extends BaseModelService {
           [Models.Sequelize.Op.in]: keys.map(({ event_id }) => event_id),
         },
       },
-    })
-      .then((invites) =>
-        keys.map((key) =>
-          invites.find((invite) => invite.event_id === key.event_id),
-        ),
-      )
-      .map(({ status }) => status);
+    }).then((invites) =>
+      keys.map(
+        (key) =>
+          invites.find((invite) => invite.event_id === key.event_id)?.status,
+      ),
+    );
   }
 
-  static getViewerCalendarEventInviteLoader() {
+  static getViewerCalendarEventInviteStatusLoader() {
     return new DataLoader(CalendarEventInvite.findAllCalenderEventInviteStatus);
   }
 }
