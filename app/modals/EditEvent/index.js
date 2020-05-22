@@ -55,7 +55,7 @@ const EditEvent = ({ loading, onClose, types, event }) => {
   const [isPublic, setIsPublic] = useState(event.is_public);
 
   const [slug, setSlug] = useState(event.slug);
-  console.log(event);
+    
   const [inviteUsers, { error: createInviteErrors }] = useMutation(
     CREATE_INVITE,
   );
