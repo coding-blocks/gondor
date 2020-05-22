@@ -1,4 +1,5 @@
 import Models from 'Models';
+import DataLoader from 'dataloader';
 import BaseModelService, {
   saveInstance,
   requireInstance,
@@ -55,5 +56,15 @@ export default class CalendarEventInvite extends BaseModelService {
     if (count) return null;
 
     return this.instance;
+  }
+
+  static async findAllCalenderEventInvites(keys) {
+    return Promise.all(
+      keys.map((key) => Models.CalendarEventInvite.findOne(key)),
+    );
+  }
+
+  static getCalenderEventInviteLoader() {
+    return new DataLoader(CalendarEventInvite.findAllCalenderEventInvites);
   }
 }
