@@ -83,6 +83,7 @@ policy.include('calendarEvent', (p) => {
       'type',
       'is_open',
       'is_public',
+      'slug',
     ],
     (cp) => {
       cp.register(

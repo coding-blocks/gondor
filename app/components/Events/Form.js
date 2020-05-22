@@ -27,6 +27,9 @@ const EventForm = memo(
     setIsOpen,
     isPublic,
     setIsPublic,
+    slug,
+    setSlug,
+    showSlug,
     invites,
     setInvites,
     location,
@@ -56,6 +59,17 @@ const EventForm = memo(
             onChange={(e) => setDescription(e.target.value)}
           />
         </Form.Group>
+        {showSlug && (
+          <Form.Group className="has-float-label mb-4 col-12">
+            <Form.Label>Slug</Form.Label>
+            <Form.Input
+              type="text"
+              name="slug"
+              value={slug}
+              onChange={(e) => setSlug(e.target.value)}
+            />
+          </Form.Group>
+        )}
         <Form.Group className="has-float-label mb-4 col-12">
           <Form.Label>Type</Form.Label>
           <Form.Select

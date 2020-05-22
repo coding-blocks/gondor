@@ -7,6 +7,7 @@ input CalendarEventUpdateInput {
   location: String
   is_open: Boolean
   is_public: Boolean
+  slug: String
 }
 
 extend type Mutation {
