@@ -26,13 +26,13 @@ const PageHeader = ({
     </div>
     {filters && (
       <div>
-        <Collapse id="displayOptions" className="d-md-block">
+        <div id="displayOptions" className="d-md-block">
           <div className="d-block d-md-inline-block">
             <div className="float-md-left d-flex header-filters-wrap">
               {filters()}
             </div>
           </div>
-        </Collapse>
+        </div>
       </div>
     )}
     <div className="separator mt-2 mb-5" />
