@@ -31,5 +31,6 @@ query CalendarPageContentQuery(
   types: eventTypeColors @include(if: $includeAll) {
     name
     color
+    title
   }
 }

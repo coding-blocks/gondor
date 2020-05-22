@@ -24,6 +24,13 @@
     margin: 1rem 0 !important;
   }
 }
+.color-box {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0.5rem 1rem rgba(163, 147, 147, 0.15) !important;
+}
 
 .react-datepicker {
   display: inline-flex !important;
