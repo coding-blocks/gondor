@@ -2,3 +2,9 @@
   max-height: calc(100vh - 120px);
   overflow-y: auto;
 }
+
+@media (max-width: 767px) {
+  .main-menu {
+    max-height: calc(100vh - 75px);
+  }
+}
