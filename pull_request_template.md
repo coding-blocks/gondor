@@ -11,7 +11,7 @@ Detailed description of solution here...
 
 
 ## Checklist
-
+*PR will only be reviewed if the checklist is completed*
 - [ ] I have done extensive testing for my changes.
 - [ ] I have self-reviewed my PR and removed all un-necessary changes.
 - [ ] My changes works well on both desktop and mobile environments.
