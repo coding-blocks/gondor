@@ -20,11 +20,9 @@ export default class ZoomAccount extends BaseModelService {
         },
       },
       ...utilizedResourceClause(args.dateTimeRange, args.options),
-    })
-      .then((accounts) =>
-        keys.map((key) => accounts.find((account) => key.id === account.id)),
-      )
-      .map((account) => !account);
+    }).then((accounts) =>
+      keys.map((key) => !accounts.find((account) => key.id === account.id)),
+    );
   }
 
   static getAvailabilityLoader() {
