@@ -1,8 +1,11 @@
 {
-  "app/**/*.{js,jsx,json,graphql,gql}": [
+  "app/**/*.{js,jsx,css,scss,json,graphql,gql}": [
     "prettier --write",
   ],
-  "api/**/*.{js,jsx,json,graphql,gql}": [
+  "api/**/*.{js,jsx,css,scss,json,graphql,gql}": [
+    "prettier --write",
+  ],
+  "app/styles/**/!*.{css,scss}": [
     "prettier --write",
   ]
 }

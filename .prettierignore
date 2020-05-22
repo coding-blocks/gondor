@@ -1,10 +1,7 @@
-gondor/app/styles/_custom.scss
-gondor/app/styles/_mixins.scss
-gondor/app/styles/_nunito.scss
-gondor/app/styles/_variables.scss
-gondor/app/styles/_gogo.style.scss
-gondor/app/styles/theme/styles.scss
-gondor/app/styles/theme/simple-line-icons/css/simple-line-icons.css
-gondor/app/styles/theme/iconsmind/style.scss
-gondor/app/styles/theme
-gondor/app/styles/_variables.scss
+app/styles/_custom.scss
+app/styles/_mixins.scss
+app/styles/_nunito.scss
+app/styles/_variables.scss
+app/styles/_gogo.style.scss
+app/styles/_variables.scss
+app/styles/theme
