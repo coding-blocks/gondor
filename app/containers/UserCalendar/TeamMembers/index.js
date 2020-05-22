@@ -33,7 +33,7 @@ const TeamMembers = ({ setUser, selected, scrollTarget }) => {
         user={viewer.user}
         onClick={() => setUser(viewer.user)}
       />
-      {['Admin', 'Member'].includes(viewer.user.role) && (
+      {['Admin'].includes(viewer.user.role) && (
         <>
           <ModalHeader className="mb-4">Team Members</ModalHeader>
           <div className="search-sm mb-4">
