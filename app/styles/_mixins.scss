@@ -19,13 +19,12 @@
 @mixin depth($depth) {
   @if $depth < 1 {
     box-shadow: none;
-  } @else if $depth > 5 {
+  } @else if $depth>5 {
     @warn "Invalid $depth `#{$depth}` for mixin `card`.";
   } @else {
     box-shadow: bottom-shadow($depth), top-shadow($depth);
   }
 }
-
 // Computes a top-shadow for a card effect.
 // @param {Number} $depth - depth level
 // @return {List}
@@ -34,20 +33,19 @@
   $primary-offset: nth($shadowOffsetsTop, $depth) * 1px;
   $blur: nth($shadowBlursTop, $depth) * 4px;
   $color: rgba(black, nth($shadowOpacitiesTop, $depth));
-
   @return 0 $primary-offset $blur $color;
 }
 
 // Computes a bottom-shadow for a card effect.
 // @param {Number} $depth - depth level
 // @return {List}
+
 @function bottom-shadow($depth) {
   $primary-offset: nth($shadowOffsetsBottom, $depth) * 1px;
   $blur: nth($shadowBlursBottom, $depth) * 5px;
   $color: rgba(black, nth($shadowOpacitiesBottom, $depth));
   @return 0 $primary-offset $blur $color;
 }
-
 @mixin clearfix() {
   &::after {
     display: block;
@@ -55,7 +53,6 @@
     clear: both;
   }
 }
-
 //Responsive Breakpoints
 
 $breakpoints: (

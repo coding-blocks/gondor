@@ -10,7 +10,7 @@
     "prebuild": "yarn generate:schema",
     "generate:schema": "babel-node ./api/bin/generate.schema.js",
     "pre-commit": "lint-staged",
-    "format": "prettier --write \"{app,api}/**/*.{js,jsx,json,css,scss,grpahql,gql}\""
+    "format": "prettier --write \"{app,api}/**/*.{js,jsx,json,grpahql,gql}\""
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.3",
