@@ -11,8 +11,8 @@ const server = new ApolloServer({
   context: ({ req }) => ({
     viewer: req.viewer,
     loaders: {
-      calenderEventInviteLoader: CalendarEventInvite.getCalenderEventInviteLoader(),
       userAvailabilityLoader: User.getAvailabilityLoader(),
+      viewerCalendarEventInviteStatus: CalendarEventInvite.getViewerCalendarEventInviteLoader(),
     },
   }),
 });
