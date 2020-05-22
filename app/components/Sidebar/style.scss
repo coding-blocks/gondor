@@ -3,9 +3,8 @@
   overflow-y: auto;
 }
 
-@media only screen and (max-width: 1439px) {
-  /* For mobile phones: */
+@media (max-width: 767px) {
   .main-menu {
-    max-height: none;
+    max-height: calc(100vh - 75px);
   }
 }
