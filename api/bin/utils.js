@@ -25,13 +25,15 @@ export const getDirContents = (dir) =>
     return contents;
   }, {});
 
+const getRawString = (str) => String.raw`${str}`;
+
 const convertMapToString = (map) =>
   `{
     ${Object.keys(map).reduce(
       (str, key) => `${str}
         ${key}: ${
         typeof map[key] === 'string'
-          ? `require('${map[key]}').default`
+          ? `require(String.raw\`${map[key]}\`).default`
           : convertMapToString(map[key])
       },
       `,

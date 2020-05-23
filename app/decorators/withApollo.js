@@ -14,10 +14,14 @@ export default (Component) => (getServerSideProps = defaultHandler) => async (
   }));
 
   const { props: pageProps } = await getServerSideProps(ctx);
-  const props = {
+  const ctxProps = {
     params: ctx.params || {},
     query: ctx.query,
     preview: ctx.preview || false,
+  };
+
+  const props = {
+    ...ctxProps,
     ...pageProps,
   };
 

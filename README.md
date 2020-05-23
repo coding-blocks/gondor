@@ -75,6 +75,18 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+
+## Fixing Windows Symlink Issue
+
+Run the following command from root of the project:
+
+```bash
+bash ./bin/windows_start.sh
+```
+
+*You might be needed to enable Windows Subsystem for Linux feature on your OS or run the command inside git bash.*
+
+
 ## Development
 
 There are multiple tools used to make developer experience smooth. You can suggest your ideas in form of issues.
@@ -88,7 +100,7 @@ npx babel-node api/bin/seedUsers.js
 
 ### Update User Role
 
-Use the following script to update the role of any user.
+Applications has 3 user roles with different [AuthorizationPolicy](https://github.com/coding-blocks/gondor/blob/master/api/services/AuthorizationPolicy/index.js) attached to them. Due to missing user management feature in the UI, use the following script to update the role of any user.
 ```bash
  npx babel-node api/bin/updateRole <username> <role(Admin, Member, User)>
 ```

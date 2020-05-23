@@ -23,6 +23,13 @@ const EventForm = memo(
     setStartAt,
     endAt,
     setEndAt,
+    isOpen,
+    setIsOpen,
+    isPublic,
+    setIsPublic,
+    slug,
+    setSlug,
+    showSlug,
     invites,
     setInvites,
     location,
@@ -52,6 +59,17 @@ const EventForm = memo(
             onChange={(e) => setDescription(e.target.value)}
           />
         </Form.Group>
+        {showSlug && (
+          <Form.Group className="has-float-label mb-4 col-12">
+            <Form.Label>Slug</Form.Label>
+            <Form.Input
+              type="text"
+              name="slug"
+              value={slug}
+              onChange={(e) => setSlug(e.target.value)}
+            />
+          </Form.Group>
+        )}
         <Form.Group className="has-float-label mb-4 col-12">
           <Form.Label>Type</Form.Label>
           <Form.Select
@@ -119,6 +137,28 @@ const EventForm = memo(
             name="location"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="has-float-label mb-4 col-12">
+          <Form.Label className="ml-4 mt-2">Open</Form.Label>
+          <Form.Input
+            className="ml-1"
+            type="checkbox"
+            name="open"
+            checked={isOpen}
+            value={isOpen}
+            onChange={() => setIsOpen(!isOpen)}
+          />
+        </Form.Group>
+        <Form.Group className="has-float-label mb-4 col-12">
+          <Form.Label className="ml-4 mt-2">Public</Form.Label>
+          <Form.Input
+            className="ml-1"
+            type="checkbox"
+            name="public"
+            checked={isPublic}
+            value={isPublic}
+            onClick={() => setIsPublic(!isPublic)}
           />
         </Form.Group>
       </Form>

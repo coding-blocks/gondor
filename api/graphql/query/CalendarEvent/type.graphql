@@ -23,6 +23,9 @@ type CalendarEvent implements Node {
   organiser: User!
   start_at: DateTime!
   end_at: DateTime!
+  is_open: Boolean!
+  is_public: Boolean!
+  slug: String
   invites: [CalendarEventInvite!]!
   resources: [Resource!] @protected
   inviteStatus: CalendarEventInviteStatus

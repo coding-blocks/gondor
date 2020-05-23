@@ -51,6 +51,12 @@ const EditEvent = ({ loading, onClose, types, event }) => {
   const [startAt, setStartAt] = useState(event.start_at);
   const [endAt, setEndAt] = useState(event.end_at);
 
+  const [isOpen, setIsOpen] = useState(event.is_open);
+  const [isPublic, setIsPublic] = useState(event.is_public);
+
+  const [slug, setSlug] = useState(event.slug);
+  const showSlug = true;
+
   const [inviteUsers, { error: createInviteErrors }] = useMutation(
     CREATE_INVITE,
   );
@@ -74,6 +80,9 @@ const EditEvent = ({ loading, onClose, types, event }) => {
         input: {
           start_at: startAt,
           end_at: endAt,
+          is_open: isOpen,
+          is_public: isPublic,
+          slug,
           title,
           description,
           location,
@@ -185,6 +194,13 @@ const EditEvent = ({ loading, onClose, types, event }) => {
     setStartAt: handleStartAtChange,
     endAt,
     setEndAt: handleEndAtChange,
+    isOpen,
+    setIsOpen,
+    isPublic,
+    setIsPublic,
+    slug,
+    setSlug,
+    showSlug,
     invites,
     setInvites,
     location,

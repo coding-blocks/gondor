@@ -5,5 +5,8 @@ fragment EventFragment on CalendarEvent {
   type
   start_at
   end_at
+  is_open
+  is_public
   location
+  slug
 }

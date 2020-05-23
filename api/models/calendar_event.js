@@ -43,6 +43,20 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: false,
       },
+      is_public: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      is_open: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      slug: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       paranoid: true,

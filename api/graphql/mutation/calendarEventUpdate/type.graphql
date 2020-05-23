@@ -5,6 +5,9 @@ input CalendarEventUpdateInput {
   start_at: DateTime
   end_at: DateTime
   location: String
+  is_open: Boolean
+  is_public: Boolean
+  slug: String
 }
 
 extend type Mutation {
