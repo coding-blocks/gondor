@@ -11,6 +11,7 @@ enum CalendarEventType {
 
 type CalendarEventTypeColorMap {
   name: String!
+  title:String!
   color: String!
 }
 

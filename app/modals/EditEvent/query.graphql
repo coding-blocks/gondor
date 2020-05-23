@@ -21,5 +21,6 @@ query EditEventQuery($id: ID!) {
   types: eventTypeColors {
     name
     color
+    title
   }
 }
