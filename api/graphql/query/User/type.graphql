@@ -10,17 +10,19 @@ type User implements Node {
   role: UserRoleName!
   firstname: String
   lastname: String
-  email: String @protected
-  mobile_number: String @protected
-  photo: String @protected
-  events(
-    limit: Int
-    before: String
-    after: String
-    exclude: [ID!]
-    dateTimeRange: DateTimeRangeInput!
-  ): CalendarEventConnection @protected @requireFeature(name: "calendar")
-  availability(dateTimeRange: DateTimeRangeInput!): Boolean @protected
+  ... @protected {
+    email: String
+    mobile_number: String
+    photo: String
+    events(
+      limit: Int
+      before: String
+      after: String
+      exclude: [ID!]
+      dateTimeRange: DateTimeRangeInput!
+    ): CalendarEventConnection @requireFeature(name: "calendar")
+    availability(dateTimeRange: DateTimeRangeInput!): Boolean
+  }
 }
 
 type UserEdge {
@@ -34,7 +36,9 @@ type UserConnection {
 }
 
 extend type Query {
-  user(id: ID!): User @protected
+  ... @protected {
+    user(id: ID!): User
+  }
   users(
     roles: [UserRoleName!]
     search: String

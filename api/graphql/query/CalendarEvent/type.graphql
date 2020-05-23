@@ -26,7 +26,9 @@ type CalendarEvent implements Node {
   is_open: Boolean!
   is_public: Boolean!
   invites: [CalendarEventInvite!]!
-  resources: [Resource!] @protected
+  ... @protected {
+    resources: [Resource!] 
+  }
   inviteStatus: CalendarEventInviteStatus
 }
 

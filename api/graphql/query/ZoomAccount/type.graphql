@@ -1,10 +1,14 @@
 type ZoomAccount {
   id: ID!
   email: String!
-  uses: [Resource!] @protected
-  availability(dateTimeRange: DateTimeRangeInput!): Boolean @protected
+  ... @protected {
+    uses: [Resource!]
+    availability(dateTimeRange: DateTimeRangeInput!): Boolean
+  }
 }
 
 extend type Query {
-  zoomAccounts(availableDuring: DateTimeRangeInput): [ZoomAccount!] @protected
+  ... @protected {
+    zoomAccounts(availableDuring: DateTimeRangeInput): [ZoomAccount!]
+  }
 }
