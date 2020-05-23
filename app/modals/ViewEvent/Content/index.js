@@ -88,6 +88,13 @@ const EventContent = memo(({ event, onClose }) => {
         </div>
       </ModalHeader>
       <ModalBody>
+        <div className="d-flex">
+          <span className="w-100 mb-2 text-small">
+            <a className="text-primary" href={`/events/${event.slug}`}>
+              /events/{event.slug}
+            </a>
+          </span>
+        </div>
         <p>
           <strong>From:</strong>{' '}
           <span className="float-right">
