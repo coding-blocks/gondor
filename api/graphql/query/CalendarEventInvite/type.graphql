@@ -11,7 +11,5 @@ type CalendarEventInvite {
   user: User!
   event: CalendarEvent!
   status: CalendarEventInviteStatus!
-  ... @protected(entity: "user") {
-    availability: Boolean 
-  }
+  availability: Boolean @protected(entity: "user")
 }
