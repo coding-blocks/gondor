@@ -17,7 +17,8 @@ export const getEventTypeOption = ({ name,title,color }) => ({
       <span>{title}</span>
     </div>
   ),
-  value:title,
+  value:name,
+  title:title,
   color,
 });
 

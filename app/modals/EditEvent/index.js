@@ -20,7 +20,7 @@ const EditEvent = ({ loading, onClose, types, event }) => {
   const [type, setType] = useState(
     useMemo(
       () => ({
-        label: event.type,
+        label: types.find(({ name }) => name === event.type).title,,
         value: event.type,
         color: types.find(({ name }) => name === event.type).color,
       }),
