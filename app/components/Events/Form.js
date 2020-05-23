@@ -62,8 +62,8 @@ const EventForm = memo(
             name="type"
             placeholder="Select Event Type"
             value={getEventTypeLabel(type)}
-            onChange={({ value, color }) =>
-              setType({ label: value, value, color })
+            onChange={({ value,title,color }) =>
+              setType({ label:title, value, color })
             }
             options={useMemo(() => types.map(getEventTypeOption), [types])}
           />

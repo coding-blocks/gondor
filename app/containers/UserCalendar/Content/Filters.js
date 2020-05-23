@@ -1,6 +1,5 @@
 import { memo, useMemo } from 'react';
 import Dropdown from 'Components/Dropdown';
-import ColorsList from 'Components/ColorsList';
 import { UncontrolledPopover as Popover, PopoverBody } from 'reactstrap';
 import {
   defaultTypeFilter,
@@ -16,8 +15,8 @@ const Fitlers = memo(({ filters, types = [], onTypeChange }) => (
       () => [defaultTypeFilter, ...types.map(getEventTypeOption)],
       [types],
     )}
-    onChange={({ value, color }) =>
-      onTypeChange({ label: value || defaultTypeFilter.label, value, color })
+    onChange={({ value,title,color }) =>
+      onTypeChange({ label: title || defaultTypeFilter.label, value, color })
     }
   />
 ));

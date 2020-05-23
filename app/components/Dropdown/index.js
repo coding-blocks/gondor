@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../styles/_custom.scss';
 import {
   DropdownToggle,
   DropdownMenu,
