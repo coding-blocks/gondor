@@ -15,6 +15,8 @@ const EventForm = memo(
     errors,
     title,
     slug,
+    changedslug,
+    showslug,
     setTitle,
     description,
     setDescription,
@@ -59,16 +61,18 @@ const EventForm = memo(
           />
         </Form.Group>
 
-        <Form.Group className="has-float-label mb-4 col-12">
-          <Form.Label>Title Slug</Form.Label>
-          <Form.Input
-            className="ml-1"
-            type="text"
-            name="slug"
-            value={slug}
-            onChange={(e) => slugify(e.target.value)}
-          />
-        </Form.Group>
+        {showslug && (
+          <Form.Group className="has-float-label mb-4 col-12">
+            <Form.Label>Title Slug</Form.Label>
+            <Form.Input
+              className="ml-1"
+              type="text"
+              name="slug"
+              value={slug}
+              onChange={(e) => changedslug(e.target.value)}
+            />
+          </Form.Group>
+        )}
         <Form.Group className="has-float-label mb-4 col-12">
           <Form.Label>Type</Form.Label>
           <Form.Select
