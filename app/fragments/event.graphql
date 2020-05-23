@@ -8,4 +8,5 @@ fragment EventFragment on CalendarEvent {
   is_open
   is_public
   location
+  slug
 }
