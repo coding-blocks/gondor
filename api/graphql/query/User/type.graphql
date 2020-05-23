@@ -36,9 +36,7 @@ type UserConnection {
 }
 
 extend type Query {
-  ... @protected {
-    user(id: ID!): User
-  }
+  user(id: ID!): User @protected
   users(
     roles: [UserRoleName!]
     search: String
