@@ -13,7 +13,5 @@ type Resource {
   id: ID!
   subject: ResourceSubject!
   topic: ResourceTopic!
-  ... @protected {
-    availability: Boolean 
-  }
+  availability: Boolean @protected
 }
