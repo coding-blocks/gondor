@@ -86,3 +86,9 @@
     cursor: pointer;
   }
 }
+
+.search-sm {
+  &:after {
+    top: 5px;
+  }
+}
