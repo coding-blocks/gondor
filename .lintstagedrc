@@ -4,5 +4,5 @@
   ],
   "api/**/*.{js,jsx,json,css,scss,graphql,gql}": [
     "prettier --write",
-  ],
+  ]
 }
