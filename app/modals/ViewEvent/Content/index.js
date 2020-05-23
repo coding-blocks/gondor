@@ -64,12 +64,7 @@ const EventContent = memo(({ event, onClose }) => {
   return (
     <>
       <ModalHeader className="w-100">
-        <div className="d-flex">
-          <span className="w-100 mb-2 text-small">
-            <a href={`/events/${event.slug}`}>/events/{event.slug}</a>
-          </span>
-        </div>
-        <div className="d-flex justify-content-between">
+        <div className="d-flex align-items-center justify-content-between">
           <span className="w-50 text-truncate" title={event.title}>
             {event.title}
           </span>
@@ -93,6 +88,11 @@ const EventContent = memo(({ event, onClose }) => {
         </div>
       </ModalHeader>
       <ModalBody>
+        <div className="d-flex">
+          <span className="w-100 mb-2 text-default text-small">
+            <a href={`/events/${event.slug}`}>/events/{event.slug}</a>
+          </span>
+        </div>
         <p>
           <strong>From:</strong>{' '}
           <span className="float-right">
