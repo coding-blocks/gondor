@@ -42,7 +42,7 @@ const convertMapToString = (map) =>
   }`;
 
 export const transformMap = (map) =>
-  `export default ${convertMapToString(map).replace(/\s/g, '')}`;
+  `export default ${convertMapToString(map)}`;
 
 export const transformTypeDefs = (typeDefs) =>
   typeDefs.join('\n').replace(/(\r\n|\r|\n){2,}/g, '$1\n');
