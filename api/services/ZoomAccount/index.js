@@ -38,7 +38,7 @@ export default class ZoomAccount extends BaseModelService {
   }
 
   @requireInstance
-  async ifAvailableDuring(dateTimeRange, options) {
+  ifAvailableDuring(dateTimeRange, options) {
     return ZoomAccount.findAvailaibilityDuring(
       this.instance.id,
       dateTimeRange,
