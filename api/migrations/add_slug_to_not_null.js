@@ -8,36 +8,23 @@ module.exports = {
                 WHERE slug is NULL;
                 `),
       queryInterface.sequelize.query(`
-                UPDATE calendar_events SET slug = REGEXP_REPLACE(slug, '/\s+/g', '-')  
+                UPDATE calendar_events SET slug = REGEXP_REPLACE(slug, '[^a-z0-9\\-_]+', '-', 'gi'); 
                 `),
       queryInterface.sequelize.query(`
-                UPDATE calendar_events SET slug = REGEXP_REPLACE(slug, '/[^\w\-]+/g', '')  
-                `),
-      queryInterface.sequelize.query(`
-                UPDATE calendar_events SET slug = REGEXP_REPLACE(slug, '/\-\-+/g', '-')  
-                `),
-      queryInterface.sequelize.query(`
-                UPDATE calendar_events SET slug = REGEXP_REPLACE(slug, '/^-+/', '')  
-                `),
-      queryInterface.sequelize.query(`
-                UPDATE calendar_events SET slug = REGEXP_REPLACE(slug, '/-+$/', '')  
+                UPDATE calendar_events SET slug = BTRIM(slug,'-') ;
                 `),
     ])
       .then(() => {
-        queryInterface.addIndex('calendar_events', {
-          unique: true,
-          references: {
-            key: 'id',
-          },
-          fields: ['slug'],
-        }),
+        return [
+          queryInterface.addIndex('calendar_events', {
+            unique: true,
+            fields: ['slug'],
+          }),
           queryInterface.changeColumn('calendar_events', 'slug', {
             type: Sequelize.STRING,
-            references: {
-              key: 'id',
-            },
             allowNull: false,
-          });
+          }),
+        ];
       })
       .catch((error) => {
         console.log(error);
@@ -47,17 +34,12 @@ module.exports = {
   down: (queryInterface, Sequelize) => {
     return queryInterface.sequelize
       .query(
-        `
-                UPDATE calendar_events SET slug = null;
-                `,
+        ` UPDATE calendar_events SET slug = '';
+         `,
       )
       .then(() => {
         queryInterface.changeColumn('calendar_events', 'slug', {
           type: Sequelize.STRING,
-          references: {
-            key: 'id',
-            model: 'calendar_events',
-          },
           allowNull: true,
         });
       });
