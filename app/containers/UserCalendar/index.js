@@ -8,11 +8,9 @@ import createPage from 'Utils/createPage';
 import AppContent from 'Components/AppContent';
 import Content from './Content';
 import TeamMembers from './TeamMembers';
-import useViewer from 'Hooks/useViewer';
 import authHelper from 'Utils/authHelper';
 
 const UserCalendar = ({ loading, viewer, user, router, refetch }) => {
-  const viewers = useViewer();
   const selectedUser = user || viewer.user;
 
   useEffect(() => {
@@ -30,7 +28,7 @@ const UserCalendar = ({ loading, viewer, user, router, refetch }) => {
 
   return (
     <>
-      {authHelper.isMember(viewers) && (
+      {authHelper.isMember(viewer) && (
         <>
           <Head>
             <title>Calendar | CodingBlocks</title>
@@ -55,7 +53,7 @@ const UserCalendar = ({ loading, viewer, user, router, refetch }) => {
           </AppMenu>
         </>
       )}
-      {!authHelper.isMember(viewers) && (
+      {!authHelper.isMember(viewer) && (
         <>
           <Head>
             <title>Calendar | CodingBlocks</title>
