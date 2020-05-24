@@ -28,11 +28,16 @@ const UserCalendar = ({ loading, viewer, user, router, refetch }) => {
 
   return (
     <>
+      <Head>
+        <title>Calendar | CodingBlocks</title>
+      </Head>
+      {!authHelper.isMember(viewer) && (
+        <>
+          <Content user={selectedUser} />
+        </>
+      )}
       {authHelper.isMember(viewer) && (
         <>
-          <Head>
-            <title>Calendar | CodingBlocks</title>
-          </Head>
           <AppContent>
             <Content user={selectedUser} />
           </AppContent>
@@ -51,14 +56,6 @@ const UserCalendar = ({ loading, viewer, user, router, refetch }) => {
               )}
             </AppMenu.Context.Consumer>
           </AppMenu>
-        </>
-      )}
-      {!authHelper.isMember(viewer) && (
-        <>
-          <Head>
-            <title>Calendar | CodingBlocks</title>
-          </Head>
-          <Content user={selectedUser} />
         </>
       )}
     </>
