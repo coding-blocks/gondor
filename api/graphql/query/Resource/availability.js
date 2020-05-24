@@ -17,9 +17,7 @@ class ZoomAccountAvailability extends BaseResolver {
           start_at: topic.start_at,
           end_at: topic.end_at,
         },
-        options: {
-          excludeTopics: [topic.id],
-        },
+        excludeTopics: [topic.id],
       });
     }
 

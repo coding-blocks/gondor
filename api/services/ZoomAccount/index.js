@@ -11,15 +11,23 @@ export default class ZoomAccount extends BaseModelService {
     return Models.ZoomAccount.findAll(utilizedResourceClause(...args));
   }
 
+  static async findAvailaibilityDuring(id, ...args) {
+    const data = await Models.ZoomAccount.findOne({
+      where: { id },
+      ...utilizedResourceClause(...args),
+    });
+    return !data;
+  }
+
   static async findAllAvailabilityDuring(keys) {
-    const { id, ...args } = keys[0];
+    const { id, dateTimeRange, ...options } = keys[0];
     return Models.ZoomAccount.findAll({
       where: {
         id: {
           [Models.Sequelize.Op.in]: keys.map(({ id }) => id),
         },
       },
-      ...utilizedResourceClause(args.dateTimeRange, args.options),
+      ...utilizedResourceClause(dateTimeRange, options),
     }).then((accounts) =>
       keys.map((key) => !accounts.find((account) => key.id === account.id)),
     );
@@ -31,15 +39,11 @@ export default class ZoomAccount extends BaseModelService {
 
   @requireInstance
   async ifAvailableDuring(dateTimeRange, options) {
-    return (
-      await ZoomAccount.findAllAvailabilityDuring([
-        {
-          id: this.instance.id,
-          dateTimeRange,
-          options,
-        },
-      ])
-    )[0];
+    return ZoomAccount.findAvailaibilityDuring(
+      this.instance.id,
+      dateTimeRange,
+      options,
+    );
   }
 
   @saveInstance
