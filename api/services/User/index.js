@@ -39,33 +39,36 @@ export default class User extends BaseModelService {
   }
 
   static async findAllAvailabilityDuring(keys) {
-    return Promise.all(
-      keys.map(
-        async (key) =>
-          !(await Models.CalendarEventInvite.scope('visible').findOne({
+    return Models.CalendarEventInvite.scope('visible')
+      .findAll({
+        where: {
+          user_id: {
+            [Models.Sequelize.Op.in]: keys.map(({ user_id }) => user_id),
+          },
+        },
+        include: [
+          {
+            model: Models.CalendarEvent,
+            as: 'event',
             where: {
-              user_id: key.user_id,
-            },
-            include: [
-              {
-                model: Models.CalendarEvent,
-                as: 'event',
-                where: {
-                  [Models.Sequelize.Op.and]: [
-                    overlapDateTimeClause(key.dateTimeRange),
-                    {
-                      id: {
-                        [Models.Sequelize.Op.notIn]: key.exculdeEvents || [],
-                      },
-                    },
-                  ],
+              [Models.Sequelize.Op.and]: [
+                overlapDateTimeClause(keys[0].dateTimeRange),
+                {
+                  id: {
+                    [Models.Sequelize.Op.notIn]: keys[0].exculdeEvents || [],
+                  },
                 },
-                required: true,
-              },
-            ],
-          })),
-      ),
-    );
+              ],
+            },
+            required: true,
+          },
+        ],
+      })
+      .then((invites) =>
+        keys.map(
+          (key) => !invites.find((invite) => invite.user_id === key.user_id),
+        ),
+      );
   }
 
   static getAvailabilityLoader() {
