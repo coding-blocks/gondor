@@ -6,7 +6,7 @@ const availability = async (parent, _args, { loaders }) => {
   return loaders.userAvailability.load({
     user_id: parent.user_id,
     dateTimeRange: { start_at: event.start_at, end_at: event.end_at },
-    exculdeEvents: [event.id],
+    excludeEvents: [event.id],
   });
 };
 

@@ -51,14 +51,21 @@ export default class User extends BaseModelService {
             model: Models.CalendarEvent,
             as: 'event',
             where: {
-              [Models.Sequelize.Op.and]: [
-                overlapDateTimeClause(keys[0].dateTimeRange),
-                {
-                  id: {
-                    [Models.Sequelize.Op.notIn]: keys[0].exculdeEvents || [],
-                  },
-                },
-              ],
+              [Models.Sequelize.Op.or]: keys.map(
+                ({ user_id, dateTimeRange, excludeEvents }) => ({
+                  [Models.Sequelize.Op.and]: [
+                    {
+                      $user_id$: user_id,
+                    },
+                    {
+                      id: {
+                        [Models.Sequelize.Op.notIn]: excludeEvents || [],
+                      },
+                    },
+                    overlapDateTimeClause(dateTimeRange),
+                  ],
+                }),
+              ),
             },
             required: true,
           },
@@ -76,13 +83,13 @@ export default class User extends BaseModelService {
   }
 
   @requireInstance
-  async ifAvailableDuring(dateTimeRange, exculdeEvents) {
+  async ifAvailableDuring(dateTimeRange, excludeEvents) {
     return (
       await User.findAllAvailabilityDuring([
         {
           user_id: this.instance.id,
           dateTimeRange,
-          exculdeEvents,
+          excludeEvents,
         },
       ])
     )[0];
