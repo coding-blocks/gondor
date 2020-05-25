@@ -38,14 +38,43 @@ export default class User extends BaseModelService {
     }
   }
 
+  static doesKeyBelongToInvite(key, invite) {
+    if (key.user_id !== invite.user_id) {
+      return false;
+    }
+
+    const { excludedEvents = [] } = key;
+    if (excludedEvents.includes(invite.event.id)) {
+      return false;
+    }
+
+    if (
+      invite.event.start_at >= key.dateTimeRange.start_at &&
+      invite.event.start_at <= key.dateTimeRange.end_at
+    ) {
+      return true;
+    }
+
+    if (
+      invite.event.end_at >= key.dateTimeRange.start_at &&
+      invite.event.end_at <= key.dateTimeRange.end_at
+    ) {
+      return true;
+    }
+
+    if (
+      invite.event.start_at <= key.dateTimeRange.start_at &&
+      invite.event.end_at >= key.dateTimeRange.end_at
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
   static async findAllAvailabilityDuring(keys) {
     return Models.CalendarEventInvite.scope('visible')
       .findAll({
-        where: {
-          user_id: {
-            [Models.Sequelize.Op.in]: keys.map(({ user_id }) => user_id),
-          },
-        },
         include: [
           {
             model: Models.CalendarEvent,
@@ -73,7 +102,8 @@ export default class User extends BaseModelService {
       })
       .then((invites) =>
         keys.map(
-          (key) => !invites.find((invite) => invite.user_id === key.user_id),
+          (key) =>
+            !invites.find((invite) => User.doesKeyBelongToInvite(key, invite)),
         ),
       );
   }
