@@ -31,12 +31,11 @@ const UserCalendar = ({ loading, viewer, user, router, refetch }) => {
       <Head>
         <title>Calendar | CodingBlocks</title>
       </Head>
-      {!authHelper.isMember(viewer) && (
+      {!authHelper.isMember(viewer) ? (
         <>
           <Content user={selectedUser} />
         </>
-      )}
-      {authHelper.isMember(viewer) && (
+      ) : (
         <>
           <AppContent>
             <Content user={selectedUser} />
