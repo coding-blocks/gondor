@@ -33,7 +33,11 @@ const UserCalendar = ({ loading, viewer, user, router, refetch }) => {
       </Head>
       {!authHelper.isMember(viewer) ? (
         <>
-          <Content user={selectedUser} />
+          <div className="row">
+            <div className="col-12">
+              <Content user={selectedUser} />
+            </div>
+          </div>
         </>
       ) : (
         <>
