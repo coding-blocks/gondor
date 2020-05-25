@@ -14,6 +14,19 @@ export default class ProtetedDirective extends SchemaDirectiveVisitor {
         field._parentEntity ||
         camelcase(info.parentType.name);
 
+      if (_this.args.post_execution) {
+        const result = await resolve.call(this, parent, _args, ctx, info);
+
+        if (entityName === 'query') parent = entityName;
+
+        return (await AuthPolicy.can(ctx.viewer)
+          .perform(`${entityName}:${field.name}:read`)
+          .having(result)
+          .on(parent))
+          ? result
+          : null;
+      }
+
       if (
         await AuthPolicy.can(ctx.viewer)
           .perform(`${entityName}:${field.name}:read`)

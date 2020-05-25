@@ -8,3 +8,5 @@ export const isUser = (viewer) =>
 export const isSelf = (user, viewer) => user?.id == viewer?.id;
 
 export const isOrganiser = (event, viewer) => event?.organiser_id == viewer?.id;
+
+export const isPublicEvent = (event) => event?.is_public === true;

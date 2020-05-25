@@ -1,5 +1,12 @@
 import Policy from 'auth-policy';
-import { isUser, isMember, isAdmin, isSelf, isOrganiser } from './utils';
+import {
+  isUser,
+  isMember,
+  isAdmin,
+  isSelf,
+  isOrganiser,
+  isPublicEvent,
+} from './utils';
 
 const policy = new Policy();
 
@@ -14,6 +21,14 @@ policy.include('query', (p) => {
 
   p.include('zoomAccounts', (cp) =>
     cp.register('read', ({ viewer }) => isAdmin(viewer)),
+  );
+
+  p.include('event', (cp) =>
+    cp.register(
+      'read',
+      ({ viewer, entity: event, value }) =>
+        isOrganiser(event, viewer) || isMember(viewer) || isPublicEvent(value),
+    ),
   );
 });
 
