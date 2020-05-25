@@ -22,6 +22,9 @@
     width: 100% !important;
     transform: none !important;
     margin: 1rem 0 !important;
+    .scroll {
+      max-height: 100vh;
+    }
   }
 }
 
