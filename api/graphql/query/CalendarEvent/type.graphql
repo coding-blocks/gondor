@@ -11,7 +11,7 @@ enum CalendarEventType {
 
 type CalendarEventTypeColorMap {
   name: String!
-  title:String!
+  title: String!
   color: String!
 }
 
@@ -43,8 +43,7 @@ type CalendarEventConnection {
 }
 
 extend type Query {
-  #TODO(naman): handle authorization
-  event(id: ID!): CalendarEvent
+  event(id: ID!): CalendarEvent @protected(post_execution: true)
 
   events(
     limit: Int
