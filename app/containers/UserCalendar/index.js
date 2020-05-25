@@ -31,24 +31,36 @@ const UserCalendar = ({ loading, viewer, user, router, refetch }) => {
       <Head>
         <title>Calendar | CodingBlocks</title>
       </Head>
-      <AppContent>
-        <Content user={selectedUser} />
-      </AppContent>
-      <AppMenu>
-        <AppMenu.Context.Consumer>
-          {({ target }) => (
-            <TeamMembers
-              scrollTarget={target}
-              setUser={({ id }) =>
-                id === viewer.user.id
-                  ? Router.push(...paths.me.calendar())
-                  : Router.push(...paths.users.calendar({ id }))
-              }
-              selected={selectedUser}
-            />
-          )}
-        </AppMenu.Context.Consumer>
-      </AppMenu>
+      {!authHelper.isMember(viewer) ? (
+        <>
+          <div className="row">
+            <div className="col-12">
+              <Content user={selectedUser} />
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <AppContent>
+            <Content user={selectedUser} />
+          </AppContent>
+          <AppMenu>
+            <AppMenu.Context.Consumer>
+              {({ target }) => (
+                <TeamMembers
+                  scrollTarget={target}
+                  setUser={({ id }) =>
+                    id === viewer.user.id
+                      ? Router.push(...paths.me.calendar())
+                      : Router.push(...paths.users.calendar({ id }))
+                  }
+                  selected={selectedUser}
+                />
+              )}
+            </AppMenu.Context.Consumer>
+          </AppMenu>
+        </>
+      )}
     </>
   );
 };
