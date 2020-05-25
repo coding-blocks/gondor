@@ -112,6 +112,7 @@ const Content = React.memo(({ user }) => {
           return setDateTimeRange({ start_at: dates.start, end_at: dates.end });
         }}
         onSelectSlot={({ start, end }) =>
+          authHelper.isMember(viewer) &&
           Modals.AddEvent.open({
             ...addEventProps,
             dateTimeRange: {
