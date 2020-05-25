@@ -7,7 +7,7 @@ const AppMenu = ({ children }) => (
   <div className="app-menu">
     <PerfectScrollbar
       id="app-menu-scroll-container"
-      options={{ suppressScrollX: true, wheelPropagation: false }}>
+      options={{ suppressScrollX: true, wheelPropagation: true }}>
       <div className="scroll">
         <div className="scrollbar-container overflow-auto">
           <div className="p-4">
