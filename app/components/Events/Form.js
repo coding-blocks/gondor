@@ -23,8 +23,10 @@ const EventForm = memo(
     setStartAt,
     endAt,
     setEndAt,
-    isOpen,
-    setIsOpen,
+    isRequestable,
+    setIsRequestable,
+    autoAcceptRequests,
+    setIsAutoAccept,
     isPublic,
     setIsPublic,
     slug,
@@ -76,8 +78,8 @@ const EventForm = memo(
             name="type"
             placeholder="Select Event Type"
             value={getEventTypeLabel(type)}
-            onChange={({ value,title,color }) =>
-              setType({ label:title, value, color })
+            onChange={({ value, title, color }) =>
+              setType({ label: title, value, color })
             }
             options={useMemo(() => types.map(getEventTypeOption), [types])}
           />
@@ -145,9 +147,21 @@ const EventForm = memo(
             className="ml-1"
             type="checkbox"
             name="open"
-            checked={isOpen}
-            value={isOpen}
-            onChange={() => setIsOpen(!isOpen)}
+            checked={isRequestable}
+            value={isRequestable}
+            onChange={() => setIsRequestable(!isRequestable)}
+          />
+        </Form.Group>
+        <Form.Group className="has-float-label mb-4 col-12">
+          <Form.Label className="ml-4 mt-2">Auto Accept Requests</Form.Label>
+          <Form.Input
+            className="ml-1"
+            type="checkbox"
+            name="autoaccept"
+            disabled={!isRequestable}
+            checked={autoAcceptRequests && isRequestable}
+            value={autoAcceptRequests}
+            onChange={() => setIsAutoAccept(!autoAcceptRequests)}
           />
         </Form.Group>
         <Form.Group className="has-float-label mb-4 col-12">

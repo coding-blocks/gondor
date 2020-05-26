@@ -11,7 +11,7 @@ enum CalendarEventType {
 
 type CalendarEventTypeColorMap {
   name: String!
-  title:String!
+  title: String!
   color: String!
 }
 
@@ -24,7 +24,8 @@ type CalendarEvent implements Node {
   organiser: User!
   start_at: DateTime!
   end_at: DateTime!
-  is_open: Boolean!
+  is_requestable: Boolean!
+  auto_accept_request: Boolean!
   is_public: Boolean!
   slug: String
   invites: [CalendarEventInvite!]!

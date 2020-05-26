@@ -5,7 +5,8 @@ input CalendarEventCreateInput {
   start_at: DateTime!
   end_at: DateTime!
   location: String
-  is_open: Boolean
+  is_requestable: Boolean!
+  auto_accept_request: Boolean!
   is_public: Boolean
 }
 

@@ -81,7 +81,8 @@ policy.include('calendarEvent', (p) => {
       'end_at',
       'location',
       'type',
-      'is_open',
+      'is_requestable',
+      'auto_accept_request',
       'is_public',
       'slug',
     ],
@@ -117,7 +118,8 @@ policy.include('calendarEventInvite', (p) => {
     ({ viewer, entity: { event, status }, action }) =>
       isOrganiser(event, viewer) ||
       isAdmin(viewer) ||
-      (isUser(viewer) && status === 'Requested' && action === ':create'),
+      (isUser(viewer) && status === 'Requested' && action === ':create') ||
+      (isMember(viewer) && event.auto_accept_request),
   );
   p.register(
     'update',
@@ -135,7 +137,8 @@ policy.include('calendarEventInvite', (p) => {
       ({ viewer, entity: { user_id, event, status, value } }) => {
         const requested = ['Requested', 'Refused'].includes(status);
 
-        if (value?.status === 'Requested' && !event.is_open) return false;
+        if (value?.status === 'Requested' && !event.is_requestable)
+          return false;
 
         if (!requested) return isSelf({ id: user_id }, viewer);
 
