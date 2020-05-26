@@ -103,7 +103,7 @@ const EditEvent = ({ loading, onClose, types, event }) => {
           label: 'id',
           value: 'username',
         });
-        console.log(event);
+
         const invitesRemoved = event.invites.filter(
           ({ user: { id } }) => id !== event.organiser.id && !nextInvites[id],
         );

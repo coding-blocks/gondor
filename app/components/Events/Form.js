@@ -160,7 +160,7 @@ const EventForm = memo(
             name="autoaccept"
             disabled={!isRequestable}
             checked={autoAcceptRequests && isRequestable}
-            value={autoAcceptRequests}
+            value={autoAcceptRequests && isRequestable}
             onChange={() => setIsAutoAccept(!autoAcceptRequests)}
           />
         </Form.Group>
