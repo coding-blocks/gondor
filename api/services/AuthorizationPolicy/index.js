@@ -1,12 +1,5 @@
 import Policy from 'auth-policy';
-import {
-  isUser,
-  isMember,
-  isAdmin,
-  isSelf,
-  isOrganiser,
-  isPublicEvent,
-} from './utils';
+import { isUser, isMember, isAdmin, isSelf, isOrganiser } from './utils';
 
 const policy = new Policy();
 
