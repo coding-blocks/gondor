@@ -46,7 +46,7 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
       input: {
         start_at: startAt,
         end_at: endAt,
-        auto_accept_request: autoAcceptRequests,
+        auto_accept_requests: autoAcceptRequests,
         is_requestable: isRequestable,
         is_public: isPublic,
         title,

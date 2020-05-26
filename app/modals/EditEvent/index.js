@@ -53,9 +53,8 @@ const EditEvent = ({ loading, onClose, types, event }) => {
 
   const [isRequestable, setIsRequestable] = useState(event.is_requestable);
   const [autoAcceptRequests, setIsAutoAccept] = useState(
-    event.auto_accept_request,
+    event.auto_accept_requests,
   );
-
   const [isPublic, setIsPublic] = useState(event.is_public);
 
   const [slug, setSlug] = useState(event.slug);
@@ -85,7 +84,7 @@ const EditEvent = ({ loading, onClose, types, event }) => {
           start_at: startAt,
           end_at: endAt,
           is_requestable: isRequestable,
-          auto_accept_request: autoAcceptRequests,
+          auto_accept_requests: autoAcceptRequests,
           is_public: isPublic,
           slug,
           title,

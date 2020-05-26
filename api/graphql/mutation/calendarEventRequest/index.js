@@ -17,7 +17,7 @@ class CalendarEventRequest extends BaseMutationResolver {
         status:
           viewer.role === 'Admin' ||
           event?.organiser_id === viewer.id ||
-          event.auto_accept_request
+          event?.auto_accept_requests
             ? 'Accepted'
             : 'Requested',
       },

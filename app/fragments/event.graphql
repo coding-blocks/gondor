@@ -6,7 +6,7 @@ fragment EventFragment on CalendarEvent {
   start_at
   end_at
   is_requestable
-  auto_accept_request
+  auto_accept_requests
   is_public
   location
   slug

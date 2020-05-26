@@ -82,7 +82,7 @@ policy.include('calendarEvent', (p) => {
       'location',
       'type',
       'is_requestable',
-      'auto_accept_request',
+      'auto_accept_requests',
       'is_public',
       'slug',
     ],
@@ -118,8 +118,7 @@ policy.include('calendarEventInvite', (p) => {
     ({ viewer, entity: { event, status }, action }) =>
       isOrganiser(event, viewer) ||
       isAdmin(viewer) ||
-      (isUser(viewer) && status === 'Requested' && action === ':create') ||
-      (isMember(viewer) && event.auto_accept_request),
+      (isMember(viewer) && action === ':create'),
   );
   p.register(
     'update',
