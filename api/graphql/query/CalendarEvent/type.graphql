@@ -43,7 +43,8 @@ type CalendarEventConnection {
 }
 
 extend type Query {
-  event(id: ID!): CalendarEvent @protected(post_execution: true)
+  event(id: ID, slug: String = ""): CalendarEvent
+    @protected(post_execution: true)
 
   events(
     limit: Int
