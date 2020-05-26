@@ -72,6 +72,11 @@ policy.include('calendarEvent', (p) => {
     ({ viewer, entity: event }) =>
       isOrganiser(event, viewer) || isAdmin(viewer),
   );
+  p.register('read', ({ viewer, entity: event }) => {
+    if (event.is_public) return true;
+
+    return isMember(viewer) || isOrganiser(event, viewer);
+  });
 
   p.include(
     [

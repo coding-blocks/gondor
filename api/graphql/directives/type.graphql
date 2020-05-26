@@ -1,5 +1,8 @@
 directive @define(entity: String = "") on OBJECT
 
-directive @protected(entity: String = "") on FIELD_DEFINITION
+directive @protected(
+  entity: String = ""
+  post_execution: Boolean = true
+) on FIELD_DEFINITION
 
 directive @requireFeature(name: String = "") on FIELD_DEFINITION
