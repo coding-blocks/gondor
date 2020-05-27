@@ -118,7 +118,16 @@ policy.include('calendarEventInvite', (p) => {
     ({ viewer, entity: { event, status }, action }) =>
       isOrganiser(event, viewer) ||
       isAdmin(viewer) ||
-      (isMember(viewer) && action === ':create'),
+      (isMember(viewer) &&
+        action === ':create' &&
+        status === 'Requested' &&
+        action === ':create' &&
+        event?.is_requestable) ||
+      (isMember(viewer) &&
+        action === ':create' &&
+        status === 'Accepted' &&
+        action === ':create' &&
+        event?.auto_accept_requests),
   );
   p.register(
     'update',
@@ -180,5 +189,4 @@ policy.include('resource', (p) => {
     cp.register('read', ({ viewer }) => isMember(viewer)),
   );
 });
-
 export default policy;
