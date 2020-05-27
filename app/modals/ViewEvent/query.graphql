@@ -3,8 +3,8 @@
 #import "../../fragments/eventInvite.graphql"
 #import "../../fragments/resource.graphql"
 
-query ViewEventQuery($id: ID!) {
-  event(id: $id) {
+query ViewEventQuery($id: ID, $slug: String) {
+  event(id: $id, slug: $slug) {
     ...EventFragment
     organiser {
       ...UserFragment

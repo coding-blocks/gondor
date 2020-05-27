@@ -7,7 +7,7 @@ import { Modal, ModalBody } from 'reactstrap';
 import { useQuery } from '@apollo/react-hooks';
 import { removeFromCache, pushToCache } from 'Utils/graphql';
 
-const ViewEvent = ({ id, onClose, event, startPolling, stopPolling }) => {
+const ViewEvent = ({ id, slug, onClose, event, startPolling, stopPolling }) => {
   useEffect(() => {
     stopPolling();
     startPolling(1000);
@@ -25,7 +25,7 @@ const ViewEvent = ({ id, onClose, event, startPolling, stopPolling }) => {
     );
   }
 
-  const queryData = { query: QUERY, variables: { id } };
+  const queryData = { query: QUERY, variables: { id: id, slug: slug } };
 
   return (
     <Modal isOpen={true} size="sm" toggle={() => onClose()}>
