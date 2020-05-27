@@ -19,7 +19,7 @@ policy.include('query', (p) => {
   p.include('event', (cp) =>
     cp.register(
       'read',
-      ({ viewer, entity: event, value }) =>
+      ({ viewer, value }) =>
         isOrganiser(value, viewer) || isMember(viewer) || value?.is_public,
     ),
   );

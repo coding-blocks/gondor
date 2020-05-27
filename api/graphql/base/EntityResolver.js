@@ -1,5 +1,6 @@
 import BaseResolver from './Resolver';
 import Models from 'Models';
+import { UserInputError } from 'apollo-server';
 
 class EntityResolver extends BaseResolver {
   resolve = async () => {
@@ -7,9 +8,13 @@ class EntityResolver extends BaseResolver {
     let where = { id: Number(this.args.id) };
 
     if (this.model.rawAttributes.hasOwnProperty('slug')) {
-      where = {
-        [Op.or]: [{ id: Number(this.args.id) }, { slug: this.args.slug }],
-      };
+      if ((this.args.id === this.args.slug) === undefined)
+        throw new UserInputError('Not a valid id or slug');
+
+      if (this.args.slug !== undefined)
+        where = {
+          [Op.or]: [{ id: Number(this.args.id) }, { slug: this.args.slug }],
+        };
     }
 
     return await this.model.findOne({
