@@ -11,7 +11,9 @@ class EntityResolver extends BaseResolver {
       if ((this.args.id === this.args.slug) === undefined)
         throw new UserInputError('Not a valid id or slug');
 
-      if (this.args.slug !== undefined)
+      if (isNaN(Number(this.args.id))) {
+        where = { slug: this.args.slug };
+      } else if (this.args.slug !== undefined)
         where = {
           [Op.or]: [{ id: Number(this.args.id) }, { slug: this.args.slug }],
         };
