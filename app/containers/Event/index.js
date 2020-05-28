@@ -1,11 +1,16 @@
 import useModals from 'Hooks/useModals';
 import { useRouter } from 'next/router';
+import createPage from 'Utils/createPage';
+import QUERY from './query.graphql';
+import { useEffect } from 'react';
 
 const Event = () => {
-  const { event_id_or_slug } = useRouter().query;
+  const { id_or_slug } = useRouter().query;
   const Modals = useModals();
 
-  //Unable to open a modal here also componentDidMount dont work here also tried using a button just for testing still its not working
+  useEffect(() => {
+    Modals.ViewEvent.open({ id: id_or_slug, slug: id_or_slug });
+  }, [id_or_slug]);
 
   return (
     <>
@@ -14,4 +19,7 @@ const Event = () => {
   );
 };
 
-export default Event;
+export default createPage({
+  Component: Event,
+  query: QUERY,
+});
