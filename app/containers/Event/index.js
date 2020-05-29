@@ -8,6 +8,8 @@ const Event = ({ router }) => {
   const { id_or_slug } = router.query;
   const Modals = useModals();
 
+  console.log(id_or_slug);
+
   useEffect(() => {
     Modals.ViewEvent.open({ id: id_or_slug, slug: id_or_slug });
   }, [id_or_slug]);
@@ -23,5 +25,6 @@ const Event = ({ router }) => {
 
 export default createPage({
   Component: Event,
+  requireLogin: false,
   query: QUERY,
 });
