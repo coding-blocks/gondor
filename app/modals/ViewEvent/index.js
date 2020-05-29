@@ -15,6 +15,8 @@ const ViewEvent = ({ id, slug, onClose, event, startPolling, stopPolling }) => {
     return () => stopPolling();
   }, [id]);
 
+  console.log(event);
+
   if (!event) {
     return (
       <Modal isOpen={true} size="sm" toggle={() => onClose()}>
@@ -38,6 +40,7 @@ export default createPage({
   Component: ViewEvent,
   query: QUERY,
   variables: ({ id, slug }) => ({ id, slug }),
+  requireLogin: false,
   LoaderComponent: ({ onClose }) => (
     <Modal isOpen={true} size="sm" toggle={() => onClose()}>
       <ModalBody>
