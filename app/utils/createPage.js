@@ -4,6 +4,7 @@ import useViewer from 'Hooks/useViewer';
 import { useQuery } from '@apollo/react-hooks';
 import Loader from 'Components/Loader';
 import Dashboard from 'Layouts/Dashboard';
+import Public from 'Layouts/Public';
 import ErrorLayout from 'Components/ErrorLayout';
 
 const inject = (obj, props) => (typeof obj === 'function' ? obj(props) : obj);
@@ -28,6 +29,10 @@ const createPage = ({
   });
 
   const viewer = useViewer();
+
+  if (Component.name === 'Event' && !viewer?.user) {
+    Layout = Public;
+  }
 
   let content;
   if (loading && !fetched) {

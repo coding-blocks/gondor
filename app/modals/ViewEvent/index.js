@@ -15,8 +15,6 @@ const ViewEvent = ({ id, slug, onClose, event, startPolling, stopPolling }) => {
     return () => stopPolling();
   }, [id]);
 
-  console.log(event);
-
   if (!event) {
     return (
       <Modal isOpen={true} size="sm" toggle={() => onClose()}>
