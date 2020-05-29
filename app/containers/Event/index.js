@@ -1,11 +1,11 @@
 import useModals from 'Hooks/useModals';
-import { useRouter } from 'next/router';
 import createPage from 'Utils/createPage';
 import QUERY from './query.graphql';
 import { useEffect } from 'react';
+import Head from 'next/head';
 
-const Event = () => {
-  const { id_or_slug } = useRouter().query;
+const Event = ({ router }) => {
+  const { id_or_slug } = router.query;
   const Modals = useModals();
 
   useEffect(() => {
@@ -14,7 +14,9 @@ const Event = () => {
 
   return (
     <>
-      <div className="text-center">Event Page</div>
+      <Head>
+        <title>Event | CodingBlocks</title>
+      </Head>
     </>
   );
 };
