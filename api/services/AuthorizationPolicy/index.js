@@ -118,10 +118,10 @@ policy.include('calendarEventInvite', (p) => {
     ({ viewer, entity: { event, status }, action }) =>
       isOrganiser(event, viewer) ||
       isAdmin(viewer) ||
-      (isMember(viewer) && 
-      action === ':create' && 
-      status === 'Requested' &&
-      event?.is_requestable) || (isMember(viewer) && status === 'Accepted' && action === ':create' && event?.auto_accept_requests)
+      isUser(viewer) 
+      && action === ':create' 
+      && event?.is_requestable 
+      && (status === 'Requested' || status === 'Accepted' && event?.auto_accept_requests)
   );
   p.register(
     'update',
