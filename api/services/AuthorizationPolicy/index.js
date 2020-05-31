@@ -8,20 +8,20 @@ policy.include('query', (p) => {
     cp.register('read', ({ viewer }) => isMember(viewer)),
   );
 
-  p.include('events', (cp) =>
-    cp.register('read', ({ viewer }) => isMember(viewer)),
-  );
-
-  p.include('zoomAccounts', (cp) =>
-    cp.register('read', ({ viewer }) => isAdmin(viewer)),
-  );
-
   p.include('event', (cp) =>
     cp.register(
       'read',
       ({ viewer, value }) =>
         isOrganiser(value, viewer) || isMember(viewer) || value?.is_public,
     ),
+  );
+
+  p.include('events', (cp) =>
+    cp.register('read', ({ viewer }) => isMember(viewer)),
+  );
+
+  p.include('zoomAccounts', (cp) =>
+    cp.register('read', ({ viewer }) => isAdmin(viewer)),
   );
 });
 
@@ -114,7 +114,7 @@ policy.include('calendarEvent', (p) => {
     cp.register(
       'read',
       ({ viewer, entity: event }) =>
-        isOrganiser(event, viewer) || isMember(viewer),
+        isOrganiser(event, viewer) || isMember(viewer) || event?.is_public,
     );
   });
 });

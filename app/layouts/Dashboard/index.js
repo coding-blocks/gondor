@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { withRouter } from 'next/router';
 import './style.scss';
 
-const Dashboard = ({ children, data, router, query }) => {
+const Dashboard = ({ children, data, router, query, isPublic }) => {
   const [showSideBar, setSideBar] = useState(true);
 
   if (!data) return null;
@@ -22,7 +22,7 @@ const Dashboard = ({ children, data, router, query }) => {
         'menu-default menu-sub-hidden': showSideBar,
         'menu-default menu-sub-hidden main-hidden': !showSideBar,
       })}>
-      {!embedded && (
+      {!embedded && !isPublic && (
         <>
           <Navbar toggleSideBar={toggleSideBar} />
           <Sidebar show={showSideBar} />

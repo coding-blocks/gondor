@@ -2,6 +2,7 @@ import useModals from 'Hooks/useModals';
 import createPage from 'Utils/createPage';
 import QUERY from './query.graphql';
 import { useEffect } from 'react';
+import useViewer from 'Hooks/useViewer';
 import Head from 'next/head';
 
 const Event = ({ router }) => {
@@ -23,6 +24,7 @@ const Event = ({ router }) => {
 
 export default createPage({
   Component: Event,
-  requireLogin: false,
   query: QUERY,
+  isPublic: true,
+  requireLogin: false,
 });
