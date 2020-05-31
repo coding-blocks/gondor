@@ -7,7 +7,9 @@ const invites = async (parent, _args, ctx) => {
     where: { event_id: parent.id },
   };
 
-  if (
+  if (parent?.is_public && !ctx.viewer) {
+    return [];
+  } else if (
     await AuthPolicy.can(ctx.viewer)
       .perform('calendarEvent:requests:read')
       .on(parent)

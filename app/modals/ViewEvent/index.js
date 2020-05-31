@@ -38,6 +38,7 @@ export default createPage({
   Component: ViewEvent,
   query: QUERY,
   variables: ({ id, slug }) => ({ id, slug }),
+  isPublic: true,
   requireLogin: false,
   LoaderComponent: ({ onClose }) => (
     <Modal isOpen={true} size="sm" toggle={() => onClose()}>
