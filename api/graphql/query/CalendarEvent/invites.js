@@ -7,9 +7,7 @@ const invites = async (parent, _args, ctx) => {
     where: { event_id: parent.id },
   };
 
-  if (parent?.is_public && !ctx.viewer) {
-    return [];
-  } else if (
+  if (
     await AuthPolicy.can(ctx.viewer)
       .perform('calendarEvent:requests:read')
       .on(parent)
@@ -21,15 +19,17 @@ const invites = async (parent, _args, ctx) => {
       { user_id: ctx.viewer?.id, status: 'Refused' },
     ];
   } else {
-    query.where[Op.or] = [
-      {
-        status: { [Op.not]: 'Requested' },
-      },
-      { user_id: ctx.viewer?.id },
-    ];
+    if (ctx.viewer) {
+      query.where[Op.or] = [
+        {
+          status: { [Op.not]: 'Requested' },
+        },
+        { user_id: ctx.viewer?.id },
+      ];
+    }
   }
-
-  return Models.CalendarEventInvite.findAll(query);
+  if (ctx.viewer) return Models.CalendarEventInvite.findAll(query);
+  return [];
 };
 
 export default invites;
