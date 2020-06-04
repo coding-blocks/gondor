@@ -48,7 +48,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: false,
       },
-      is_open: {
+      is_requestable: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      auto_accept_requests: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,

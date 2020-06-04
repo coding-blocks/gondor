@@ -13,7 +13,7 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
   const [type, setType] = useState({
-    label: types[0].name,
+    label: types[0].title,
     value: types[0].name,
     color: types[0].color,
   });
@@ -29,7 +29,8 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
     dateTimeRange?.end_at || moment().add(2, 'hour').startOf('hour').format(),
   );
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isRequestable, setIsRequestable] = useState(false);
+  const [autoAcceptRequests, setIsAutoAccept] = useState(false);
   const [isPublic, setIsPublic] = useState(false);
 
   const [inviteUsers, { error: createInviteErrors }] = useMutation(
@@ -45,7 +46,8 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
       input: {
         start_at: startAt,
         end_at: endAt,
-        is_open: isOpen,
+        auto_accept_requests: autoAcceptRequests,
+        is_requestable: isRequestable,
         is_public: isPublic,
         title,
         description,
@@ -115,8 +117,10 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
     setStartAt: handleStartAtChange,
     endAt,
     setEndAt: handleEndAtChange,
-    isOpen,
-    setIsOpen,
+    isRequestable,
+    setIsRequestable,
+    autoAcceptRequests,
+    setIsAutoAccept,
     isPublic,
     setIsPublic,
     invites,

@@ -5,7 +5,8 @@ fragment EventFragment on CalendarEvent {
   type
   start_at
   end_at
-  is_open
+  is_requestable
+  auto_accept_requests
   is_public
   location
   slug

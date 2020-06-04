@@ -5,7 +5,8 @@ input CalendarEventUpdateInput {
   start_at: DateTime
   end_at: DateTime
   location: String
-  is_open: Boolean
+  is_requestable: Boolean
+  auto_accept_requests: Boolean
   is_public: Boolean
   slug: String
 }

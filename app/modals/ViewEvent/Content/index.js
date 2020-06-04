@@ -149,7 +149,8 @@ const EventContent = memo(({ event, onClose }) => {
             <strong>Location:</strong> {event.location}
           </p>
         )}
-        {event.is_open && (
+
+        {event.is_requestable && (
           <Badge color="primary" pill>
             Open
           </Badge>
@@ -197,7 +198,7 @@ const EventContent = memo(({ event, onClose }) => {
             )}
           </>
         ) : (
-          event.is_open && (
+          event.is_requestable && (
             <Button
               className="m-0 ml-2"
               size="sm"

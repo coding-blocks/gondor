@@ -51,7 +51,10 @@ const EditEvent = ({ loading, onClose, types, event }) => {
   const [startAt, setStartAt] = useState(event.start_at);
   const [endAt, setEndAt] = useState(event.end_at);
 
-  const [isOpen, setIsOpen] = useState(event.is_open);
+  const [isRequestable, setIsRequestable] = useState(event.is_requestable);
+  const [autoAcceptRequests, setIsAutoAccept] = useState(
+    event.auto_accept_requests,
+  );
   const [isPublic, setIsPublic] = useState(event.is_public);
 
   const [slug, setSlug] = useState(event.slug);
@@ -80,7 +83,8 @@ const EditEvent = ({ loading, onClose, types, event }) => {
         input: {
           start_at: startAt,
           end_at: endAt,
-          is_open: isOpen,
+          is_requestable: isRequestable,
+          auto_accept_requests: autoAcceptRequests,
           is_public: isPublic,
           slug,
           title,
@@ -180,7 +184,6 @@ const EditEvent = ({ loading, onClose, types, event }) => {
     createInviteErrors,
     deleteInviteErrors,
   );
-
   const formProps = {
     errors,
     title,
@@ -194,8 +197,10 @@ const EditEvent = ({ loading, onClose, types, event }) => {
     setStartAt: handleStartAtChange,
     endAt,
     setEndAt: handleEndAtChange,
-    isOpen,
-    setIsOpen,
+    isRequestable,
+    setIsRequestable,
+    autoAcceptRequests,
+    setIsAutoAccept,
     isPublic,
     setIsPublic,
     slug,
