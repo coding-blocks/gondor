@@ -16,20 +16,21 @@ const invites = async (parent, _args, ctx) => {
       {
         status: { [Op.not]: 'Refused' },
       },
-      { user_id: ctx.viewer?.id, status: 'Refused' },
+      { user_id: ctx.viewer.id },
     ];
   } else {
-    if (ctx.viewer) {
-      query.where[Op.or] = [
-        {
-          status: { [Op.not]: 'Requested' },
-        },
-        { user_id: ctx.viewer?.id },
-      ];
-    }
+    const options = [
+      {
+        status: { [Op.not]: ['Requested', 'Refused'] },
+      },
+    ];
+
+    if (ctx.viewer) options.push({ user_id: ctx.viewer.id });
+
+    query.where[Op.or] = options;
   }
-  if (ctx.viewer) return Models.CalendarEventInvite.findAll(query);
-  return [];
+
+  return Models.CalendarEventInvite.findAll(query);
 };
 
 export default invites;
