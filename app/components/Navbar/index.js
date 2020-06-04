@@ -22,7 +22,7 @@ const Navbar = (props) => {
   return (
     <nav className="navbar fixed-top p-none">
       <div className="row w-100">
-        <div className="col-4">
+        <div className="col-6 col-md-4">
           <div
             onClick={toggleSideBar}
             className="menu-button pointer d-md-block text-left">
@@ -44,14 +44,14 @@ const Navbar = (props) => {
             </svg>
           </div>
         </div>
-        <div className="col-4 text-center">
+        <div className="col-0 col-md-4 d-none d-md-block text-center">
           <Link href="/" passHref>
             <a className="navbar-logo d-none d-md-block">
               <img className="navbar-logo" src="/img/logo.png" />
             </a>
           </Link>
         </div>
-        <div className="col-4 text-right">
+        <div className="col-6 col-md-4 text-right">
           <div className="d-inline-block pointer">
             {viewer?.user ? (
               <Dropdown
