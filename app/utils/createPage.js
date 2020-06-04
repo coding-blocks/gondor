@@ -12,6 +12,7 @@ const createPage = ({
   Component,
   Layout = Dashboard,
   query,
+  isPublic = false,
   variables,
   requireFeatures = [],
   requireLogin = true,
@@ -28,6 +29,8 @@ const createPage = ({
   });
 
   const viewer = useViewer();
+
+  isPublic = !viewer?.user & isPublic;
 
   let content;
   if (loading && !fetched) {
@@ -60,6 +63,7 @@ const createPage = ({
       error={error}
       data={data}
       router={router}
+      isPublic={isPublic}
       {..._props}>
       {content}
     </Layout>

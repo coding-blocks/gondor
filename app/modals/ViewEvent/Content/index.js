@@ -90,7 +90,10 @@ const EventContent = memo(({ event, onClose }) => {
       <ModalBody>
         <div className="d-flex">
           <span className="w-100 mb-2 text-small">
-            <a className="text-primary" href={`/events/${event.slug}`}>
+            <a
+              className="text-primary"
+              href={`/events/${event.slug}`}
+              target="_blank">
               /events/{event.slug}
             </a>
           </span>
