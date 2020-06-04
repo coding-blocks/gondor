@@ -215,7 +215,7 @@ const EditEvent = ({ loading, onClose, types, event }) => {
   };
 
   return (
-    <Modal isOpen={true} size="md">
+    <>
       <ModalHeader>Edit Event</ModalHeader>
       <ModalBody>{!loading && <Form {...formProps} />}</ModalBody>
       <ModalFooter>
@@ -226,7 +226,7 @@ const EditEvent = ({ loading, onClose, types, event }) => {
           Save
         </Button>
       </ModalFooter>
-    </Modal>
+    </>
   );
 };
 

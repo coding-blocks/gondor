@@ -102,3 +102,13 @@
     top: 5px;
   }
 }
+
+.modal {
+  .modal-dialog {
+    &.embed {
+      .modal-content {
+        min-height: calc(100vh - 20px);
+      }
+    }
+  }
+}

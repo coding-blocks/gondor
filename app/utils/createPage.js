@@ -57,6 +57,8 @@ const createPage = ({
     content = <Component loading={loading} {...data} {...rest} {...props} />;
   }
 
+  if (!Layout) return content;
+
   return (
     <Layout
       loading={loading}

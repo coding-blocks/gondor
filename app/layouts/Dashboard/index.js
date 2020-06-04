@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { withRouter } from 'next/router';
 import './style.scss';
 
-const Dashboard = ({ children, data, router, query, isPublic }) => {
+const Dashboard = ({ children, data, router, isPublic }) => {
   const [showSideBar, setSideBar] = useState(true);
 
   if (!data) return null;

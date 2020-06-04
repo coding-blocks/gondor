@@ -10,7 +10,8 @@ const Event = ({ router }) => {
   const Modals = useModals();
 
   useEffect(() => {
-    Modals.ViewEvent.open({ id: id_or_slug, slug: id_or_slug });
+    !Modals.ViewEvent.isOpen() &&
+      Modals.ViewEvent.open({ id: id_or_slug, slug: id_or_slug });
   }, [id_or_slug]);
 
   return (

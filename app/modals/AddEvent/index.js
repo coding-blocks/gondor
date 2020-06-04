@@ -132,7 +132,7 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
   };
 
   return (
-    <Modal isOpen={true} size="md">
+    <>
       <ModalHeader>Add Event</ModalHeader>
       <ModalBody>
         <Form {...formProps} />
@@ -145,7 +145,7 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
           Add
         </Button>
       </ModalFooter>
-    </Modal>
+    </>
   );
 };
 

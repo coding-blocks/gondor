@@ -17,21 +17,15 @@ const ViewEvent = ({ id, slug, onClose, event, startPolling, stopPolling }) => {
 
   if (!event) {
     return (
-      <Modal isOpen={true} size="sm" toggle={() => onClose()}>
-        <ModalBody>
-          <p className="text-center">No Event Found.</p>
-        </ModalBody>
-      </Modal>
+      <ModalBody>
+        <p className="text-center">No Event Found.</p>
+      </ModalBody>
     );
   }
 
   const queryData = { query: QUERY, variables: { id: id, slug: slug } };
 
-  return (
-    <Modal isOpen={true} size="sm" toggle={() => onClose()}>
-      <Content event={{ ...event }} onClose={onClose} />
-    </Modal>
-  );
+  return <Content event={{ ...event }} onClose={onClose} />;
 };
 
 export default createPage({
@@ -40,11 +34,10 @@ export default createPage({
   variables: ({ id, slug }) => ({ id, slug }),
   isPublic: true,
   requireLogin: false,
+  Layout: null,
   LoaderComponent: ({ onClose }) => (
-    <Modal isOpen={true} size="sm" toggle={() => onClose()}>
-      <ModalBody>
-        <Loader relative />
-      </ModalBody>
-    </Modal>
+    <ModalBody>
+      <Loader relative />
+    </ModalBody>
   ),
 });

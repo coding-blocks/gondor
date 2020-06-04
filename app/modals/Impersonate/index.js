@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import Form from 'Components/Form';
 import UserSelect from 'Components/UserSelect';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { useRouter } from 'next/router';
 
 const Impersonate = ({ onClose }) => {
@@ -15,7 +15,7 @@ const Impersonate = ({ onClose }) => {
   };
 
   return (
-    <Modal isOpen={true} size="md">
+    <>
       <ModalHeader>Impersonate</ModalHeader>
       <ModalBody>
         <Form className="row">
@@ -38,7 +38,7 @@ const Impersonate = ({ onClose }) => {
           Impersonate
         </Button>
       </ModalFooter>
-    </Modal>
+    </>
   );
 };
 

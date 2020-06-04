@@ -22,7 +22,7 @@ const AddZoomAccount = ({ onClose, onSuccess }) => {
   const errors = formatErrors(rawErrors);
 
   return (
-    <Modal isOpen={true} size="sm">
+    <>
       <ModalHeader>Add Zoom Account</ModalHeader>
       <ModalBody>
         <Form className="row" errors={errors}>
@@ -45,7 +45,7 @@ const AddZoomAccount = ({ onClose, onSuccess }) => {
           Add
         </Button>
       </ModalFooter>
-    </Modal>
+    </>
   );
 };
 

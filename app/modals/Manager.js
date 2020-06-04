@@ -1,5 +1,8 @@
 import { useReducer, createContext } from 'react';
 import dynamic from 'next/dynamic';
+import { Modal } from 'reactstrap';
+import { withRouter } from 'next/router';
+import classNames from 'classnames';
 
 const Context = createContext();
 
@@ -19,51 +22,84 @@ const reducer = (state, { type, payload }) => {
 };
 
 const modals = {
-  AddEvent: dynamic(() => import('./AddEvent')),
-  ViewEvent: dynamic(() => import('./ViewEvent')),
-  EditEvent: dynamic(() => import('./EditEvent')),
-  AddZoomAccount: dynamic(() => import('./AddZoomAccount')),
-  Impersonate: dynamic(() => import('./Impersonate')),
+  AddEvent: {
+    size: 'md',
+    Component: dynamic(() => import('./AddEvent')),
+  },
+  ViewEvent: {
+    size: 'sm',
+    autoClose: true,
+    Component: dynamic(() => import('./ViewEvent')),
+  },
+  EditEvent: {
+    size: 'md',
+    Component: dynamic(() => import('./EditEvent')),
+  },
+  AddZoomAccount: {
+    size: 'sm',
+    Component: dynamic(() => import('./AddZoomAccount')),
+  },
+  Impersonate: {
+    size: 'md',
+    Component: dynamic(() => import('./Impersonate')),
+  },
 };
 
-const ModalsManager = React.memo(({ children }) => {
-  const [state, dispatch] = useReducer(reducer, []);
+const ModalsManager = withRouter(
+  React.memo(({ children, router }) => {
+    const [state, dispatch] = useReducer(reducer, []);
 
-  const actions = Object.keys(modals).reduce((acm, name) => {
-    acm[name] = {
-      open: (props) =>
-        dispatch({ type: 'openModal', payload: { name, props } }),
-      close: () => dispatch({ type: 'closeModal', payload: { name } }),
-    };
+    const actions = Object.keys(modals).reduce((acm, name) => {
+      acm[name] = {
+        open: (props) =>
+          dispatch({ type: 'openModal', payload: { name, props } }),
+        close: () => dispatch({ type: 'closeModal', payload: { name } }),
+        isOpen: () => !!state.find((modal) => modal.name === name),
+      };
 
-    return acm;
-  }, {});
+      return acm;
+    }, {});
 
-  return (
-    <Context.Provider value={actions}>
-      {children}
-      {state.map(({ name, props }, index) => {
-        const Modal = modals[name];
+    const embed = router?.query?.hasOwnProperty('embed');
 
-        Modal.displayName = name;
+    return (
+      <Context.Provider value={actions}>
+        {children}
+        {state.map(({ name, props }, index) => {
+          const config = modals[name];
+          const ModalComponent = config.Component;
 
-        return (
-          <Modal
-            key={`${name}-${index}`}
-            {...props}
-            onClose={async (...args) => {
-              const { onClose } = props;
+          ModalComponent.displayName = name;
 
-              if (typeof onClose === 'function') await onClose(...args);
+          const onClose = async (...args) => {
+            const { onClose } = props;
 
-              return actions[name].close();
-            }}
-          />
-        );
-      })}
-    </Context.Provider>
-  );
-});
+            if (typeof onClose === 'function') await onClose(...args);
+
+            return actions[name].close();
+          };
+
+          return (
+            <Modal
+              key={`${name}-${index}`}
+              className={classNames({ embed })}
+              isOpen={true}
+              size={props.size || config.size}
+              backdrop={!embed}
+              toggle={() => !embed && config.autoClose && onClose()}>
+              <ModalComponent
+                {...props}
+                embed={embed}
+                autoClose={config.autoClose}
+                onClose={onClose}
+              />
+            </Modal>
+          );
+        })}
+      </Context.Provider>
+    );
+  }),
+);
 
 ModalsManager.Context = Context;
 

@@ -39,7 +39,8 @@ class App extends NextApp {
         <Head>
           <link rel="icon" href="/favicon.png" />
         </Head>
-        <ModalsManager>
+        <ModalsManager
+          router={{ query: pageProps.query, params: pageProps.params }}>
           {hasError ? <ErrorLayout /> : <Page {...pageProps}></Page>}
         </ModalsManager>
       </ApolloProvider>
