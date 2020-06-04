@@ -17,7 +17,7 @@ module.exports = {
       queryInterface.removeColumn('calendar_events', 'is_open'),
     ]).then(() =>
       queryInterface.sequelize.query(
-        'ALTER TABLE calendar_events ADD CONSTRAINT auto_accept_condition CHECK (not(is_requestable IS FALSE AND auto_accept_request IS TRUE ));',
+        'ALTER TABLE calendar_events ADD CONSTRAINT auto_accept_condition CHECK (not(is_requestable IS FALSE AND auto_accept_requests IS TRUE ));',
       ),
     );
   },
