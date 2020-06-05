@@ -12,7 +12,7 @@ module.exports = {
     pool: { maxConnections: 5, maxIdleTime: 30 },
     language: 'en',
     alter: false,
-    logging: false,
+    logging: true,
     define: {
       underscored: true,
       underscoredAll: true,
@@ -48,7 +48,7 @@ module.exports = {
     maxConcurrentQueries: 100,
     pool: { maxConnections: 5, maxIdleTime: 30 },
     language: 'en',
-    logging: false,
+    logging: true,
     define: {
       underscored: true,
       underscoredAll: true,

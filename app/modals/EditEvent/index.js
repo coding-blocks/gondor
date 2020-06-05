@@ -11,7 +11,7 @@ import CREATE_INVITE from 'Mutations/calendarEventInvite.graphql';
 import DELETE_INVITE from 'Mutations/calendarEventInviteDelete.graphql';
 import CREATE_RESOURCE from 'Mutations/resourceCreate.graphql';
 import DELETE_RESOURCE from 'Mutations/resourceDelete.graphql';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 
 const EditEvent = ({ loading, onClose, types, event }) => {
   const [title, setTitle] = useState(event.title);
@@ -234,4 +234,5 @@ export default createPage({
   Component: EditEvent,
   query: QUERY,
   variables: ({ id }) => ({ id }),
+  Layout: null,
 });

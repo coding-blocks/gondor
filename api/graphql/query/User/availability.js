@@ -2,7 +2,7 @@ const availability = async (parent, { dateTimeRange }, { loaders }) =>
   loaders.userAvailability.load({
     user_id: parent.id,
     dateTimeRange,
-    exculdeEvents: [],
+    excludeEvent: [],
   });
 
 export default availability;

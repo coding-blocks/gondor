@@ -1,13 +1,12 @@
 import uuid from 'uuid/v4';
 import Models from 'Models';
 import config from 'Config';
-import DataLoader from 'dataloader';
 import jwt from 'jsonwebtoken';
 import BaseModelService, {
   saveInstance,
   requireInstance,
 } from 'Services/BaseModelService';
-import overlapDateTimeClause from 'Utils/overlapDateTimeClause';
+import Availability from './Loaders/Availability';
 
 export default class User extends BaseModelService {
   static findByUsername(username) {
@@ -38,48 +37,16 @@ export default class User extends BaseModelService {
     }
   }
 
-  static async findAllAvailabilityDuring(keys) {
-    return Promise.all(
-      keys.map(
-        async (key) =>
-          !(await Models.CalendarEventInvite.scope('visible').findOne({
-            where: {
-              user_id: key.user_id,
-            },
-            include: [
-              {
-                model: Models.CalendarEvent,
-                as: 'event',
-                where: {
-                  [Models.Sequelize.Op.and]: [
-                    overlapDateTimeClause(key.dateTimeRange),
-                    {
-                      id: {
-                        [Models.Sequelize.Op.notIn]: key.exculdeEvents || [],
-                      },
-                    },
-                  ],
-                },
-                required: true,
-              },
-            ],
-          })),
-      ),
-    );
-  }
-
-  static getAvailabilityLoader() {
-    return new DataLoader(User.findAllAvailabilityDuring);
-  }
+  static getAvailabilityLoader = Availability.loader();
 
   @requireInstance
-  async ifAvailableDuring(dateTimeRange, exculdeEvents) {
+  async ifAvailableDuring(dateTimeRange, excludeEvents) {
     return (
       await User.findAllAvailabilityDuring([
         {
           user_id: this.instance.id,
           dateTimeRange,
-          exculdeEvents,
+          excludeEvents,
         },
       ])
     )[0];

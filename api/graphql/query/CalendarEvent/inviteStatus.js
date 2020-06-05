@@ -1,9 +1,9 @@
 const inviteStatus = async (parent, _args, { viewer, loaders }) => {
   if (!viewer) return null;
 
-  return await loaders.viewerCalendarEventInviteStatus.load({
+  return await loaders.eventInviteStatus.load({
     event_id: parent.id,
-    viewer,
+    user_id: viewer.id,
   });
 };
 

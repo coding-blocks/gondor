@@ -12,7 +12,7 @@ const server = new ApolloServer({
     viewer: req.viewer,
     loaders: {
       userAvailability: User.getAvailabilityLoader(),
-      viewerCalendarEventInviteStatus: CalendarEventInvite.getViewerCalendarEventInviteStatusLoader(),
+      eventInviteStatus: CalendarEventInvite.getStatusLoader(),
     },
   }),
 });
