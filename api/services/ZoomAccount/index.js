@@ -1,5 +1,4 @@
 import Models from 'Models';
-import DataLoader from 'dataloader';
 import BaseModelService, {
   saveInstance,
   requireInstance,
@@ -18,20 +17,6 @@ export default class ZoomAccount extends BaseModelService {
       ...utilizedResourceClause(...args),
     });
     return !data;
-  }
-
-  static async findAllAvailabilityDuring(keys) {
-    const { id, dateTimeRange, ...options } = keys[0];
-    return Models.ZoomAccount.findAll({
-      where: {
-        id: {
-          [Models.Sequelize.Op.in]: keys.map(({ id }) => id),
-        },
-      },
-      ...utilizedResourceClause(dateTimeRange, options),
-    }).then((accounts) =>
-      keys.map((key) => !accounts.find((account) => key.id === account.id)),
-    );
   }
 
   static getAvailabilityLoader = Availability.loader();
