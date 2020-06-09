@@ -40,11 +40,11 @@ export default class Availability extends BaseLoader {
 
     return this.keys.map(
       (key) =>
-        !accounts.find((account) => this.equateKeyAndInvite(key, account)),
+        !accounts.find((account) => this.equateKeyAndAccount(key, account)),
     );
   };
 
-  equateKeyAndInvite({ id, excludedEvents = [], dateTimeRange }, account) {
+  equateKeyAndAccount({ id, excludedEvents = [], dateTimeRange }, account) {
     if (
       account.id !== id ||
       excludedEvents.includes(account['uses.calendarEvent.id'])
