@@ -8,7 +8,8 @@ import slugify from 'slugify';
 
 export default class CalendarEvent extends BaseModelService {
   @saveInstance
-  async create(body) {
+  @withTransaction
+  async create(transaction, body) {
     let slug = slugify(body.title);
     const similarSlugsCount = await Models.CalendarEvent.count({
       where: {
@@ -16,6 +17,7 @@ export default class CalendarEvent extends BaseModelService {
           [Models.Sequelize.Op.startsWith]: slug,
         },
       },
+      transaction,
     });
 
     if (similarSlugsCount) {
