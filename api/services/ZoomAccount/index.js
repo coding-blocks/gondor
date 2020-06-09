@@ -4,6 +4,7 @@ import BaseModelService, {
   requireInstance,
 } from 'Services/BaseModelService';
 import { utilizedResourceClause } from './utils';
+import Availability from './Loaders/Availability';
 
 export default class ZoomAccount extends BaseModelService {
   static findAllInUse(...args) {
@@ -15,9 +16,10 @@ export default class ZoomAccount extends BaseModelService {
       where: { id },
       ...utilizedResourceClause(...args),
     });
-
     return !data;
   }
+
+  static getAvailabilityLoader = Availability.loader();
 
   @requireInstance
   ifAvailableDuring(dateTimeRange, options) {
