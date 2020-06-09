@@ -9,20 +9,21 @@ import slugify from 'slugify';
 export default class CalendarEvent extends BaseModelService {
   @saveInstance
   async create(body) {
-    const slug = slugify(body.title);
-    const numberOfSimilarSlugs = await Models.CalendarEvent.count({
+    let slug = slugify(body.title);
+    const similarSlugsCount = await Models.CalendarEvent.count({
       where: {
         slug: {
           [Models.Sequelize.Op.startsWith]: slug,
         },
       },
     });
-    const updatedSlug = numberOfSimilarSlugs
-      ? `${slug}-${numberOfSimilarSlugs + 1}`
-      : slug;
+
+    if (similarSlugsCount) {
+      slug = `${slug}-${numberOfSimilarSlugs + 1}`;
+    }
 
     return Models.CalendarEvent.create({
-      slug: updatedSlug,
+      slug,
       ...body,
     }).then((event) =>
       event
