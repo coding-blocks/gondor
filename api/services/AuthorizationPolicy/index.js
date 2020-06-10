@@ -32,7 +32,7 @@ policy.include('features', (p) => {
 });
 
 policy.include('user', (p) => {
-  p.register('impersonate', ({ viewer }) => isAdmin(viewer));
+  p.register(['impersonate', 'delete'], ({ viewer }) => isAdmin(viewer));
   p.register('read', ({ viewer }) => isUser(viewer));
   p.register(
     'update',
@@ -126,10 +126,11 @@ policy.include('calendarEventInvite', (p) => {
     ({ viewer, entity: { event, status }, action }) =>
       isOrganiser(event, viewer) ||
       isAdmin(viewer) ||
-      isUser(viewer) 
-      && action === ':create' 
-      && event?.is_requestable 
-      && (status === 'Requested' || status === 'Accepted' && event?.auto_accept_requests)
+      (isUser(viewer) &&
+        action === ':create' &&
+        event?.is_requestable &&
+        (status === 'Requested' ||
+          (status === 'Accepted' && event?.auto_accept_requests))),
   );
   p.register(
     'update',

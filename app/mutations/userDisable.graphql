@@ -1,0 +1,5 @@
+mutation UserDisable($id: ID!) {
+  disableUser: userDisable(id: $id) {
+    id
+  }
+}
