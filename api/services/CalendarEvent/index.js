@@ -24,12 +24,18 @@ export default class CalendarEvent extends BaseModelService {
       slug = `${slug}-${numberOfSimilarSlugs + 1}`;
     }
 
-    return Models.CalendarEvent.create({
-      slug,
-      ...body,
-    }).then((event) =>
+    return Models.CalendarEvent.create(
+      {
+        slug,
+        ...body,
+      },
+      { transaction },
+    ).then((event) =>
       event
-        .addAttendee(body.organiser_id, { through: { status: 'Accepted' } })
+        .addAttendee(body.organiser_id, {
+          through: { status: 'Accepted' },
+          transaction,
+        })
         .then(() => event),
     );
   }
