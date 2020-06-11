@@ -12,7 +12,7 @@ module.exports = {
     pool: { maxConnections: 5, maxIdleTime: 30 },
     language: 'en',
     alter: false,
-    logging: true,
+    logging: false,
     define: {
       underscored: true,
       underscoredAll: true,
