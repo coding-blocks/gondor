@@ -14,9 +14,14 @@ const server = new ApolloServer({
     loaders: {
       userAvailability: User.getAvailabilityLoader(),
       eventInviteStatus: CalendarEventInvite.getStatusLoader(),
-      zoomAccountAvailability: ZoomAccount.getAvailabilityLoader()
+      zoomAccountAvailability: ZoomAccount.getAvailabilityLoader(),
     },
   }),
+  playground: {
+    settings: {
+      'request.credentials': 'include',
+    },
+  },
 });
 
 export const config = { api: { bodyParser: false } };
