@@ -1,0 +1,3 @@
+extend type Mutation {
+  userDisable(id: ID!): User!
+}

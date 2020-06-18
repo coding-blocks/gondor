@@ -9,8 +9,8 @@ import BaseModelService, {
 import Availability from './Loaders/Availability';
 
 export default class User extends BaseModelService {
-  static findByUsername(username) {
-    return Models.User.findOne({ where: { username } });
+  static findByUsername(username, options) {
+    return Models.User.findOne({ where: { username }, ...options });
   }
 
   static findById(id) {
@@ -142,5 +142,17 @@ export default class User extends BaseModelService {
       { user_id: this._instance.id, session_id: token },
       config.app.secret,
     );
+  }
+
+  @saveInstance
+  @requireInstance
+  async delete() {
+    const count = await Models.User.destroy({
+      where: { id: this.instance.id },
+    });
+
+    if (count) return null;
+
+    return this.instance;
   }
 }

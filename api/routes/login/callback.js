@@ -15,7 +15,8 @@ class LoginCallback extends BaseController {
       const profile = await auth.getProfile();
 
       const user = new User();
-      await user.loadByUsername(profile.username);
+      await user.loadByUsername(profile.username, { paranoid: false });
+      if (user.deleted_at) return App.redirectToHome(res);
       if (user.exists) {
         await user.syncProfile(profile);
       } else {
