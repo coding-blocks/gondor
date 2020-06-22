@@ -8,13 +8,34 @@ import slugify from 'slugify';
 
 export default class CalendarEvent extends BaseModelService {
   @saveInstance
-  create(body) {
-    return Models.CalendarEvent.create({
-      slug: slugify(body.title),
-      ...body,
-    }).then((event) =>
+  @withTransaction
+  async create(transaction, body) {
+    let slug = slugify(body.title);
+    const similarSlugsCount = await Models.CalendarEvent.count({
+      where: {
+        slug: {
+          [Models.Sequelize.Op.startsWith]: slug,
+        },
+      },
+      transaction,
+    });
+
+    if (similarSlugsCount) {
+      slug = `${slug}-${numberOfSimilarSlugs + 1}`;
+    }
+
+    return Models.CalendarEvent.create(
+      {
+        slug,
+        ...body,
+      },
+      { transaction },
+    ).then((event) =>
       event
-        .addAttendee(body.organiser_id, { through: { status: 'Accepted' } })
+        .addAttendee(body.organiser_id, {
+          through: { status: 'Accepted' },
+          transaction,
+        })
         .then(() => event),
     );
   }
