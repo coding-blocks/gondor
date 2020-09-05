@@ -1,13 +1,17 @@
+#import "../../fragments/tag.graphql"
+
 query CalendarPageContentQuery(
   $dateTimeRange: DateTimeRangeInput!
   $attendees: [ID!]
+  $tags: [ID!]
   $types: [CalendarEventType!]
   $after: String
-  $includeAll: Boolean!
+  $inviteStatusForUser: ID
 ) {
   events(
     dateTimeRange: $dateTimeRange
     attendees: $attendees
+    tags: $tags
     types: $types
     after: $after
   ) {
@@ -18,7 +22,10 @@ query CalendarPageContentQuery(
         end_at
         title
         type
-        inviteStatus
+        inviteStatus(user: $inviteStatusForUser)
+        tags {
+          ...TagFragment
+        }
       }
     }
 
@@ -26,11 +33,5 @@ query CalendarPageContentQuery(
       endCursor
       hasNextPage
     }
-  }
-
-  types: eventTypeColors @include(if: $includeAll) {
-    name
-    color
-    title
   }
 }

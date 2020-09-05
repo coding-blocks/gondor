@@ -1,0 +1,28 @@
+type Tag implements Node {
+  id: ID!
+  title: String!
+  code: String!
+  slug: String!
+}
+
+type TagEdge {
+  node: CalendarEvent!
+  cursor: String!
+}
+
+type TagConnection {
+  edges: [TagEdge!]!
+  pageInfo: PageInfo!
+}
+
+extend type Query {
+  tag(id: ID, slug: String): Tag
+  tags(
+    limit: Int
+    before: String
+    after: String
+    search: String
+    orderBy: String
+    orderDirection: OrderDirection = DESC
+  ): TagConnection @requireFeature(name: "calendar")
+}

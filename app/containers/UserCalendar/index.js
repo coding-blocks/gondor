@@ -2,15 +2,17 @@ import paths from 'Paths';
 import Head from 'next/head';
 import Router from 'next/router';
 import { useEffect } from 'react';
+import classNames from 'classnames';
 import QUERY from './query.graphql';
 import AppMenu from 'Components/AppMenu';
 import createPage from 'Utils/createPage';
 import AppContent from 'Components/AppContent';
-import Content from './Content';
-import TeamMembers from './TeamMembers';
+import Calendar, { COLOR_MODES } from 'Containers/Calendar';
+import TeamMembers from 'Containers/TeamMembers';
 import authHelper from 'Utils/authHelper';
+import UserCard from 'Components/UserCard';
 
-const UserCalendar = ({ loading, viewer, user, router, refetch }) => {
+const UserCalendar = ({ loading, viewer, user, types, router, refetch }) => {
   const selectedUser = user || viewer.user;
 
   useEffect(() => {
@@ -26,36 +28,49 @@ const UserCalendar = ({ loading, viewer, user, router, refetch }) => {
     });
   }, [router.asPath]);
 
+  const calendar = (
+    <Calendar
+      filters={{ users: [selectedUser] }}
+      types={types}
+      viewedBy={selectedUser}
+      colorMode={COLOR_MODES.TYPE}
+    />
+  );
+
   return (
     <>
       <Head>
-        <title>Calendar | CodingBlocks</title>
+        <title>{selectedUser.firstname}'s Calendar | CodingBlocks</title>
       </Head>
+
       {!authHelper.isMember(viewer) ? (
-        <>
-          <div className="row">
-            <div className="col-12">
-              <Content user={selectedUser} />
-            </div>
-          </div>
-        </>
+        <div className="row">
+          <div className="col-12">{calendar}</div>
+        </div>
       ) : (
         <>
-          <AppContent>
-            <Content user={selectedUser} />
-          </AppContent>
+          <AppContent>{calendar}</AppContent>
           <AppMenu>
             <AppMenu.Context.Consumer>
               {({ target }) => (
-                <TeamMembers
-                  scrollTarget={target}
-                  setUser={({ id }) =>
-                    id === viewer.user.id
-                      ? Router.push(...paths.me.calendar())
-                      : Router.push(...paths.users.calendar({ id }))
-                  }
-                  selected={selectedUser}
-                />
+                <>
+                  <UserCard
+                    key={selectedUser.id}
+                    className={classNames('mb-4 pointer', {
+                      shadow: true,
+                    })}
+                    user={selectedUser}
+                  />
+                  <TeamMembers
+                    scrollTarget={target}
+                    onSelect={({ id }) =>
+                      id === viewer.user.id
+                        ? Router.push(...paths.me.calendar())
+                        : Router.push(...paths.users.calendar({ id }))
+                    }
+                    selected={[selectedUser]}
+                  />
+                </>
               )}
             </AppMenu.Context.Consumer>
           </AppMenu>

@@ -10,18 +10,17 @@ export const getDefaultDateTimeRange = () => ({
   end_at: moment().endOf('month').endOf('week').format(),
 });
 
-export const getEventTypeOption = ({ name,title,color }) => ({
+export const getEventTypeOption = ({ name, title, color }) => ({
   label: (
     <div className="d-inline-flex">
       <div className="color-box mr-2" style={{ backgroundColor: color }} />
       <span>{title}</span>
     </div>
   ),
-  value:name,
-  title:title,
+  value: name,
+  title: title,
   color,
 });
-
 
 export const getEventTypeLabel = ({ label, value, color }, text) => ({
   label: (

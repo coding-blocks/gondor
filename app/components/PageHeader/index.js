@@ -35,7 +35,7 @@ const PageHeader = ({
         </Collapse>
       </div>
     )}
-    <div className="separator mt-2 mb-5" />
+    <div className={classNames('mt-2 mb-5', { separator: !!filters })} />
   </>
 );
 

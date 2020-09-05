@@ -67,6 +67,37 @@ class EventsResolver extends BaseConnectionResolver {
       });
     }
 
+    if (this.args.tags?.length) {
+      include.push({
+        model: Models.Tag,
+        as: 'tags',
+        where: {
+          attributes: ['id'],
+          id: {
+            [Op.id]: this.args.tags,
+          },
+        },
+        required: true,
+      });
+    }
+
+    if (this.args.tags?.length) {
+      include.push({
+        model: Models.Tag,
+        as: 'tags',
+        attributes: ['id'],
+        through: {
+          attributes: ['id'],
+          where: {
+            tag_id: {
+              [Op.in]: this.args.tags,
+            },
+          },
+        },
+        required: true,
+      });
+    }
+
     const query = {
       order: 'start_at',
       where: {

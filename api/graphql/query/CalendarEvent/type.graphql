@@ -29,8 +29,9 @@ type CalendarEvent implements Node {
   is_public: Boolean!
   slug: String
   invites: [CalendarEventInvite!]!
+  tags: [Tag!]!
   resources: [Resource!] @protected
-  inviteStatus: CalendarEventInviteStatus
+  inviteStatus(user: ID): CalendarEventInviteStatus
 }
 
 type CalendarEventEdge {
@@ -54,6 +55,7 @@ extend type Query {
     dateTimeRange: DateTimeRangeInput!
     types: [CalendarEventType!]
     attendees: [ID!]
+    tags: [ID!]
   ): CalendarEventConnection @requireFeature(name: "calendar")
 
   eventTypeColors: [CalendarEventTypeColorMap!]!

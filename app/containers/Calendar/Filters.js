@@ -5,7 +5,7 @@ import {
   defaultTypeFilter,
   getEventTypeOption,
   getEventTypeLabel,
-} from '../utils';
+} from 'Components/Calendar/utils';
 
 const Fitlers = memo(({ filters, types = [], onTypeChange }) => (
   <Dropdown
@@ -15,7 +15,7 @@ const Fitlers = memo(({ filters, types = [], onTypeChange }) => (
       () => [defaultTypeFilter, ...types.map(getEventTypeOption)],
       [types],
     )}
-    onChange={({ value,title,color }) =>
+    onChange={({ value, title, color }) =>
       onTypeChange({ label: title || defaultTypeFilter.label, value, color })
     }
   />

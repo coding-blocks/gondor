@@ -4,7 +4,7 @@ import Form from 'Components/Form';
 import {
   getEventTypeOption,
   getEventTypeLabel,
-} from 'Containers/UserCalendar/utils';
+} from 'Components/Calendar/utils';
 import Select from 'Components/Select';
 import UserSelect from 'Components/UserSelect';
 import ZoomAccountSelect from 'Components/ZoomAccountSelect';

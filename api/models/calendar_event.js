@@ -88,6 +88,14 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: ' CASCADE',
       onDelete: 'CASCADE',
     });
+    CalendarEvent.belongsToMany(models.Tag, {
+      as: 'tags',
+      through: models.EventTag,
+      foreignKey: 'event_id',
+      otherKey: 'tag_id',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    });
     CalendarEvent.hasMany(models.Resource, {
       as: 'resources',
       foreignKey: 'topic_id',

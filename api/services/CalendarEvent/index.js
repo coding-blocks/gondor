@@ -21,7 +21,7 @@ export default class CalendarEvent extends BaseModelService {
     });
 
     if (similarSlugsCount) {
-      slug = `${slug}-${numberOfSimilarSlugs + 1}`;
+      slug = `${slug}-${similarSlugsCount + 1}`;
     }
 
     return Models.CalendarEvent.create(

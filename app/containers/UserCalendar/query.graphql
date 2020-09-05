@@ -8,4 +8,10 @@ query UserCalendarPageQuery($userId: ID!, $includeUser: Boolean!) {
   user(id: $userId) @include(if: $includeUser) {
     ...UserFragment
   }
+
+  types: eventTypeColors {
+    name
+    color
+    title
+  }
 }

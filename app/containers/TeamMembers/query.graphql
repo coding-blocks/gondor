@@ -1,4 +1,4 @@
-#import "../../../fragments/user.graphql"
+#import "../../fragments/user.graphql"
 
 query CalendarTeamMembersQuery(
   $search: String
