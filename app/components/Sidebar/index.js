@@ -17,10 +17,25 @@ const navigation = ({ viewer }) => {
 
   return [
     {
-      name: 'Calendar',
+      name: 'Planner',
+      href: paths.planner.index()[0],
+      match: /^\/planner/,
+      icon: 'iconsmind-Calendar-4',
+      hidden: !features.calendar,
+    },
+    {
+      name: 'Members',
       href: paths.me.calendar()[0],
       match: /^\/(me\/calendar|users\/[^\/]*\/calendar)/,
-      icon: 'iconsmind-Calendar-4',
+      icon: 'iconsmind-User',
+      hidden: !features.calendar,
+    },
+    {
+      name: 'Tags',
+      href: paths.tags.calendar({})[0],
+      as: paths.tags.calendar({})[1],
+      match: /^\/t\/[^\/]*/,
+      icon: 'iconsmind-Tag',
       hidden: !features.calendar,
     },
     {

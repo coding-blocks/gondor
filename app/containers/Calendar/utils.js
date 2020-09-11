@@ -1,3 +1,5 @@
+import { getTagColor } from 'Components/TagSelect/utils';
+
 export const COLOR_MODES = {
   TYPE: 0,
   TAG: 1,
@@ -10,19 +12,33 @@ export const getEventStyles = ({
   tags,
   inviteStatus,
   typeColorsMap,
+  filterTagIds,
 }) => {
-  let color = 'grey';
+  let color = '#333';
+  let style;
 
-  if (colorMode === COLOR_MODES.TAG) {
-    const tag = tags.find(({ id }) => variables.tags.includes(id)) || tags[0];
-    if (!!tag) {
-      color = uniqueHexColor(tag.id);
-    }
+  if (colorMode === COLOR_MODES.TAG && tags.length) {
+    const tag = tags.find(({ id }) => filterTagIds.includes(id)) || tags[0];
+    color = getTagColor(tag);
+    style = {
+      backgroundColor: color,
+    };
   } else if (colorMode === COLOR_MODES.TYPE) {
     color = typeColorsMap[type];
+    style = {
+      backgroundColor: color,
+    };
+  } else {
+    style = {
+      borderColor: color,
+      borderStyle: 'solid',
+      borderWidth: '2px',
+      backgroundColor: 'transparent',
+      color: '#303030',
+      boxSizing: 'content-box',
+      width: 'calc(100% - 15px)',
+    };
   }
-
-  let style;
 
   if (!!viewedBy && inviteStatus !== 'Accepted') {
     style = {
@@ -35,10 +51,6 @@ export const getEventStyles = ({
     };
 
     if (inviteStatus === 'Declined') style.textDecoration = 'line-through';
-  } else {
-    style = {
-      backgroundColor: color,
-    };
   }
 
   return { style };

@@ -6,6 +6,7 @@ import {
   getEventTypeLabel,
 } from 'Components/Calendar/utils';
 import Select from 'Components/Select';
+import TagSelect from 'Components/TagSelect';
 import UserSelect from 'Components/UserSelect';
 import ZoomAccountSelect from 'Components/ZoomAccountSelect';
 
@@ -38,6 +39,8 @@ const EventForm = memo(
     setLocation,
     zoomAccount,
     setZoomAccount,
+    tags,
+    setTags,
   }) => {
     const viewer = useViewer();
 
@@ -120,6 +123,16 @@ const EventForm = memo(
           />
         </Form.Group>
         <Form.Group className="has-float-label mb-4 col-12">
+          <Form.Label>Tags</Form.Label>
+          <TagSelect
+            isMulti
+            name="tags"
+            value={tags}
+            placeholder="Assign tags"
+            onChange={setTags}
+          />
+        </Form.Group>
+        <Form.Group className="has-float-label mb-4 col-12">
           <Form.Label>Zoom Account</Form.Label>
           <ZoomAccountSelect
             name="zoomAccount"
@@ -142,7 +155,18 @@ const EventForm = memo(
           />
         </Form.Group>
         <Form.Group className="has-float-label mb-4 col-12">
-          <Form.Label className="ml-4 mt-2">Open</Form.Label>
+          <Form.Label className="ml-4 mt-2">Public</Form.Label>
+          <Form.Input
+            className="ml-1"
+            type="checkbox"
+            name="public"
+            checked={isPublic}
+            value={isPublic}
+            onChange={() => setIsPublic(!isPublic)}
+          />
+        </Form.Group>
+        <Form.Group className="has-float-label mb-4 col-12">
+          <Form.Label className="ml-4 mt-2">Allow Join Requests</Form.Label>
           <Form.Input
             className="ml-1"
             type="checkbox"
@@ -153,7 +177,9 @@ const EventForm = memo(
           />
         </Form.Group>
         <Form.Group className="has-float-label mb-4 col-12">
-          <Form.Label className="ml-4 mt-2">Auto Accept Requests</Form.Label>
+          <Form.Label className="ml-4 mt-2">
+            Auto Accept Join Requests
+          </Form.Label>
           <Form.Input
             className="ml-1"
             type="checkbox"
@@ -162,17 +188,6 @@ const EventForm = memo(
             checked={autoAcceptRequests && isRequestable}
             value={autoAcceptRequests && isRequestable}
             onChange={() => setIsAutoAccept(!autoAcceptRequests)}
-          />
-        </Form.Group>
-        <Form.Group className="has-float-label mb-4 col-12">
-          <Form.Label className="ml-4 mt-2">Public</Form.Label>
-          <Form.Input
-            className="ml-1"
-            type="checkbox"
-            name="public"
-            checked={isPublic}
-            value={isPublic}
-            onChange={() => setIsPublic(!isPublic)}
           />
         </Form.Group>
       </Form>

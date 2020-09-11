@@ -5,13 +5,13 @@ import { useEffect } from 'react';
 import useViewer from 'Hooks/useViewer';
 import Head from 'next/head';
 
-const Event = ({ router }) => {
+const Event = ({ router, types }) => {
   const { id_or_slug } = router.query;
   const Modals = useModals();
 
   useEffect(() => {
     !Modals.ViewEvent.isOpen() &&
-      Modals.ViewEvent.open({ id: id_or_slug, slug: id_or_slug });
+      Modals.ViewEvent.open({ id: id_or_slug, slug: id_or_slug, types });
   }, [id_or_slug]);
 
   return (

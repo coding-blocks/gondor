@@ -3,10 +3,19 @@ type Tag implements Node {
   title: String!
   code: String!
   slug: String!
+  events(
+    limit: Int
+    before: String
+    after: String
+    exclude: [ID!]
+    dateTimeRange: DateTimeRangeInput!
+    types: [CalendarEventType!]
+    attendees: [ID!]
+  ): CalendarEventConnection
 }
 
 type TagEdge {
-  node: CalendarEvent!
+  node: Tag!
   cursor: String!
 }
 
@@ -22,6 +31,7 @@ extend type Query {
     before: String
     after: String
     search: String
+    exclude: [ID!]
     orderBy: String
     orderDirection: OrderDirection = DESC
   ): TagConnection @requireFeature(name: "calendar")

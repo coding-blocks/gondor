@@ -7,7 +7,15 @@ import { Modal, ModalBody } from 'reactstrap';
 import { useQuery } from '@apollo/react-hooks';
 import { removeFromCache, pushToCache } from 'Utils/graphql';
 
-const ViewEvent = ({ id, slug, onClose, event, startPolling, stopPolling }) => {
+const ViewEvent = ({
+  id,
+  slug,
+  onClose,
+  event,
+  startPolling,
+  stopPolling,
+  types,
+}) => {
   useEffect(() => {
     stopPolling();
     startPolling(1000);
@@ -25,7 +33,7 @@ const ViewEvent = ({ id, slug, onClose, event, startPolling, stopPolling }) => {
 
   const queryData = { query: QUERY, variables: { id: id, slug: slug } };
 
-  return <Content event={{ ...event }} onClose={onClose} />;
+  return <Content event={{ ...event }} onClose={onClose} types={types} />;
 };
 
 export default createPage({

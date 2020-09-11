@@ -2,6 +2,7 @@
 #import "../../fragments/event.graphql"
 #import "../../fragments/eventInvite.graphql"
 #import "../../fragments/resource.graphql"
+#import "../../fragments/tag.graphql"
 
 query ViewEventQuery($id: ID, $slug: String) {
   event(id: $id, slug: $slug) {
@@ -14,6 +15,9 @@ query ViewEventQuery($id: ID, $slug: String) {
     }
     resources {
       ...ResourceFragment
+    }
+    tags {
+      ...TagFragment
     }
   }
 }

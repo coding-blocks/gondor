@@ -1,0 +1,18 @@
+#import "../../fragments/viewer.graphql"
+#import "../../fragments/tag.graphql"
+
+query TagCalendarPageQuery($tagSlug: String!) {
+  viewer {
+    ...ViewerFragment
+  }
+
+  tag(slug: $tagSlug) {
+    ...TagFragment
+  }
+
+  types: eventTypeColors {
+    name
+    color
+    title
+  }
+}

@@ -7,8 +7,9 @@ import UserCard from 'Components/UserCard';
 import { useQuery } from '@apollo/react-hooks';
 import { ModalHeader, Input } from 'reactstrap';
 import InfiniteScroll from 'Components/InfiniteScroll';
+import UserSearchLabel from 'Components/UserSearchLabel';
 
-const TeamMembers = ({ onSelect, selected, scrollTarget }) => {
+const TeamMembers = ({ onSelect, selected, scrollTarget, showSelection }) => {
   const viewer = useViewer();
   const [search, setSearch] = useState('');
 
@@ -34,6 +35,20 @@ const TeamMembers = ({ onSelect, selected, scrollTarget }) => {
         />
       </div>
       {loading && <Loader relative />}
+      {showSelection && (
+        <div className="mb-4 d-flex flex-wrap">
+          {selected.map((user) => (
+            <UserSearchLabel
+              className="mr-3 mb-2"
+              key={user.id}
+              user={user}
+              onDeselect={onSelect}
+              showDeselect
+            />
+          ))}
+        </div>
+      )}
+
       {data && (
         <InfiniteScroll
           data={data}

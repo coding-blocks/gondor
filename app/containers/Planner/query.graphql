@@ -1,0 +1,13 @@
+#import "../../fragments/viewer.graphql"
+
+query UserCalendarPageQuery {
+  viewer {
+    ...ViewerFragment
+  }
+
+  types: eventTypeColors {
+    name
+    color
+    title
+  }
+}

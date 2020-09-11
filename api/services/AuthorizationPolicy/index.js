@@ -171,6 +171,24 @@ policy.include('zoomAccount', (p) => {
   );
 });
 
+policy.include('eventTag', (p) => {
+  p.register(
+    'create',
+    ({ viewer, value: { event } }) =>
+      isOrganiser(event, viewer) || isAdmin(viewer),
+  );
+
+  p.register(
+    'delete',
+    ({ viewer, entity }) =>
+      isOrganiser(entity.event, viewer) || isAdmin(viewer),
+  );
+});
+
+policy.include('tag', (p) => {
+  p.register('create', ({ viewer }) => isMember(viewer));
+});
+
 policy.include('resource', (p) => {
   p.register('create', ({ viewer, value: { topic_type, topic } }) => {
     if (topic_type === 'CalendarEvent') {

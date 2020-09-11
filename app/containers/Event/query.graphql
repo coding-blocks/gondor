@@ -4,4 +4,10 @@ query EventPageQuery {
   viewer {
     ...ViewerFragment
   }
+
+  types: eventTypeColors {
+    name
+    color
+    title
+  }
 }

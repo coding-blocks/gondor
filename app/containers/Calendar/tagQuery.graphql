@@ -1,0 +1,35 @@
+#import "../../fragments/tag.graphql"
+
+query CalendarPageContentTagQuery(
+  $dateTimeRange: DateTimeRangeInput!
+  $attendees: [ID!]
+  $tagId: ID!
+  $types: [CalendarEventType!]
+  $after: String
+  $inviteStatusForUser: ID
+) {
+  tag(id: $tagId) {
+    events(
+      dateTimeRange: $dateTimeRange
+      attendees: $attendees
+      types: $types
+      after: $after
+    ) {
+      edges {
+        node {
+          id
+          start_at
+          end_at
+          title
+          type
+          inviteStatus(user: $inviteStatusForUser)
+        }
+      }
+
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+}

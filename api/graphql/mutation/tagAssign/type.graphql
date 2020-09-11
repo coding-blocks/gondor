@@ -1,0 +1,8 @@
+input TagAssignInput {
+  event_id: ID!
+  tag_id: ID!
+}
+
+extend type Mutation {
+  tagAssign(input: TagAssignInput!): Tag!
+}

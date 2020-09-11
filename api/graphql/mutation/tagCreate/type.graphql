@@ -1,0 +1,8 @@
+input TagCreateInput {
+  title: String!
+  code: String!
+}
+
+extend type Mutation {
+  tagCreate(input: TagCreateInput!): Tag!
+}

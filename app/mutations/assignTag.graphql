@@ -1,0 +1,7 @@
+#import "../fragments/tag.graphql"
+
+mutation TagAssign($input: TagAssignInput!) {
+  tag: tagAssign(input: $input) {
+    ...TagFragment
+  }
+}

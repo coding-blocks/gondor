@@ -1,11 +1,17 @@
-import rgbHex from 'rgb-hex';
+import ColorHash from 'color-hash';
+import md5 from 'md5';
 
-const PHI = (1 + Math.sqrt(5)) / 2;
+const colors = {};
+const colorHash = new ColorHash({
+  hue: [
+    { min: 0, max: 10 },
+    { min: 150, max: 360 },
+  ],
+  saturation: 0.7,
+  lightness: [0.35, 0.4, 0.5],
+});
 
-export const uniqueHexColor = (id) => {
-  const n = id * PHI - Math.floor(id * PHI);
+export const uniqueHexColor = (id) =>
+  colors[id] || (colors[id] = colorHash.hex(md5(id)));
 
-  return (
-    '#' + rgbHex(Math.floor(n * 256), Math.floor(n * 256), Math.floor(n * 256))
-  );
-};
+if (typeof window !== 'undefined') window.uniqueColor = uniqueHexColor;

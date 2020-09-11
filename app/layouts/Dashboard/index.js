@@ -21,6 +21,7 @@ const Dashboard = ({ children, data, router, isPublic }) => {
       className={classNames('dashboard-layout', {
         'menu-default menu-sub-hidden': showSideBar,
         'menu-default menu-sub-hidden main-hidden': !showSideBar,
+        public: isPublic,
       })}>
       {!embedded && !isPublic && (
         <>

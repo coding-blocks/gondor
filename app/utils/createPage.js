@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { useRouter } from 'next/router';
 import useViewer from 'Hooks/useViewer';
 import { useQuery } from '@apollo/react-hooks';
@@ -19,57 +19,58 @@ const createPage = ({
   LoaderComponent = () => <Loader />,
   ErrorComponent = ErrorLayout,
   authorize = () => true,
-}) => (_props) => {
-  const router = useRouter() || { query: _props.params };
-  const props = { ..._props, router };
-  const [fetched, setFetched] = useState(false);
-  const { loading, error, data, ...rest } = useQuery(inject(query, props), {
-    variables: inject(variables, props),
-    onCompleted: () => !fetched && setFetched(true),
+}) =>
+  memo((_props) => {
+    const router = useRouter() || { query: _props.params };
+    const props = { ..._props, router };
+    const [fetched, setFetched] = useState(false);
+    const { loading, error, data, ...rest } = useQuery(inject(query, props), {
+      variables: inject(variables, props),
+      onCompleted: () => !fetched && setFetched(true),
+    });
+
+    const viewer = useViewer();
+
+    isPublic = !viewer?.user && isPublic;
+
+    let content;
+    if (loading && !fetched) {
+      content = <Loader {...props} />;
+    } else if (error) {
+      content = <ErrorComponent error={error} {...props} />;
+    } else if (requireLogin && !viewer?.user) {
+      //TODO(naman): add default access denied layout
+      content = '';
+    } else if (
+      requireFeatures.reduce(
+        (res, feature) =>
+          res ||
+          !viewer.features.find(
+            ({ name, enabled }) => name === feature && enabled,
+          ),
+        false,
+      )
+    ) {
+      content = '';
+    } else if (!authorize({ ...data, ...rest, ...props })) {
+      content = '';
+    } else {
+      content = <Component loading={loading} {...data} {...rest} {...props} />;
+    }
+
+    if (!Layout) return content;
+
+    return (
+      <Layout
+        loading={loading}
+        error={error}
+        data={data}
+        router={router}
+        isPublic={isPublic}
+        {..._props}>
+        {content}
+      </Layout>
+    );
   });
-
-  const viewer = useViewer();
-
-  isPublic = !viewer?.user & isPublic;
-
-  let content;
-  if (loading && !fetched) {
-    content = <Loader {...props} />;
-  } else if (error) {
-    content = <ErrorComponent error={error} {...props} />;
-  } else if (requireLogin && !viewer?.user) {
-    //TODO(naman): add default access denied layout
-    content = '';
-  } else if (
-    requireFeatures.reduce(
-      (res, feature) =>
-        res ||
-        !viewer.features.find(
-          ({ name, enabled }) => name === feature && enabled,
-        ),
-      false,
-    )
-  ) {
-    content = '';
-  } else if (!authorize({ ...data, ...rest, ...props })) {
-    content = '';
-  } else {
-    content = <Component loading={loading} {...data} {...rest} {...props} />;
-  }
-
-  if (!Layout) return content;
-
-  return (
-    <Layout
-      loading={loading}
-      error={error}
-      data={data}
-      router={router}
-      isPublic={isPublic}
-      {..._props}>
-      {content}
-    </Layout>
-  );
-};
 
 export default createPage;

@@ -1,4 +1,5 @@
 import { memo, useMemo, useContext } from 'react';
+import paths from 'Paths';
 import moment from 'moment';
 import Auth from 'Services/Auth';
 import useViewer from 'Hooks/useViewer';
@@ -20,8 +21,9 @@ import REQUEST_INVITE from 'Mutations/calendarEventRequest.graphql';
 import DELETE_EVENT from 'Mutations/calendarEventDelete.graphql';
 import useModals from 'Hooks/useModals';
 import ZoomAccountLabel from 'Components/ZoomAccountSelect/Label';
+import TagLabel from 'Components/TagSelect/Label';
 
-const EventContent = memo(({ event, onClose }) => {
+const EventContent = memo(({ event, onClose, types }) => {
   const viewer = useViewer();
   const Modals = useModals();
 
@@ -29,6 +31,11 @@ const EventContent = memo(({ event, onClose }) => {
     () => event.invites.find(({ user }) => user.id === viewer.user?.id),
     [event.invites, viewer.user],
   );
+
+  const type = useMemo(() => types.find(({ name }) => name === event.type), [
+    event.type,
+    types,
+  ]);
 
   const organiserInvite = useMemo(
     () =>
@@ -92,10 +99,22 @@ const EventContent = memo(({ event, onClose }) => {
           <span className="w-100 mb-2 text-small">
             <a
               className="text-primary"
-              href={`/events/${event.slug}`}
+              href={paths.events.calendar({ slug: event.slug })[1]}
               target="_blank">
               /events/{event.slug}
             </a>
+          </span>
+        </div>
+        <div className="d-flex  align-items-center my-3 justify-content-between">
+          <strong>Type:</strong>
+          <span className="d-inline-flex ml-2">
+            <div
+              className="color-box mr-1"
+              style={{
+                backgroundColor: type.color,
+              }}
+            />
+            {type.title}
           </span>
         </div>
         <p>
@@ -114,7 +133,7 @@ const EventContent = memo(({ event, onClose }) => {
           <strong>Organiser:</strong>
         </p>
         <AttendeeItem className="mb-4" invite={organiserInvite} event={event} />
-        {!!event.invites?.length && (
+        {event.invites?.length > 1 && (
           <>
             <p>
               <strong>Attendees:</strong>
@@ -128,6 +147,23 @@ const EventContent = memo(({ event, onClose }) => {
               <strong>Description:</strong>
             </p>
             <p>{event.description}</p>
+          </>
+        )}
+        {!!event.tags.length && (
+          <>
+            <p>
+              <strong>Tags:</strong>
+            </p>
+            {event.tags.map((tag) => (
+              <a
+                key={tag.id}
+                className="hover-primary"
+                href={paths.tags.calendar({ slug: tag.slug })[1]}
+                target="_blank">
+                <TagLabel tag={tag} full />
+              </a>
+            ))}
+            <div className="mb-4" />
           </>
         )}
         {zoomAccount && (
@@ -152,7 +188,7 @@ const EventContent = memo(({ event, onClose }) => {
 
         {event.is_requestable && (
           <Badge color="primary" pill>
-            Open
+            Join Requests Allowed
           </Badge>
         )}
         {event.is_public && (

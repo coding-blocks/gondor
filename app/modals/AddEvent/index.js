@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/react-hooks';
 import useCombinedErrors from 'Hooks/useCombinedErrors';
 import CREATE_EVENT from 'Mutations/calendarEventCreate.graphql';
 import CREATE_INVITE from 'Mutations/calendarEventInvite.graphql';
+import ASSIGN_TAG from 'Mutations/assignTag.graphql';
 import CREATE_RESOURCE from 'Mutations/resourceCreate.graphql';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 
@@ -19,6 +20,7 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
   });
   const [invites, setInvites] = useState([]);
   const [zoomAccount, setZoomAccount] = useState();
+  const [tags, setTags] = useState([]);
 
   /* NOTE(naman): an extra hour is added because
    * endOf returns HH:59, hence starOf is used*/
@@ -31,11 +33,13 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
 
   const [isRequestable, setIsRequestable] = useState(false);
   const [autoAcceptRequests, setIsAutoAccept] = useState(false);
-  const [isPublic, setIsPublic] = useState(false);
+  const [isPublic, setIsPublic] = useState(true);
 
   const [inviteUsers, { error: createInviteErrors }] = useMutation(
     CREATE_INVITE,
   );
+
+  const [assignTag, { error: assignTagErrors }] = useMutation(ASSIGN_TAG);
 
   const [createZoomAccount, { error: createZoomAccountErrors }] = useMutation(
     CREATE_RESOURCE,
@@ -65,6 +69,13 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
             },
           },
         }),
+        await Promise.all(
+          tags.map((tag) =>
+            assignTag({
+              variables: { input: { event_id: event.id, tag_id: tag.id } },
+            }),
+          ),
+        ),
         zoomAccount &&
           createZoomAccount({
             variables: {
@@ -102,6 +113,7 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
     createEventErrors,
     createInviteErrors,
     createZoomAccountErrors,
+    assignTagErrors,
   );
 
   const formProps = {
@@ -129,6 +141,8 @@ const AddEvent = ({ dateTimeRange, types, onClose }) => {
     setLocation,
     zoomAccount,
     setZoomAccount,
+    tags,
+    setTags,
   };
 
   return (

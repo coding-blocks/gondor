@@ -33,6 +33,10 @@
   border-radius: 50%;
   display: inline-block;
   box-shadow: 0 0.5rem 1rem rgba(163, 147, 147, 0.15) !important;
+
+  &.boxed {
+    border: 2px solid white;
+  }
 }
 
 .react-datepicker {
@@ -110,5 +114,13 @@
         min-height: calc(100vh - 20px);
       }
     }
+  }
+}
+
+.filter-header {
+  .modal-title {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }
 }

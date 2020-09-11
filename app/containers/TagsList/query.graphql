@@ -1,0 +1,15 @@
+#import "../../fragments/tag.graphql"
+
+query CalendarTagsQuery($search: String, $after: String, $exclude: [ID!]) {
+  tags(search: $search, limit: 20, after: $after, exclude: $exclude) {
+    edges {
+      node {
+        ...TagFragment
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}

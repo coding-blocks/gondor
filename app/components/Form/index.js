@@ -3,6 +3,7 @@ import Context from './context';
 import ErrorMessage from './ErrorMessage';
 import Input from './Input';
 import Select from './Select';
+import CreatableSelect from './CreatableSelect';
 import DatePicker from './DatePicker';
 
 const Form = ({ children, errors = null, ...props }) => (
@@ -19,6 +20,7 @@ Form.Context = Context;
 Form.ErrorMessage = ErrorMessage;
 Form.Input = Input;
 Form.Select = Select;
+Form.CreatableSelect = CreatableSelect;
 Form.DatePicker = DatePicker;
 
 export default Form;

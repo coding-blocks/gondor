@@ -15,4 +15,15 @@
       transform: translateX(-230px);
     }
   }
+
+  &.public {
+    main {
+      margin: 0;
+      padding: 20px !important;
+
+      .rbc-calendar {
+        height: calc(100vh - 170px) !important;
+      }
+    }
+  }
 }

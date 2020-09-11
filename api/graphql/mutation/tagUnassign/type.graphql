@@ -1,0 +1,8 @@
+input TagUnassignInput {
+  event_id: ID!
+  tag_id: ID!
+}
+
+extend type Mutation {
+  tagUnassign(input: TagUnassignInput!): Tag!
+}

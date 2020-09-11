@@ -9,6 +9,8 @@ import useCombinedErrors from 'Hooks/useCombinedErrors';
 import UPDATE_EVENT from 'Mutations/calendarEventUpdate.graphql';
 import CREATE_INVITE from 'Mutations/calendarEventInvite.graphql';
 import DELETE_INVITE from 'Mutations/calendarEventInviteDelete.graphql';
+import ASSIGN_TAG from 'Mutations/assignTag.graphql';
+import UNASSIGN_TAG from 'Mutations/unassignTag.graphql';
 import CREATE_RESOURCE from 'Mutations/resourceCreate.graphql';
 import DELETE_RESOURCE from 'Mutations/resourceDelete.graphql';
 import { ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
@@ -36,6 +38,7 @@ const EditEvent = ({ loading, onClose, types, event }) => {
       [event.invites],
     ),
   );
+  const [tags, setTags] = useState(event.tags);
   const zoomAccountResource = useMemo(
     () =>
       event.resources.find(
@@ -67,6 +70,10 @@ const EditEvent = ({ loading, onClose, types, event }) => {
   const [deleteInvite, { error: deleteInviteErrors }] = useMutation(
     DELETE_INVITE,
   );
+
+  const [assignTag, { error: assignTagErrors }] = useMutation(ASSIGN_TAG);
+
+  const [unassignTag, { error: unassignTagErrors }] = useMutation(UNASSIGN_TAG);
 
   const [createResource, { errors: createResourceErrors }] = useMutation(
     CREATE_RESOURCE,
@@ -102,7 +109,6 @@ const EditEvent = ({ loading, onClose, types, event }) => {
           label: 'id',
           value: 'username',
         });
-
         const invitesRemoved = event.invites.filter(
           ({ user: { id } }) => id !== event.organiser.id && !nextInvites[id],
         );
@@ -110,16 +116,25 @@ const EditEvent = ({ loading, onClose, types, event }) => {
           ({ id }) => id !== event.organiser.id && !prevInvites[id],
         );
 
+        const prevTags = extractMap(event.tags, {
+          label: 'id',
+          value: 'code',
+        });
+        const nextTags = extractMap(tags, {
+          label: 'id',
+          value: 'code',
+        });
+        const tagsRemoved = event.tags.filter(({ id }) => !nextTags[id]);
+        const tagsAdded = tags.filter(({ id }) => !prevTags[id]);
+
         let zoomAccountActions = [];
         const zoomAccountChanged =
           zoomAccountResource?.subject.id !== zoomAccount?.id;
-
         if (zoomAccountChanged) {
           if (!!zoomAccountResource)
             zoomAccountActions.push(
               deleteResource({ variables: { id: zoomAccountResource.id } }),
             );
-
           if (!!zoomAccount)
             zoomAccountActions.push(
               createResource({
@@ -149,6 +164,20 @@ const EditEvent = ({ loading, onClose, types, event }) => {
               invitesRemoved.map((invite) =>
                 deleteInvite({
                   variables: { id: invite.id },
+                }),
+              ),
+            ),
+            Promise.all(
+              tagsAdded.map((tag) =>
+                assignTag({
+                  variables: { input: { event_id: event.id, tag_id: tag.id } },
+                }),
+              ),
+            ),
+            Promise.all(
+              tagsRemoved.map((tag) =>
+                unassignTag({
+                  variables: { input: { event_id: event.id, tag_id: tag.id } },
                 }),
               ),
             ),
@@ -183,6 +212,8 @@ const EditEvent = ({ loading, onClose, types, event }) => {
     updateEventErrors,
     createInviteErrors,
     deleteInviteErrors,
+    assignTagErrors,
+    unassignTagErrors,
   );
   const formProps = {
     errors,
@@ -212,6 +243,8 @@ const EditEvent = ({ loading, onClose, types, event }) => {
     setLocation,
     zoomAccount,
     setZoomAccount,
+    tags,
+    setTags,
   };
 
   return (

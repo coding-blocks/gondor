@@ -43,6 +43,10 @@ const modals = {
     size: 'md',
     Component: dynamic(() => import('./Impersonate')),
   },
+  AddTag: {
+    size: 'md',
+    Component: dynamic(() => import('./AddTag')),
+  },
 };
 
 const ModalsManager = withRouter(
