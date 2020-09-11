@@ -49,6 +49,8 @@ const CalendarWrapper = React.memo(
 
     useEffect(() => {
       stopPolling();
+      if (!authHelper.isMember(viewer)) return;
+
       startPolling(1000);
 
       return () => stopPolling();

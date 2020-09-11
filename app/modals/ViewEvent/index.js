@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import Content from './Content';
 import QUERY from './query.graphql';
 import Loader from 'Components/Loader';
+import useViewer from 'Hooks/useViewer';
+import authHelper from 'Utils/authHelper';
 import createPage from 'Utils/createPage';
 import { Modal, ModalBody } from 'reactstrap';
 import { useQuery } from '@apollo/react-hooks';
@@ -16,8 +18,11 @@ const ViewEvent = ({
   stopPolling,
   types,
 }) => {
+  const viewer = useViewer();
+
   useEffect(() => {
     stopPolling();
+    if (!authHelper.isMember(viewer)) return;
     startPolling(1000);
 
     return () => stopPolling();
